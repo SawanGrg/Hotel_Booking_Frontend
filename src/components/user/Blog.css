@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+body {
+    font-family: "Poppins", sans-serif;
+    margin: 0 auto;
+}
+
+.blogs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 70px;
+    width: 88%;
+  }
+
+.blog-grid { /* Updated class name */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* Allow blogs to wrap to the next row on small screens */
+    margin-top: 65px;
+}
+
+.blog-card { /* Updated class name */
+    height: 420px;
+    width: 285px;
+    margin: 0 15px 30px; /* Adjust margin for spacing between blog cards */
+    border: 1px solid #112434;
+    border-radius: 20px;
+    transition: 0.5s transform ease;
+    box-shadow: 2px 2px 2px 2px #888888;
+}
+
+.blog-card:hover {
+    transform: translateY(-8px);
+}
+
+.blog-card img {
+    height: 200px;
+    width: 100%;
+    border-top-right-radius: 19px;
+    border-top-left-radius: 19px;
+    margin-bottom: 20px;
+}
+
+.blog-type {
+    display: flex;
+    justify-content: left;
+    align-items: flex-start;
+    margin: 0 20px;
+}
+
+.blog-price {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 20px;
+}
+
+.blog-detail {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.blog-detail button {
+    background-color: #112434;
+    color: white;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 250px;
+    height: 40px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 50px;
+}
+
+@media only screen and (max-width: 1230px) {
+    .blog-grid {
+        flex-direction: column;
+    }
+
+    .blog-card {
+        height: 400px;
+        width: 80%; /* Adjust width for smaller screens */
+        margin-top: 25px;
+    }
+
+    .blog-card:hover {
+        transform: translateY(0); /* Remove hover effect on small screens */
+    }
+
+    .blog-card img {
+        height: 200px;
+    }
+
+    .blog-type {
+        margin: 0 10px;
+    }
+
+    .blog-type h2 {
+        font-size: 20px;
+    }
+
+    .blog-price {
+        margin: 0 10px;
+    }
+
+    .blog-price h3 {
+        font-size: 20px;
+    }
+
+    .blog-detail button {
+        width: 70%;
+        height: 50px;
+        font-size: 10px;
+        margin-top: 50px;
+    }
+}
+
+@media only screen and (max-width: 555px) {
+    .blog-grid {
+        flex-direction: column;
+    }
+
+    .blog-card {
+        width: 100%; /* Adjust width for small screens */
+    }
+
+    .blog-type {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .blog-price {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .blog-detail button {
+        margin-top: 7%;
+    }
+}
