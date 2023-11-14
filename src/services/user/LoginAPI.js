@@ -1,26 +1,30 @@
 import BaseUrl from "../BaseUrl";
 
-export async function postLoginData(endpoint, body) {
+export async function postLoginData(endpoint, body, authToken) {
   try {
-    const response = await fetch(`${BaseUrl}/${endpoint}`, {
-      method: 'POST',
+    console.log("before the submit", body);
+
+    const response = await fetch("http://localhost:8080/v1/login", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
+        // 'Authorization': `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0VmVuZG9yIiwiZXhwIjoxNjk5ODEyMDA2LCJpYXQiOjE2OTk3NzYwMDZ9.NfZqp2f0lTleo7XSiV9cc0ptxnlUJ1lgPYpg1WdopTE`, // authToken
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify(body), //json.stringify is a method that converts a JavaScript object or value to a JSON string
     });
 
-    if (!response.status === 200) {
+    console.log("before json", response);
+
+    // In postLoginData function
+    if (response.status !== 200) {
       const errorMessage = `Server responded with status ${response.status}: ${response.statusText}`;
       throw new Error(errorMessage);
     }
 
-    //await determines that the function execution will pause at this point until the promise is resolved
-    //in this case, the promise is the response.json() method
-    //response.json() returns a promise that resolves with the result of parsing the body text as JSON
     const data = await response.json();
+    console.log("after the submit and in json form", data);
     return data;
   } catch (error) {
-    throw new Error(`Error posting data: ${error.message}`);
+    throw new Error(`Error posting data: ${error}`);
   }
 }

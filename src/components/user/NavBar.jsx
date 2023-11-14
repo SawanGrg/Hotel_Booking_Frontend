@@ -1,15 +1,23 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import "./NavBar.css";
+import { clearUserDetails } from "../../redux/user/userSlice";
+import { clearUserData } from "../../utils/authStorage";
 
 export default function NavBar() {
-  const selector = useSelector((state) => state.user.userData);
 
+  const selector = useSelector((state) => state.user.userData);
+  const dispatch = useDispatch();
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
   const toggleMobileNav = () => {
     setIsMobileNavOpen(!isMobileNavOpen);
+  };
+
+  const logoutSubmit = async (e) => {
+    dispatch(clearUserDetails());
+    clearUserData();
   };
 
   return (
@@ -19,7 +27,7 @@ export default function NavBar() {
         <div className="left">Annapurna</div>
         <nav className="right">
           <div>
-            <h2>{selector == null ? "" : "Welcome " + selector  }</h2>
+            <h2>{selector == null ? "" : "Welcome " + selector}</h2>
           </div>
 
           <Link to="/" className="nav active">
@@ -37,9 +45,18 @@ export default function NavBar() {
           <Link to="/Contact" className="nav">
             Contact
           </Link>
-          <Link to="/Login" className="nav">
-            Login
-          </Link>
+          {
+            selector ? 
+            ( // If user data exists, show logout button
+              <button className="nav" onClick={logoutSubmit}>
+                Logout
+              </button>
+            ) : (
+              <Link to="/Login" className="nav">
+                Login
+              </Link>
+            )
+          }
           <a href="https://www.facebook.com/" className="nav">
             <img src="/assets/facebook.png" alt="facebook" />
           </a>

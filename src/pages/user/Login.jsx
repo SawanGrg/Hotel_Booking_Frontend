@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { setUserDetails } from '../../redux/user/userSlice';
 
 export default function Login() {
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -14,8 +15,9 @@ export default function Login() {
   const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-
+    e.preventDefault(); // Prevent the default browser behaviour of forms
+    console.log('Form submitted');
+    console.log(userName, password);
     try {
       const endpoint = 'login';
       const body = {
@@ -26,19 +28,25 @@ export default function Login() {
       // Call the postLoginData function with the correct arguments
       const response = await postLoginData(endpoint, body);
 
-      if (response.statusCode !== 200) {
-        // Server error
-        const errorMessage = `Server responded with status ${response.status}: ${response.statusText}`;
-        throw new Error(errorMessage);
-      }
+      console.log("success", response);
+      console.log("1");
+      console.log("response", response.username, response.token, response.roleName);
+      console.log("2");
 
-      if (response.token) {
+      if (response.username) {
         // Token is present, indicating a successful login
         // Dispatch the setUserDetails action to save user data in Redux store and localStorage
-        dispatch(setUserDetails({ token: response.token, userData: response.username }));
+        dispatch(setUserDetails({ token: response.token, userData: response.username, roleName: response.roleName}));
 
-        // Redirect to the home page
-        navigate('/');
+        // Redirecting based on the role
+        if(response.roleName === "ROLE_VENDOR"){
+          navigate('/dashboard');
+        }else if (response.roleName === "ROLE_USER"){
+          navigate("/");
+        }else{
+          navigate('/admin');
+        }
+    
       } else {
         // Incorrect username or password
         setError('Incorrect username or password');
@@ -54,13 +62,13 @@ export default function Login() {
       <div className="loginPage">
         <div className="loginForm">
           <div className="loginPhoto">
-            <img src='assets/cube.avif' alt="Hotel Stupa" />
+            <img src='assets/cube.avif' alt="cube" />
           </div>
           <div className="login">
             <h2>Welcome to our Annapurna Hotel</h2>
             <h3>
-                {error && <div> {error}</div>}
-              </h3>
+              {error && <div> {error}</div>}
+            </h3>
             <form action="" className="form" onSubmit={handleSubmit}>
               <label htmlFor="userName"><h3>Username</h3></label>
               <input

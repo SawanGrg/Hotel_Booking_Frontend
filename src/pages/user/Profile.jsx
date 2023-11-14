@@ -3,7 +3,6 @@ import React from 'react'
 export default function Profile() {
 
     const style = {
-
         marginTop: '100px',
         padding: '100px',
         textAlign: 'center',

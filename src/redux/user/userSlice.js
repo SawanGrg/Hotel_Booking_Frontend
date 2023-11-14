@@ -5,6 +5,7 @@ const initialState = {
   value: 0,
   token: getUserData().token,
   userData: getUserData().userData,
+  role: getUserData().role
 };
 
 export const userSlice = createSlice({
@@ -16,11 +17,13 @@ export const userSlice = createSlice({
 
       setUserData({
         userData: action.payload.userData,
-        token: action.payload.token
+        token: action.payload.token,
+        roleName : action.payload.roleName
       });
 
       state.userData = action.payload.userData;
       state.token = action.payload.token;
+      state.role = action.payload.roleName;
     },
 
     clearUserDetails: (state) => {
