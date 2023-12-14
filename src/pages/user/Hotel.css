@@ -1,0 +1,68 @@
+.main-container{
+    margin-top: 150px;
+}
+.name{
+    font-size:x-large;
+    font-weight: bold;
+    color: #000000;
+    text-align: center;
+}
+.hotel-main-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 50px;
+    
+}
+.hotel-container{
+    background-color: rgb(210, 219, 219);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    margin: 25px;
+    border: 1px solid #112434;
+    /* transition is used to add animation to the element like transform, opacity, etc. */
+    transition: 0.5s transform ease;
+    box-shadow: 2px 2px 2px 2px #888888;
+    border-radius: 10px;
+}
+.hotel-container:hover{
+    /* transform is used to move the element from its original position */
+    transform: translateY(-8px); 
+}
+.hotel-image img{
+    width: 300px;
+    height: 300px;
+    border-radius: 10px;
+    margin: 10px;
+}
+.hotel-details{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+.explore-button{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.explore-button button{
+    background-color: #112434;
+    color: white;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 200px;
+    height: 40px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 50px;
+}
+/* responsive hotel page */
+@media only screen and (max-width: 768px){
+    .hotel-container{
+        grid-template-columns: 1fr;
+    }
+}

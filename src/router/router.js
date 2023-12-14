@@ -5,6 +5,7 @@ import { allRoutes } from "./allRoutes";
 import UserWrapper from "./user/userWrapper";
 import AdminWrapper from "./admin/adminWrapper";
 import VendorWrapper from "./vendor/vendorWrapper";
+import VendorLandingLayout from "../layouts/vendor/VendorLandingLayout";
 
 // checking if the page has layout or not
 //checking if the user, admin, vendor exists or not
@@ -37,7 +38,7 @@ const AdminRouteWrapper = ({ route, children }) => {
 };
 const VendorRouteWrapper = ({ route, children }) => {
    
-  const AppLayoutWrapper = route.hasLayout ? LandingLayout : Fragment;
+  const AppLayoutWrapper = route.hasLayout ? VendorLandingLayout : Fragment;
   const VendorPrivateWrapper = route.isPrivate ? VendorWrapper : Fragment;
 
   return (

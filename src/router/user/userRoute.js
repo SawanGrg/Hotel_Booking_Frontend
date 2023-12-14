@@ -1,9 +1,10 @@
 import Home from "../../pages/user/Home"
-import About from "../../pages/user/About"
 import Gallery from "../../pages/user/Gallery"
 import Login from "../../pages/user/Login"
 import Blogs from "../../pages/user/Blogs"
 import Profile from "../../pages/user/Profile"
+import Hotel from "../../pages/user/Hotel"
+import SpecificHotel from "../../pages/user/SpecificHotel"
 
 // kun layout ma rakhne bhani matra ho
 //just defining the layoutes here
@@ -28,8 +29,8 @@ export const userRoutes = [
         isVendorLayout: false,
     },
     {
-        path: '/about',
-        element: About,
+        path: '/hotel',
+        element: Hotel,
         hasLayout: true,
         isUserLayout: true,
         isPrivate: false,
@@ -63,7 +64,15 @@ export const userRoutes = [
         isUserLayout: true,
         isAdminLayout: false,
         isVendorLayout: false,
+    },
+    {
+        path: "/hotel/:hotelId",
+        element: SpecificHotel,
+        isPrivate: false,
+        hasLayout: true,
+        isUserLayout: true,
+        isAdminLayout: false,
+        isVendorLayout: false,
     }
-    
 
 ]

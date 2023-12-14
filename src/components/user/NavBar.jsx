@@ -33,8 +33,8 @@ export default function NavBar() {
           <Link to="/" className="nav active">
             Home
           </Link>
-          <Link to="/About" className="nav">
-            About
+          <Link to="/hotel" className="nav">
+            Hotels
           </Link>
           <Link to="/Blog" className="nav">
             Blog
@@ -81,7 +81,7 @@ export default function NavBar() {
         <Link to="/home" className="active">
           Home
         </Link>
-        <Link to="/about">About</Link>
+        <Link to="/hotel">hotel</Link>
         <Link to="/blog">Blog</Link>
         <Link to="/gallery">Gallery</Link>
         <Link to="/contact">Contact</Link>
