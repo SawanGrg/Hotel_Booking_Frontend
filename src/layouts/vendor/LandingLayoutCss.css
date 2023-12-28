@@ -7,10 +7,18 @@
 
 .left-layout {
     width: 300px;
+    background-color: rgb(181, 205, 226);
+    border-bottom: #8296d4;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    height: 95%;
 }
 
 .right-layout {
-    background-color: #f5f5f5;
+    background-color: #8296d4;
     padding: 20px;
     border-radius: 10px;
     margin: 20px;

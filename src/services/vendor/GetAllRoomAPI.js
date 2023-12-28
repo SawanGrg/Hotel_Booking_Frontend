@@ -1,12 +1,18 @@
 import BaseUrl from "../BaseUrl";
 
 export async function getAllRoomData(pageNumber = 0, pageSize = 3) {
+
+    const vendorToken =  localStorage.getItem("token");
+    console.log("asd",vendorToken)
+    console.log("Vendor Token:", vendorToken.replace(/['"]+/g, ''));
+    const removeQuotesvendorToken = vendorToken.replace(/['"]+/g, '');
+
     try {
         const response = await fetch(`${BaseUrl}/v1/vendor/hotelRooms?page=${pageNumber}&size=${pageSize}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0VmVuZG9yIiwiZXhwIjoxNzAyMjEzODg5LCJpYXQiOjE3MDIxNzc4ODl9.Ba2mfJ0NYZtY4AiQuhoxZ96FHK8EhwZQkBFydOIkQmE`,
+                "Authorization": `Bearer ${removeQuotesvendorToken}`,
             },
         });
         if (response.status !== 200) {
@@ -14,7 +20,6 @@ export async function getAllRoomData(pageNumber = 0, pageSize = 3) {
             throw new Error(errorMessage);
         }
         const data = await response.json();
-        console.log("after the submit and in json form", data);
         return data;
     } catch (error) {
         throw new Error(`Error fetching room data: ${error}`);

@@ -4,7 +4,7 @@ import Login from "../../pages/user/Login"
 import Blogs from "../../pages/user/Blogs"
 import Profile from "../../pages/user/Profile"
 import Hotel from "../../pages/user/Hotel"
-import SpecificHotel from "../../pages/user/SpecificHotel"
+import SpecificHotel from "../../components/user/SpecificHotel"
 
 // kun layout ma rakhne bhani matra ho
 //just defining the layoutes here

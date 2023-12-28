@@ -1,0 +1,150 @@
+h1{
+    font-weight: bolder;
+    color: #000;
+    text-align: center;
+    font-size: larger;
+}
+.highlight{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 10px 0px;
+    padding: 10px 0px;
+    border-bottom: 2px solid #0c0c0c; 
+    background-color: aliceblue;
+    border-color: rgb(10, 7, 3);
+}
+.hotel-description{
+    /* inline-block is used to make the div to be in a single line */
+    display: inline-block; 
+    margin-left: 40px;
+}
+.hotel-name{
+    font-weight: bolder;
+    color: #000;
+    text-align: center;
+    font-size: larger;
+}
+.amenties{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 10px 0px;
+    padding: 10px 0px;
+}
+.amenties-item{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+/* for multiple rooms css */
+.hotel-rooms {
+    display: grid;
+    grid-template-columns: 2fr repeat(3, 1fr); /* First div takes 2 times more space */
+    gap: 15px;
+    margin: 15px;
+    padding: 30px 30px;
+    height: 50vh;
+    background: #e5d3d3;
+    height: 100%;
+    border-radius: 12px;
+}
+.room-first{
+    display: flex;
+    flex-direction: column;
+    /* justify-content:right;
+    align-items: right; */
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+}
+.amenties-component{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px 0px;
+    width: 100%;
+}
+.title{
+    display: flex;
+    justify-content: space-between;
+    align-items: space-between;
+    margin: 2px 0px;
+    width: 80%;
+}
+.icons-div{
+    height: 40px;
+    width: 40px;
+}
+.room-title{
+  width: 70%;
+  font-weight: bold;
+
+}
+
+/* this is for the room second div */
+.room-second {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    padding: 10px;
+}
+.feature-div{
+    font-weight: bolder;
+    padding-bottom: 10px;
+}
+.room-amenities-div{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+.amenity-item{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin: 8px;
+}
+/* this is for the room third div */
+.room-third {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    padding: 10px;
+}
+.book-button{
+    width: 80%;
+    height: 60px;
+    border-radius: 10px;
+    background-color: #cbb71f;
+    font-weight: bold;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+}
+
+/* for booking form css */
+.parent-booking-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 58%;
+    height: 60%;
+    background: #8f1f1f;
+    border-radius: 12px;
+    position: absolute;
+    top: 39.5%;
+    left: 40%;
+}

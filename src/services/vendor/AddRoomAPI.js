@@ -2,12 +2,28 @@ import BaseUrl from "../BaseUrl";
 
 export async function postRoomData(body, mainRoomImage, roomImage1, roomImage2, roomImage3){
 
+    const vendorToken =  localStorage.getItem("token");
+
+    console.log("Vendor Token:", vendorToken.replace(/['"]+/g, ''));
+    const removeQuotesvendorToken = vendorToken.replace(/['"]+/g, '');
+    
     const formData = new FormData();
 
     // Append other data
     formData.append('roomData', JSON.stringify(body));
-    
-    // Append the file
+    //apend image file if there is data
+    // if (mainRoomImage) {
+    //     formData.append('mainRoomImage', mainRoomImage);
+    // }
+    // if (roomImage1) {
+    //     formData.append('roomImage1', roomImage1);
+    // }
+    // if (roomImage2) {
+    //     formData.append('roomImage2', roomImage2);
+    // }
+    // if (roomImage3) {
+    //     formData.append('roomImage3', roomImage3);
+    // }
     formData.append('mainRoomImage', mainRoomImage);
     formData.append('roomImage1', roomImage1);
     formData.append('roomImage2', roomImage2);
@@ -23,8 +39,9 @@ export async function postRoomData(body, mainRoomImage, roomImage1, roomImage2, 
             method: "POST",
             headers: {
                 //send multipart/form-data instead of application/json
+            
                 //"Content-Type": "multipart/form-data",
-                "Authorization": `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0VmVuZG9yIiwiZXhwIjoxNzAyMjEzODg5LCJpYXQiOjE3MDIxNzc4ODl9.Ba2mfJ0NYZtY4AiQuhoxZ96FHK8EhwZQkBFydOIkQmE`,
+                "Authorization": `Bearer ${removeQuotesvendorToken}`,
             },
             body: formData, // Send formData directly
         });
