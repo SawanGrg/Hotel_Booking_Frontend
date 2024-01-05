@@ -1,16 +1,19 @@
 import BaseUrl from "../BaseUrl";
 
-export async function getAllHotelData(pageNumber = 0, pageSize = 3) {
+export async function getAllHotelData(
+    // pageNumber = 0, pageSize = 8
+    ) {
 
-    const userToken =  localStorage.getItem("token");
-    const removeQuotesuserToken = userToken.replace(/['"]+/g, '');
+    // const userToken =  localStorage.getItem("token");
+    // const removeQuotesuserToken = userToken.replace(/['"]+/g, '');
 
     try {
-        const response = await fetch(`${BaseUrl}/v1/user/hotel?page=${pageNumber}&size=${pageSize}`, {
+        // const response = await fetch(`${BaseUrl}/v1/user/hotel?page=${pageNumber}&size=${pageSize}`, {
+        const response = await fetch(`${BaseUrl}/v1/user/hotel`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${removeQuotesuserToken}`,
+                // "Authorization": `Bearer ${removeQuotesuserToken}`,
             },
         });
         if (response.status !== 200) {

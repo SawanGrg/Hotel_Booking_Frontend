@@ -26,7 +26,7 @@ export default function VendorViewAllRooms() {
             console.log("done from res after");
             toast.success("Room Deleted Successfully");
             console.log("done")
-            // await fetchAllRooms();
+            await fetchAllRooms();
         }
         // } catch (error) {
         //     console.error("Error:", error.message);

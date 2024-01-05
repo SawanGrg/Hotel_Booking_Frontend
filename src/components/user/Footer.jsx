@@ -16,17 +16,15 @@ export default function Footer() {
             <div className="footerLink">
                 <div className="quickLink">
                     <h3>QUICK LINK</h3> <br/>
-                    <p><Link to="/home" className="active">Home</Link></p><br/>
-                    <p><Link to="/about">About</Link></p><br/>
-                    <p><Link to="/blog">Blog</Link></p><br/>
-                    <p><Link to="/gallery">Gallery</Link></p><br/>
-                    <p><Link to="/contact">Contact</Link></p><br/>
-                    <p><Link to="/login">Login</Link></p>
+                    <p><Link to="/home" className="active">Home</Link></p>
+                    <p><Link to="/blog">Blog</Link></p>
+                    <p><Link to="/gallery">Gallery</Link></p>
+                    <p><Link to="/login">Login</Link> </p>
                 </div>
                 <div className="contactUs">
-                    <h3>CONTACT US</h3><br/>
-                    <p>Ramghat, Pokhara, Nepal</p><br/>
-                    <p>example@gmail.com</p><br/>
+                    <h3>CONTACT US</h3>
+                    <p>Ramghat, Pokhara, Nepal</p>
+                    <p>example@gmail.com</p>
                     <p>+977 9876543210</p>
                 </div>
                 <div className="followUs">
@@ -34,7 +32,7 @@ export default function Footer() {
                     <a href="https://www.facebook.com/">
                         <img src="/assets/facebook.png" alt="facebook" className="facebook" />
                     </a>
-                    <br />
+                    
                     <a href="https://www.instagram.com/">
                         <img
                             src="/assets/insta_icon.png"
@@ -44,13 +42,13 @@ export default function Footer() {
                     </a>
                 </div>
                 <div className="availableIn">
-                    <h3>AVAILABLE IN</h3> <br /><br /><br />
-                    <a href="https://www.apple.com/app-store/">
+                    <h3>AVAILABLE IN</h3> 
+                    {/* <a href="https://www.apple.com/app-store/">
                         <img src="/assets/apple.jpg" alt="applestore" />
                     </a>
                     <a href="https://play.google.com/">
                         <img src="/assets/google.jpg" alt="playstore" />
-                    </a>
+                    </a> */}
                 </div>
             </div>
         </div>

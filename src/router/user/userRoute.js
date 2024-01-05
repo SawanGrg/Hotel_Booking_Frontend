@@ -5,6 +5,8 @@ import Blogs from "../../pages/user/Blogs"
 import Profile from "../../pages/user/Profile"
 import Hotel from "../../pages/user/Hotel"
 import SpecificHotel from "../../components/user/SpecificHotel"
+import Booking from "../../pages/user/Booking"
+import PageNotFound from "../../pages/user/PageNotFound"
 
 // kun layout ma rakhne bhani matra ho
 //just defining the layoutes here
@@ -36,7 +38,7 @@ export const userRoutes = [
         isPrivate: false,
         isAdminLayout: false,
         isVendorLayout: false,
-        
+
     },
     {
         path: '/gallery',
@@ -71,6 +73,24 @@ export const userRoutes = [
         isPrivate: false,
         hasLayout: true,
         isUserLayout: true,
+        isAdminLayout: false,
+        isVendorLayout: false,
+    },
+    {
+        path : "/hotel/:hotelId/room/:roomId",
+        element :Booking,
+        isPrivate: true,
+        hasLayout: true,
+        isUserLayout: true,
+        isAdminLayout: false,
+        isVendorLayout: false,
+    },
+    {
+        path: '*',
+        element: PageNotFound,
+        hasLayout: false,
+        isUserLayout: true,
+        isPrivate: false,
         isAdminLayout: false,
         isVendorLayout: false,
     }

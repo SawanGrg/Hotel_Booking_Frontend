@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./SpecificHotel.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faWifi,
@@ -27,19 +27,13 @@ export default function SpecificHotel() {
 
     const [hotelData, setHotelData] = useState([]);
     const [roomData, setRoomData] = useState([]);
-    const [imageData, setImageData] = useState([]);
 
-    //for slider of rooms
+      //for slider of rooms
     const [state, setState] = useState(0)
 
-    //for fill up the check in and check out date
-    const [checkInDate, setCheckInDate] = useState("");
-    const [checkOutDate, setCheckOutDate] = useState("");
-    const [numberOfDays, setNumberOfDays] = useState(0);
-
-    const [formState, setFormState] = useState(false)
-
     const { hotelId } = useParams();
+
+    const navigate = useNavigate();
 
     async function handleRoomBooking(roomId) {
 
@@ -61,8 +55,7 @@ export default function SpecificHotel() {
             console.log("role:->", role);
             console.log("token:->", token);
             console.log("roomId:->", roomId);
-            setFormState(true);
-            return;
+            navigate(`/hotel/${hotelId}/room/${roomId}`);
         }
 
     }
@@ -84,7 +77,7 @@ export default function SpecificHotel() {
                 console.log("room data:->", data);
 
                 setRoomData(data.body);
-                setImageData(data.body.roomImages);
+                // setImageData(data.body.roomImages);
             } catch (error) {
                 console.error('Error fetching all room data data:', error);
             }
@@ -172,7 +165,7 @@ export default function SpecificHotel() {
                                     </div>
                                 </div> */}
 
-                                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                                <div id="carouselExampleControls" className="carousel slide" data-ride="carousel">
                                     <div className="carousel-inner">
                                         {room.roomImages?.map((image, i) => (
                                             <div key={image.imageId} className={`carousel-item ${state === i ? "active" : ""}`}>
@@ -315,7 +308,7 @@ export default function SpecificHotel() {
                             {/* </div> */}
                         </div>
                         {/* display booking from if form state is true */}
-                        {formState ? (
+                        {/* {formState ? (
                             <div className="parent-booking-form">
                                 <div className="booking-form">
                                     <div className="booking-form-header">
@@ -323,7 +316,7 @@ export default function SpecificHotel() {
                                     </div>
                                 </div>
                             </div>
-                        ) : null}
+                        ) : null} */}
                     </div>
                 ))
                 }

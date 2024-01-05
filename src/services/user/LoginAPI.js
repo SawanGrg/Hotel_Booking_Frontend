@@ -14,13 +14,7 @@ export async function postLoginData(endpoint, body, authToken) {
     });
 
     console.log("before json", response);
-
-    // In postLoginData function
-    if (response.status !== 200) {
-      const errorMessage = `Server responded with status ${response.status}: ${response.statusText}`;
-      throw new Error(errorMessage);
-    }
-
+    
     const data = await response.json();
     console.log("after the submit and in json form", data);
     return data;

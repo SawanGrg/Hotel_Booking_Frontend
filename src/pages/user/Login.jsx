@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { postLoginData } from '../../services/user/LoginAPI';
 import { useDispatch } from 'react-redux';
 import { setUserDetails } from '../../redux/user/userSlice';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function Login() {
 
@@ -15,9 +16,15 @@ export default function Login() {
   const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent the default browser behaviour of forms
+    e.preventDefault();
     console.log('Form submitted');
     console.log(userName, password);
+  
+    if (userName === '' || password === '') {
+      toast.error('Please fill username and password fields');
+      return;
+    }
+
     try {
       const endpoint = 'login';
       const body = {
@@ -31,6 +38,16 @@ export default function Login() {
       console.log("success", response);
       console.log("1");
       console.log("response", response.username, response.token, response.roleName);
+      if (response.status === 'UNAUTHORIZED') {
+        // Display an error toast for unauthorized access
+        toast.error('Please check your credentials.');
+        return;
+      }        
+  
+      if (!response.username) {
+        toast.error('Invalid Credentials');
+        return;
+      }
       console.log("2");
 
       if (response.username) {
@@ -40,16 +57,13 @@ export default function Login() {
 
         // Redirecting based on the role
         if(response.roleName === "ROLE_VENDOR"){
-          navigate('/dashboard');
+          navigate('/vendor');
         }else if (response.roleName === "ROLE_USER"){
           navigate("/");
         }else{
           navigate('/admin');
         }
     
-      } else {
-        // Incorrect username or password
-        setError('Incorrect username or password');
       }
     } catch (error) {
       console.error(error.message);
@@ -61,6 +75,12 @@ export default function Login() {
     <div>
       <div className="loginPage">
         <div className="loginForm">
+        <Toaster
+                    position='top-center'
+                    toastOptions={{
+                        duration: 3000,
+                    }}
+          />
           <div className="loginPhoto">
             <img src='assets/cube.avif' alt="cube" />
           </div>
@@ -76,7 +96,7 @@ export default function Login() {
                 id="userName"
                 name="userName"
                 placeholder='eg : Sxxxx@gmail.com'
-                required
+                // required
                 value={userName}
                 onChange={(e) => setUserName(e.target.value)}
               />
@@ -86,7 +106,7 @@ export default function Login() {
                 id="password"
                 name="password"
                 placeholder='eg : *********'
-                required
+                //required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
