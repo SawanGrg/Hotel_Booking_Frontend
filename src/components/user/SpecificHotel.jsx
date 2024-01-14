@@ -28,7 +28,7 @@ export default function SpecificHotel() {
     const [hotelData, setHotelData] = useState([]);
     const [roomData, setRoomData] = useState([]);
 
-      //for slider of rooms
+    //for slider of rooms
     const [state, setState] = useState(0)
 
     const { hotelId } = useParams();
@@ -87,6 +87,74 @@ export default function SpecificHotel() {
         getAllRooms();
 
     }, []);
+    const RoomCarousel = ({ room }) => {
+        const [currentIndex, setCurrentIndex] = useState(0);
+
+        const handlePrevClick = () => {
+            setCurrentIndex((prevIndex) =>
+                prevIndex === 0 ? room.roomImages.length : prevIndex - 1
+            );
+        };
+
+        const handleNextClick = () => {
+            setCurrentIndex((prevIndex) =>
+                prevIndex === room.roomImages.length ? 0 : prevIndex + 1
+            );
+        };
+
+        // Combine main room image and additional room images
+        const allImages = [
+            { imageId: 0, imageUrl: room.mainRoomImage, imageStatus: "ACTIVE" },
+            ...room.roomImages,
+        ];
+
+        // Ensure currentIndex is within the valid range
+        const validIndex = Math.max(0, Math.min(currentIndex, allImages.length - 1));
+
+        const currentImage = allImages[validIndex];
+
+        // Check if currentImage is defined before accessing its properties
+        if (!currentImage || !currentImage.imageUrl) {
+            return <div>Error: Image data is missing or invalid.</div>;
+        }
+
+        return (
+            <div className="room-slider">
+                <div className="carousel slide" data-ride="carousel">
+                    <div className="carousel-inner">
+                        <div className="carousel-item active">
+                            <img
+                                className="d-block w-100"
+                                src={`${BaseUrl}/images/${currentImage.imageUrl}`}
+                                alt={`Room ${validIndex + 1}`}
+                                style={imageCss}
+                            />
+                        </div>
+                    </div>
+                    <button
+                        className="carousel-control-prev"
+                        role="button"
+                        data-slide="prev"
+                        onClick={handlePrevClick}
+                    >
+                        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span className="sr-only">Previous</span>
+                    </button>
+                    <button
+                        className="carousel-control-next"
+                        role="button"
+                        data-slide="next"
+                        onClick={handleNextClick}
+                    >
+                        <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span className="sr-only">Next</span>
+                    </button>
+                </div>
+            </div>
+        );
+    };
+
+
 
     const imageCss = {
         display: "block",
@@ -150,173 +218,117 @@ export default function SpecificHotel() {
                 {roomData?.map((room) => (
                     <div key={room.roomId}>
                         <div className="hotel-rooms">
-                            <div className="room-slider">
-                                {/* for slider of rooms */}
-                                {/* <Slide> */}
-                                {/* <div id="carouselExampleSlidesOnly" className="carousel slide" data-ride="carousel">
-                                    <div className="carousel-inner">
-                                    <div className="carousel-item active">
-                                            {room.roomImages?.map((image) => (
-                                                <div key={image.imageId} className="carousel-item active" >
-                                                    <img className="d-block w-100" src={`${BaseUrl}/images/${image.imageUrl}`} alt="First slide" style={imageCss} />
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div> */}
+                            <RoomCarousel room={room} />
 
-                                <div id="carouselExampleControls" className="carousel slide" data-ride="carousel">
-                                    <div className="carousel-inner">
-                                        {room.roomImages?.map((image, i) => (
-                                            <div key={image.imageId} className={`carousel-item ${state === i ? "active" : ""}`}>
-                                                <img className="d-block w-100" src={`${BaseUrl}/images/${image.imageUrl}`} alt="First slide" style={imageCss} />
-                                            </div>
-                                        ))}
-                                    </div>
-                                    <button className="carousel-control-prev" role="button" data-slide="prev"
-                                        onClick={() => setState(prev => {
-                                            if (prev === 0) {
-                                                return prev = room.roomImages.length - 1
-                                            }
-                                            return prev - 1
-                                        })}
-                                    >
-                                        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span className="sr-only">Previous</span>
-                                    </button>
-                                    <button className="carousel-control-next" role="button" data-slide="next"
-                                        onClick={() => setState(prev => {
-                                            if (prev === room.roomImages.length - 1) {
-                                                return prev = 0
-                                            }
-                                            return prev + 1
-                                        })}
-                                    >
-                                        <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span className="sr-only">Next</span>
-                                    </button>
-                                </div>
-                            </div>
                             {/* wrapping three divsfor booking form */}
                             {/* <div className="main-three-div"> */}
-                                <div className="room-first">
-                                    <div className="amenties-component">
-                                        <div className="title">
-                                            <TiSortNumerically className="icons-div" />
-                                            <div className="room-title">
-                                                Room Number
-                                            </div>
+                            <div className="room-first">
+                                <div className="amenties-component">
+                                    <div className="title">
+                                        <TiSortNumerically className="icons-div" />
+                                        <div className="room-title">
+                                            Room Number
                                         </div>
-
-                                        <div>{room.roomNumber}</div>
-                                    </div>
-                                    <div className="amenties-component">
-                                        <div className="title">
-                                            <FaBed className="icons-div" />
-                                            <div className="room-title">
-                                                Room Type
-                                            </div>
-                                        </div>
-
-                                        <div>{room.roomType}</div>
-                                    </div>
-                                    <div className="amenties-component">
-                                        <div className="title">
-                                            <FaHotel className="icons-div" />
-                                            <div className="room-title">
-                                                Room Category
-                                            </div>
-                                        </div>
-
-                                        <div>{room.roomCategory}</div>
-                                    </div>
-                                    <div className="amenties-component">
-                                        <div className="title">
-                                            <FaMoneyCheckAlt className="icons-div" />
-                                            <div className="room-title">
-                                                Room Price
-                                            </div>
-                                        </div>
-
-                                        <div>{room.roomPrice}</div>
-                                    </div>
-                                    <div className="amenties-component">
-                                        <div className="title">
-                                            <FaBed className="icons-div" />
-                                            <div className="room-title">
-                                                Room Bed
-                                            </div>
-                                        </div>
-
-                                        <div>{room.roomBed}</div>
                                     </div>
 
+                                    <div>{room.roomNumber}</div>
                                 </div>
-                                <div className="room-second">
-                                    <div>
-                                        <h4
-                                            className="feature-div"
-                                        >Room Features</h4>
-                                        <div className="room-amenities-div">
-                                            <div className="amenity-item">
-                                                <MdAir className="icons-div" />
-
-                                                <p className="room-title" >AC</p>
-                                                <span>{room.hasAC ? 'Available' : 'Not Available'}</span>
-                                            </div>
-                                            <div className="amenity-item">
-                                                <MdOutlineBalcony className="icons-div" />
-                                                <p className="room-title" >Balcony</p>
-                                                <span>{room.hasBalcony ? 'Available' : 'Not Available'}</span>
-                                            </div>
-                                            <div className="amenity-item">
-                                                <PiTelevisionSimpleFill className="icons-div" />
-                                                <p className="room-title" >TV</p>
-                                                <span>{room.hasTV ? 'Available' : 'Not Available'}</span>
-                                            </div>
-                                            <div className="amenity-item">
-                                                <TiWiFi className="icons-div" />
-                                                <p className="room-title" >Wi-Fi</p>
-                                                <span>{room.hasWifi ? 'Available' : 'Not Available'}</span>
-                                            </div>
-                                            <div className="amenity-item">
-                                                <CgSmartHomeRefrigerator className="icons-div" />
-                                                <p className="room-title" >Refrigerator</p>
-                                                <span>{room.hasRefridge ? 'Available' : 'Not Available'}</span>
-                                            </div>
+                                <div className="amenties-component">
+                                    <div className="title">
+                                        <FaBed className="icons-div" />
+                                        <div className="room-title">
+                                            Room Type
                                         </div>
                                     </div>
 
+                                    <div>{room.roomType}</div>
+                                </div>
+                                <div className="amenties-component">
+                                    <div className="title">
+                                        <FaHotel className="icons-div" />
+                                        <div className="room-title">
+                                            Room Category
+                                        </div>
+                                    </div>
 
+                                    <div>{room.roomCategory}</div>
                                 </div>
-                                <div className="room-third">
-                                    <div
-                                        className="room-description-div"
-                                    >
-                                        <h4 className="feature-div"
-                                        >Room Description</h4>
-                                        <p>{room.roomDescription}</p>
+                                <div className="amenties-component">
+                                    <div className="title">
+                                        <FaMoneyCheckAlt className="icons-div" />
+                                        <div className="room-title">
+                                            Room Price
+                                        </div>
                                     </div>
-                                    <button className="book-button"
-                                        onClick={() => {
-                                            handleRoomBooking(room.roomId)
-                                        }}
-                                    >
-                                        Book Now
-                                    </button>
+
+                                    <div>{room.roomPrice}</div>
                                 </div>
-                            {/* </div> */}
-                        </div>
-                        {/* display booking from if form state is true */}
-                        {/* {formState ? (
-                            <div className="parent-booking-form">
-                                <div className="booking-form">
-                                    <div className="booking-form-header">
-                                        <h3>Booking Form</h3>
+                                <div className="amenties-component">
+                                    <div className="title">
+                                        <FaBed className="icons-div" />
+                                        <div className="room-title">
+                                            Room Bed
+                                        </div>
                                     </div>
+
+                                    <div>{room.roomBed}</div>
                                 </div>
+
                             </div>
-                        ) : null} */}
+                            <div className="room-second">
+                                <div>
+                                    <h4
+                                        className="feature-div"
+                                    >Room Features</h4>
+                                    <div className="room-amenities-div">
+                                        <div className="amenity-item">
+                                            <MdAir className="icons-div" />
+
+                                            <p className="room-title" >AC</p>
+                                            <span>{room.hasAC ? 'Available' : 'Not Available'}</span>
+                                        </div>
+                                        <div className="amenity-item">
+                                            <MdOutlineBalcony className="icons-div" />
+                                            <p className="room-title" >Balcony</p>
+                                            <span>{room.hasBalcony ? 'Available' : 'Not Available'}</span>
+                                        </div>
+                                        <div className="amenity-item">
+                                            <PiTelevisionSimpleFill className="icons-div" />
+                                            <p className="room-title" >TV</p>
+                                            <span>{room.hasTV ? 'Available' : 'Not Available'}</span>
+                                        </div>
+                                        <div className="amenity-item">
+                                            <TiWiFi className="icons-div" />
+                                            <p className="room-title" >Wi-Fi</p>
+                                            <span>{room.hasWifi ? 'Available' : 'Not Available'}</span>
+                                        </div>
+                                        <div className="amenity-item">
+                                            <CgSmartHomeRefrigerator className="icons-div" />
+                                            <p className="room-title" >Refrigerator</p>
+                                            <span>{room.hasRefridge ? 'Available' : 'Not Available'}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div className="room-third">
+                                <div
+                                    className="room-description-div"
+                                >
+                                    <h4 className="feature-div"
+                                    >Room Description</h4>
+                                    <p>{room.roomDescription}</p>
+                                </div>
+                                <button className="book-button"
+                                    onClick={() => {
+                                        handleRoomBooking(room.roomId)
+                                    }}
+                                >
+                                    Book Now
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 ))
                 }
