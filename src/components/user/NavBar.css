@@ -1,171 +1,191 @@
 .navbar {
-    display: flex;
-    justify-content: space-around;
-    padding: 40px 0;
+  display: flex;
+  justify-content: space-evenly;
+  padding: 10px 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  margin-bottom: 10px;
+  background-color: #00b4d8;
+  width: 100%;
+}
+
+.nav {
+  display: flex;
+}
+
+.navbar .left {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.navbar .right {
+  width: 650px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar .right a {
+  text-decoration: none;
+  color: #112434;
+  padding: 6px 15px;
+}
+
+.navbar .right a:hover,
+.navbar .right a.active {
+  text-decoration: underline;
+}
+
+.profile-section {
+  display: flex;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+
+}
+
+.profile-section img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-right: 10px;
+  z-index: 4;
+}
+.profile-pic{
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  margin-right: 10px;
+  z-index: 4;
+  object-fit: cover;
+}
+.navbar .bar1,
+.bar2,
+.bar3 {
+  background-color: #112434;
+  height: 4px;
+  width: 36px;
+  margin: 3px;
+  border-radius: 10px;
+}
+
+.navbar .hamburger:hover {
+  cursor: pointer;
+}
+
+.navbar .hamburger {
+  display: none;
+}
+
+.mobileNav {
+  display: none;
+}
+
+@media only screen and (max-width: 955px) {
+  .navbar {
+    /* padding: 16px 24px;
+        box-sizing: border-box; */
     position: fixed;
     top: 0;
     left: 0;
     z-index: 3;
-    margin-bottom: 30px;
-    background-color: #00b4d8;
+    background-color: white;
     width: 100%;
   }
-  
-  .nav {
-    display: flex;
-  }
-  
-  .navbar .left {
-    font-size: 32px;
-    font-weight: bold;
-  }
-  
+
   .navbar .right {
-    width: 650px;
+    display: none;
+  }
+
+  .navbar .hamburger {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
   }
-  
-  .navbar .right a {
-    text-decoration: none;
-    color: #112434;
-    padding: 6px 15px;
+
+  .mobileNav {
+    width: 80px;
+    background-color: white;
+    height: 110vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: -160px;
+    padding: 16px;
+    transition: transform 0.5s;
   }
-  
-  .navbar .right a:hover,
-  .navbar .right a.active {
-    text-decoration: underline;
-  }
-  
-  .navbar .right img {
+
+  .mobileNav img {
     width: 24px;
     height: 24px;
   }
-  
-  .navbar .bar1,
-  .bar2,
-  .bar3 {
-    background-color: #112434;
-    height: 4px;
-    width: 36px;
-    margin: 3px;
-    border-radius: 10px;
+
+  .mobileNav a {
+    text-decoration: none;
+    color: #112434;
+    margin: 16px 0;
   }
-  
-  .navbar .hamburger:hover {
-    cursor: pointer;
+
+  .mobileNav a:hover,
+  .mobileNav a.active {
+    text-decoration: underline;
   }
-  
-  .navbar .hamburger {
-    display: none;
+
+  .openDrawer {
+    transform: translateX(-160px);
   }
-  
-  .mobileNav {
-    display: none;
+
+  .animateBar1 {
+    animation: flipBar1 1s;
+    animation-fill-mode: forwards;
   }
-  @media only screen and (max-width: 955px) {
-  
-    .navbar {
-      /* padding: 16px 24px;
-        box-sizing: border-box; */
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 3;
-      background-color: white;
-      width: 100%;
+
+  .animateBar2 {
+    animation: fadeBar2 1s;
+    animation-fill-mode: forwards;
+  }
+
+  .animateBar3 {
+    animation: flipBar3 1s;
+    animation-fill-mode: forwards;
+  }
+
+  @keyframes flipBar1 {
+    from {
+      transform: rotate(0);
     }
-    .navbar .right {
-      display: none;
+
+    to {
+      transform: rotate(45deg) translate(4px, 10px);
     }
-  
-    .navbar .hamburger {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+  }
+
+  @keyframes fadeBar2 {
+    from {
+      transform: scale(1);
+      opacity: 1;
     }
-  
-    .mobileNav {
-      width: 80px;
-      background-color: white;
-      height: 110vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      position: fixed;
-      z-index: 2;
-      top: 0;
-      right: -160px;
-      padding: 16px;
-      transition: transform 0.5s;
+
+    to {
+      transform: scale(0);
+      opacity: 0;
     }
-  
-    .mobileNav img {
-      width: 24px;
-      height: 24px;
+  }
+
+  @keyframes flipBar3 {
+    from {
+      transform: rotate(0);
     }
-  
-    .mobileNav a {
-      text-decoration: none;
-      color: #112434;
-      margin: 16px 0;
+
+    to {
+      transform: rotate(-45deg) translate(4px, -10px);
     }
-  
-    .mobileNav a:hover,
-    .mobileNav a.active {
-      text-decoration: underline;
-    }
-  
-    .openDrawer {
-      transform: translateX(-160px);
-    }
-  
-    .animateBar1 {
-      animation: flipBar1 1s;
-      animation-fill-mode: forwards;
-    }
-  
-    .animateBar2 {
-      animation: fadeBar2 1s;
-      animation-fill-mode: forwards;
-    }
-  
-    .animateBar3 {
-      animation: flipBar3 1s;
-      animation-fill-mode: forwards;
-    }
-  
-    @keyframes flipBar1 {
-      from {
-        transform: rotate(0);
-      }
-      to {
-        transform: rotate(45deg) translate(4px, 10px);
-      }
-    }
-  
-    @keyframes fadeBar2 {
-      from {
-        transform: scale(1);
-        opacity: 1;
-      }
-  
-      to {
-        transform: scale(0);
-        opacity: 0;
-      }
-    }
-  
-    @keyframes flipBar3 {
-      from {
-        transform: rotate(0);
-      }
-      to {
-        transform: rotate(-45deg) translate(4px, -10px);
-      }
-    }
+  }
 }
-  

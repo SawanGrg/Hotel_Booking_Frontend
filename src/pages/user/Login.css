@@ -51,7 +51,6 @@ body {
     position: relative;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
-    background-color: aliceblue;
   }
   
   .login h2 {
@@ -95,6 +94,10 @@ body {
     cursor: pointer;
     color: #0d87ea;
   }
+
+  .form input{
+    padding: 16px;
+  }
   
   .login .form button {
     width: 100%;
@@ -132,7 +135,6 @@ body {
       position: relative;
       border-top-right-radius: 10px;
       border-bottom-right-radius: 10px;
-      background-color: aliceblue;
     }
   }
   

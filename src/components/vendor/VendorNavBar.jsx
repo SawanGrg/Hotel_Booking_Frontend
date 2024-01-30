@@ -9,6 +9,7 @@ import { TbDeviceAnalytics } from "react-icons/tb";
 import { IoMdAdd } from "react-icons/io";
 import { CiBookmarkCheck } from "react-icons/ci";
 import { IoIosLogOut } from "react-icons/io";
+import { MdOutlineReport } from "react-icons/md";
 
 
 const VendorNav = () => {
@@ -57,6 +58,12 @@ const VendorNav = () => {
                                 {/* <FaBookmark className='vendor-icons' /> */}
                                 <CiBookmarkCheck className='vendor-icons'/>
                                 Bookings</div>
+                        </Link>
+                        <Link to="/report-issue" className="nav-booking">
+                            <div className="nav-item">
+                                {/* <FaBookmark className='vendor-icons' /> */}
+                                <MdOutlineReport className='vendor-icons'/>
+                                Report Issue</div>
                         </Link>
                         <Link className="nav-logout" onClick={handleLogout}>
                             <div className="nav-item">

@@ -35,7 +35,7 @@ export default function SpecificHotel() {
 
     const navigate = useNavigate();
 
-    async function handleRoomBooking(roomId) {
+    async function handleRoomBooking(roomId, roomPrice) {
 
         console.log(roomId);
         const token = localStorage.getItem("token");
@@ -55,7 +55,8 @@ export default function SpecificHotel() {
             console.log("role:->", role);
             console.log("token:->", token);
             console.log("roomId:->", roomId);
-            navigate(`/hotel/${hotelId}/room/${roomId}`);
+            console.log("roomPrice:->", roomPrice);
+            navigate(`/hotel/${hotelId}/room/${roomId}/${roomPrice}`);
         }
 
     }
@@ -104,7 +105,7 @@ export default function SpecificHotel() {
 
         // Combine main room image and additional room images
         const allImages = [
-            { imageId: 0, imageUrl: room.mainRoomImage, imageStatus: "ACTIVE" },
+            { imageId: 0, imageUrl: room.mainRoomImage },
             ...room.roomImages,
         ];
 
@@ -309,8 +310,6 @@ export default function SpecificHotel() {
                                         </div>
                                     </div>
                                 </div>
-
-
                             </div>
                             <div className="room-third">
                                 <div
@@ -322,7 +321,7 @@ export default function SpecificHotel() {
                                 </div>
                                 <button className="book-button"
                                     onClick={() => {
-                                        handleRoomBooking(room.roomId)
+                                        handleRoomBooking(room.roomId, room.roomPrice)
                                     }}
                                 >
                                     Book Now

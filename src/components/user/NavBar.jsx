@@ -1,24 +1,48 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./NavBar.css";
 import { clearUserDetails } from "../../redux/user/userSlice";
 import { clearUserData } from "../../utils/authStorage";
+import { getSpecificUserDetails } from "../../services/user/GetUserDetailsAPI";
+import BaseUrl from "../../services/BaseUrl";
 
 export default function NavBar() {
-
   const selector = useSelector((state) => state.user.userData);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const [userDetails, setUserDetails] = useState([]);
+
+  
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleMobileNav = () => {
     setIsMobileNavOpen(!isMobileNavOpen);
   };
 
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
   const logoutSubmit = async (e) => {
     dispatch(clearUserDetails());
     clearUserData();
+    navigate("/login");
   };
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      try {
+        const response = await getSpecificUserDetails();
+        setUserDetails(response.body);
+      } catch (error) {
+        console.error("Error fetching user details:", error);
+      }
+    };
+
+    fetchUserDetails();
+  }, [selector]);
 
   return (
     <div>
@@ -26,9 +50,6 @@ export default function NavBar() {
       <header className="navbar">
         <div className="left">Annapurna</div>
         <nav className="right">
-          <div>
-            <h2>{selector == null ? "" : "Welcome " + selector}</h2>
-          </div>
 
           <Link to="/" className="nav active">
             Home
@@ -46,27 +67,37 @@ export default function NavBar() {
             Contact
           </Link>
           {
-            selector ? 
-            ( // If user data exists, show logout button
-              <button className="nav" onClick={logoutSubmit}>
-                Logout
-              </button>
-            ) : (
-              <Link to="/Login" className="nav">
-                Login
-              </Link>
-            )
+            selector ?
+            <Link to="/profile" className="nav">
+              Profile
+            </Link>
+            : null
           }
-          <a href="https://www.facebook.com/" className="nav">
-            <img src="/assets/facebook.png" alt="facebook" />
-          </a>
-          <a href="https://www.instagram.com/" className="nav">
-            <img src="/assets.insta_icon.png" alt="instagram" />
-          </a>
-          <a href="https://www.tripadvisor.com/" className="nav">
-            <img src="/assets/trip.png" alt="tripadvisor" />
-          </a>
+          {
+          selector ? 
+          ( // If user data exists, show logout link
+            <span className="nav" onClick={logoutSubmit}>
+              Logout
+            </span>
+          ) : null
+        }
         </nav>
+        {selector ? (
+            <div className="nav" onClick={toggleDropdown}>
+              {userDetails ? (
+                <img
+                  src={`${BaseUrl}${userDetails.userProfilePicture}`}
+                  className="profile-pic"
+                  alt="Profile"
+                />
+              ) : null}
+              
+            </div>
+          ) : (
+            <Link to="/Login" className="nav">
+              Login
+            </Link>
+          )}
 
         <div className="hamburger" onClick={toggleMobileNav}>
           <div className={`bar1 ${isMobileNavOpen ? "animateBar1" : ""}`}></div>
@@ -88,15 +119,6 @@ export default function NavBar() {
         <Link to="/login">Login</Link>
         <Link to="/profile">Profile</Link>
 
-        <a href="https://www.instagram.com/">
-          <img src="/assets/insta_icon.png" alt="instagram" />
-        </a>
-        <a href="https://www.facebook.com/">
-          <img src="/assets/facebook.png" alt="facebook" />
-        </a>
-        <a href="https://www.tripadvisor.com/">
-          <img src="/assets/trip.png" alt="tripadvisor" />
-        </a>
       </nav>
     </div>
   );

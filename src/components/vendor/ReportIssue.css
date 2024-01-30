@@ -1,0 +1,79 @@
+.report-header {
+  background-color: #d2d5dd;
+  font-weight: bold;
+  font-size: x-large;
+  padding: 5px;
+  /* margin: 0px 10px; */
+  border-radius: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+.report-form-sections {
+  background-color: #d2d5dd;
+  border-radius: 10px;
+}
+.points {
+  display: flex;
+  flex-direction: left;
+  align-items: center;
+  margin: 10px 0px;
+  padding: 10px;
+}
+.point {
+  font-size: 16px; /* Set the font size */
+  font-weight: bold; /* Make the text bold */
+  color: #333; /* Set the text color */
+  margin: 10px 0; /* Add some margin for spacing */
+}
+
+/* Optional: Add additional styles for the list items or the entire container if needed */
+ul {
+  list-style-type: none; /* Remove default list styles */
+  padding: 0; /* Remove default padding */
+}
+
+li {
+  margin-bottom: 15px; /* Add some margin between list items */
+}
+
+/* Style for the label */
+.report-title,
+.report-label {
+  display: block;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #333;
+  margin: 10px;
+  padding: 10px;
+}
+
+/* Style for the textarea */
+.report-description,
+.report-input {
+  display: block;
+  width: 50%;
+  margin: 10px;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  resize: vertical; /* Allow vertical resizing of the textarea */
+}
+
+/* Style for the button */
+.report-submit {
+  /* background-color: #4caf50; */
+  /* color: white; */
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.report-submit:hover {
+  background-color: #45a049;
+  padding: 10px 20px;
+}

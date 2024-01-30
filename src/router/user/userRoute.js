@@ -61,7 +61,7 @@ export const userRoutes = [
     {
         path: "/profile",
         element: Profile,
-        isPrivate: true,
+        isPrivate: false,
         hasLayout: true,
         isUserLayout: true,
         isAdminLayout: false,
@@ -77,7 +77,7 @@ export const userRoutes = [
         isVendorLayout: false,
     },
     {
-        path : "/hotel/:hotelId/room/:roomId",
+        path : "/hotel/:hotelId/room/:roomId/:roomPrice",
         element :Booking,
         isPrivate: true,
         hasLayout: true,

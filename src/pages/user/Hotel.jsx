@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './Hotel.css';
-import { jwtDecode } from 'jwt-decode';
 import { Link } from 'react-router-dom';
 import BaseUrl from '../../services/BaseUrl';
 import { getAllHotelData } from '../../services/user/GetAllHotelAPI';
