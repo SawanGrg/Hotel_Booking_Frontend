@@ -21,15 +21,14 @@ import { PiTelevisionSimpleFill } from "react-icons/pi";
 import { TiWiFi } from "react-icons/ti";
 import { CgSmartHomeRefrigerator } from "react-icons/cg";
 import toast, { Toaster } from "react-hot-toast";
+import Slider from 'rc-slider';
+import { postRoomFilter } from "../../services/user/PostRoomFilterAPI";
 
 
 export default function SpecificHotel() {
 
     const [hotelData, setHotelData] = useState([]);
     const [roomData, setRoomData] = useState([]);
-
-    //for slider of rooms
-    const [state, setState] = useState(0)
 
     const { hotelId } = useParams();
 
@@ -88,6 +87,8 @@ export default function SpecificHotel() {
         getAllRooms();
 
     }, []);
+
+
     const RoomCarousel = ({ room }) => {
         const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -156,6 +157,76 @@ export default function SpecificHotel() {
     };
 
 
+    const [sliderValue, setSliderValue] = useState(0);
+    const [selectedBedType, setSelectedBedType] = useState('');
+    const [selectedRoomCategory, setSelectedRoomCategory] = useState('');
+    const [selectedRoomType, setSelectedRoomType] = useState('');
+
+    const [hasAC, setHasAC] = useState(true);
+    const [hasBalcony, setHasBalcony] = useState(true);
+    const [hasRefridge, setHasRefridge] = useState(true);
+
+    const handleSliderChange = (event) => {
+        setSliderValue(parseInt(event.target.value, 10));
+    };
+
+    const handleBedTypeChange = (event) => {
+        const bedType = event.target.value;
+
+        // Unselect the previously selected bed type
+        if (selectedBedType === bedType) {
+            setSelectedBedType('');
+        } else {
+            // Select the newly clicked bed type
+            setSelectedBedType(bedType);
+        }
+    };
+
+    const handleRoomCategoryChange = (event) => {
+        const roomCategory = event.target.value;
+
+        // Unselect the previously selected room category
+        if (selectedRoomCategory === roomCategory) {
+            setSelectedRoomCategory('');
+        } else {
+            // Select the newly clicked room category
+            setSelectedRoomCategory(roomCategory);
+        }
+    };
+
+    const handleRoomTypeChange = (event) => {
+        const roomType = event.target.value;
+
+        // Unselect the previously selected room type
+        if (selectedRoomType === roomType) {
+            setSelectedRoomType('');
+        } else {
+            // Select the newly clicked room type
+            setSelectedRoomType(roomType);
+        }
+    }
+
+    useEffect(() => {
+
+        console.log("sliderValue:->", sliderValue);
+        console.log("selectedBedType:->", selectedBedType);
+        console.log("selectedRoomCategory:->", selectedRoomCategory);
+        console.log("selectedRoomType:->", selectedRoomType);
+
+        const filterRoom = async () => {
+            try {
+                const data = await postRoomFilter(hotelId, sliderValue, selectedRoomType,selectedRoomCategory,selectedBedType, hasAC, hasBalcony, hasRefridge);
+                console.log("room data from filtered room:->", data);
+
+                setRoomData(data.body);
+
+            } catch (error) {
+                console.error('Error fetching filter room data data:', error);
+            }
+        }
+        filterRoom();
+
+    }, [sliderValue, selectedBedType, selectedRoomCategory, selectedRoomType]);
 
     const imageCss = {
         display: "block",
@@ -165,6 +236,7 @@ export default function SpecificHotel() {
         borderRadius: 10,
         boxShadow: "0 0 10px 0 rgba(0,0,0,0.3)",
     };
+
 
     return (
         <div className="pt-40">
@@ -215,122 +287,344 @@ export default function SpecificHotel() {
                 }
                 return null; // This is important to avoid error
             })}
-            <div className="parent-room-div">
-                {roomData?.map((room) => (
-                    <div key={room.roomId}>
-                        <div className="hotel-rooms">
-                            <RoomCarousel room={room} />
 
-                            {/* wrapping three divsfor booking form */}
-                            {/* <div className="main-three-div"> */}
-                            <div className="room-first">
-                                <div className="amenties-component">
-                                    <div className="title">
-                                        <TiSortNumerically className="icons-div" />
-                                        <div className="room-title">
-                                            Room Number
-                                        </div>
-                                    </div>
+            <div className="parent-filter-room">
 
-                                    <div>{room.roomNumber}</div>
-                                </div>
-                                <div className="amenties-component">
-                                    <div className="title">
-                                        <FaBed className="icons-div" />
-                                        <div className="room-title">
-                                            Room Type
-                                        </div>
-                                    </div>
+                <div className="parent-filter-section">
+                    <div className="filter-text">
+                        Filter according to your need
+                    </div>
 
-                                    <div>{room.roomType}</div>
-                                </div>
-                                <div className="amenties-component">
-                                    <div className="title">
-                                        <FaHotel className="icons-div" />
-                                        <div className="room-title">
-                                            Room Category
-                                        </div>
-                                    </div>
+                    {/* for price slider */}
+                    <div className="price-range">
 
-                                    <div>{room.roomCategory}</div>
-                                </div>
-                                <div className="amenties-component">
-                                    <div className="title">
-                                        <FaMoneyCheckAlt className="icons-div" />
-                                        <div className="room-title">
-                                            Room Price
-                                        </div>
-                                    </div>
+                        <div className="price-title">
+                            Select Price Range (in Rs.)
+                        </div>
 
-                                    <div>{room.roomPrice}</div>
-                                </div>
-                                <div className="amenties-component">
-                                    <div className="title">
-                                        <FaBed className="icons-div" />
-                                        <div className="room-title">
-                                            Room Bed
-                                        </div>
-                                    </div>
+                        <div className="price-input">
 
-                                    <div>{room.roomBed}</div>
-                                </div>
+                            <label htmlFor="price-slider">
+                                <span>{sliderValue}</span>
+                            </label>
 
-                            </div>
-                            <div className="room-second">
+                            <input
+                                type="range"
+                                min={0}
+                                max={10000}
+                                value={sliderValue}
+                                onChange={handleSliderChange}
+                            />
+                        </div>
+                    </div>
+
+
+                    {/* for bed type */}
+                    <div className="redendanent-bed-filter">
+
+                        <div className="bed-type-title">
+                            Bed Type
+                        </div>
+
+                        <div className="bed-type">
+                            <div className="bed-type-item">
                                 <div>
-                                    <h4
-                                        className="feature-div"
-                                    >Room Features</h4>
-                                    <div className="room-amenities-div">
-                                        <div className="amenity-item">
-                                            <MdAir className="icons-div" />
+                                    <input
+                                        type="radio"
+                                        value="SINGLE"
+                                        checked={selectedBedType === 'SINGLE'}
+                                        onChange={handleBedTypeChange}
+                                    />
+                                </div>
 
-                                            <p className="room-title" >AC</p>
-                                            <span>{room.hasAC ? 'Available' : 'Not Available'}</span>
-                                        </div>
-                                        <div className="amenity-item">
-                                            <MdOutlineBalcony className="icons-div" />
-                                            <p className="room-title" >Balcony</p>
-                                            <span>{room.hasBalcony ? 'Available' : 'Not Available'}</span>
-                                        </div>
-                                        <div className="amenity-item">
-                                            <PiTelevisionSimpleFill className="icons-div" />
-                                            <p className="room-title" >TV</p>
-                                            <span>{room.hasTV ? 'Available' : 'Not Available'}</span>
-                                        </div>
-                                        <div className="amenity-item">
-                                            <TiWiFi className="icons-div" />
-                                            <p className="room-title" >Wi-Fi</p>
-                                            <span>{room.hasWifi ? 'Available' : 'Not Available'}</span>
-                                        </div>
-                                        <div className="amenity-item">
-                                            <CgSmartHomeRefrigerator className="icons-div" />
-                                            <p className="room-title" >Refrigerator</p>
-                                            <span>{room.hasRefridge ? 'Available' : 'Not Available'}</span>
-                                        </div>
-                                    </div>
+                                <div className="bed-type">
+
+                                    <label>Single</label>
                                 </div>
                             </div>
-                            <div className="room-third">
-                                <div
-                                    className="room-description-div"
-                                >
-                                    <h4 className="feature-div"
-                                    >Room Description</h4>
-                                    <p>{room.roomDescription}</p>
+                            <div className="bed-type-item">
+                                <input
+                                    type="radio"
+                                    value="DOUBLE"
+                                    checked={selectedBedType === 'DOUBLE'}
+                                    onChange={handleBedTypeChange}
+                                />
+                                <div className="bed-type">
+                                    <label>
+                                        Double
+                                    </label>
                                 </div>
-                                <button className="book-button"
-                                    onClick={() => {
-                                        handleRoomBooking(room.roomId, room.roomPrice)
-                                    }}
-                                >
-                                    Book Now
-                                </button>
+                            </div>
+                            <div className="bed-type-item">
+                                <input
+                                    type="radio"
+                                    value="KING"
+                                    checked={selectedBedType === 'KING'}
+                                    onChange={handleBedTypeChange}
+                                />
+                                <div>
+                                    King
+                                </div>
+                            </div>
+                            <div className="bed-type-item">
+                                <input
+                                    type="radio"
+                                    value="QUEEN"
+                                    checked={selectedBedType === 'QUEEN'}
+                                    onChange={handleBedTypeChange}
+                                />
+                                <div>
+                                    Queen
+                                </div>
                             </div>
                         </div>
                     </div>
-                ))
-                }
+
+                    {/* for room category */}
+                    <div className="redendanent-bed-filter">
+
+                        <div className="bed-type-title">
+                            Room Category
+                        </div>
+
+                        <div className="room-category">
+                            <div className="bed-type-item">
+                                <input
+                                    type="radio"
+                                    value="COUPLE"
+                                    checked={selectedRoomCategory === 'COUPLE'}
+                                    onChange={handleRoomCategoryChange}
+                                />
+                                <div>
+                                    Couple
+                                </div>
+                            </div>
+                            <div className="bed-type-item"> 
+                                <input
+                                    type="radio"
+                                    value="FAMILY"
+                                    checked={selectedRoomCategory === 'FAMILY'}
+                                    onChange={handleRoomCategoryChange}
+                                />
+                                <div>
+                                    Family
+                                </div>
+                            </div>
+                            <div className="bed-type-item">
+                                <input
+                                    type="radio"
+                                    value="BUSINESS"
+                                    checked={selectedRoomCategory === 'BUSINESS'}
+                                    onChange={handleRoomCategoryChange}
+                                />
+                                <div>
+                                    Business
+                                </div>
+                            </div>
+                            <div className="bed-type-item">
+                                <input
+                                    type="radio"
+                                    value="SINGLE"
+                                    checked={selectedRoomCategory === 'SINGLE'}
+                                    onChange={handleRoomCategoryChange}
+                                />
+                                <div>
+                                    Single
+                                </div>
+                            </div>
+                            <div className="bed-type-item">
+                                <input
+                                    type="radio"
+                                    value="DOUBLE"
+                                    checked={selectedRoomCategory === 'DOUBLE'}
+                                    onChange={handleRoomCategoryChange}
+                                />
+                                <div>
+                                    Double
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* for room type */}
+                    <div className="redendanent-bed-filter">
+
+                        <div className="bed-type-title">
+                            Room Type
+                        </div>
+
+                        <div className="room-category">
+                            <div className="bed-type-item">
+                                <input
+                                    type="radio"
+                                    value="DELUXE"
+                                    checked={selectedRoomType === 'DELUXE'}
+                                    onChange={handleRoomTypeChange}
+                                />
+                                <div>
+                                    Deluxe
+                                </div>
+                            </div>
+                            
+                            <div className="bed-type-item">
+                                <input
+                                    type="radio"
+                                    value="SUITE"
+                                    checked={selectedRoomType === 'SUITE'}
+                                    onChange={handleRoomTypeChange}
+                                />
+                                <div>
+                                    Suite
+                                </div>
+                            </div>
+                            
+
+                            <div className="bed-type-item">
+                                <input
+                                    type="radio"
+                                    value="STANDARD"
+                                    checked={selectedRoomType === 'STANDARD'}
+                                    onChange={handleRoomTypeChange}
+                                />
+                                <div>
+                                    Standard
+                                </div>
+                            </div>
+                            
+
+                            <div className="bed-type-item">
+                                <input
+                                    type="radio"
+                                    value="ECONOMY"
+                                    checked={selectedRoomType === 'ECONOMY'}
+                                    onChange={handleRoomTypeChange}
+                                />
+                                <div>
+                                    Economy
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div className="parent-room-div">
+                    {roomData?.map((room) => (
+                        <div key={room.roomId}>
+                            <div className="hotel-rooms">
+                                <RoomCarousel room={room} />
+
+                                {/* wrapping three divsfor booking form */}
+                                {/* <div className="main-three-div"> */}
+                                <div className="room-first">
+                                    <div className="amenties-component">
+                                        <div className="title">
+                                            <TiSortNumerically className="icons-div" />
+                                            <div className="room-title">
+                                                Room Number
+                                            </div>
+                                        </div>
+
+                                        <div>{room.roomNumber}</div>
+                                    </div>
+                                    <div className="amenties-component">
+                                        <div className="title">
+                                            <FaBed className="icons-div" />
+                                            <div className="room-title">
+                                                Room Type
+                                            </div>
+                                        </div>
+
+                                        <div>{room.roomType}</div>
+                                    </div>
+                                    <div className="amenties-component">
+                                        <div className="title">
+                                            <FaHotel className="icons-div" />
+                                            <div className="room-title">
+                                                Room Category
+                                            </div>
+                                        </div>
+
+                                        <div>{room.roomCategory}</div>
+                                    </div>
+                                    <div className="amenties-component">
+                                        <div className="title">
+                                            <FaMoneyCheckAlt className="icons-div" />
+                                            <div className="room-title">
+                                                Room Price
+                                            </div>
+                                        </div>
+
+                                        <div>{room.roomPrice}</div>
+                                    </div>
+                                    <div className="amenties-component">
+                                        <div className="title">
+                                            <FaBed className="icons-div" />
+                                            <div className="room-title">
+                                                Room Bed
+                                            </div>
+                                        </div>
+
+                                        <div>{room.roomBed}</div>
+                                    </div>
+
+                                </div>
+                                <div className="room-second">
+                                    <div>
+                                        <h4
+                                            className="feature-div"
+                                        >Room Features</h4>
+                                        <div className="room-amenities-div">
+                                            <div className="amenity-item">
+                                                <MdAir className="icons-div" />
+
+                                                <p className="room-title" >AC</p>
+                                                <span>{room.hasAC ? 'Available' : 'Not Available'}</span>
+                                            </div>
+                                            <div className="amenity-item">
+                                                <MdOutlineBalcony className="icons-div" />
+                                                <p className="room-title" >Balcony</p>
+                                                <span>{room.hasBalcony ? 'Available' : 'Not Available'}</span>
+                                            </div>
+                                            <div className="amenity-item">
+                                                <PiTelevisionSimpleFill className="icons-div" />
+                                                <p className="room-title" >TV</p>
+                                                <span>{room.hasTV ? 'Available' : 'Not Available'}</span>
+                                            </div>
+                                            <div className="amenity-item">
+                                                <TiWiFi className="icons-div" />
+                                                <p className="room-title" >Wi-Fi</p>
+                                                <span>{room.hasWifi ? 'Available' : 'Not Available'}</span>
+                                            </div>
+                                            <div className="amenity-item">
+                                                <CgSmartHomeRefrigerator className="icons-div" />
+                                                <p className="room-title" >Refrigerator</p>
+                                                <span>{room.hasRefridge ? 'Available' : 'Not Available'}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="room-third">
+                                    <div
+                                        className="room-description-div"
+                                    >
+                                        <h4 className="feature-div"
+                                        >Room Description</h4>
+                                        <p>{room.roomDescription}</p>
+                                    </div>
+                                    <button className="book-button"
+                                        onClick={() => {
+                                            handleRoomBooking(room.roomId, room.roomPrice)
+                                        }}
+                                    >
+                                        Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                    }
+                </div>
             </div>
         </div >
     );

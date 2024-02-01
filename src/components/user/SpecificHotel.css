@@ -40,13 +40,74 @@ h1{
     align-items: center;
     gap: 5px;
 }
+/* for parent filter room css */
+.parent-filter-room{
+    display: grid;
+    grid-template-columns: 0.80fr 3fr;
+    gap: 10px;
+}
+
+/* for filter section css */
+.parent-filter-section{
+    border-right: #000 2px solid;
+    padding: 10px;
+    margin: 10px;
+}
+.filter-text{
+    font-weight: bolder;
+    color: #000;
+    text-align: center;
+    font-size: larger;
+    margin: 10px 10px;
+    padding: 10px 10px;
+    box-shadow: 0 4px 8px rgba(18, 5, 5, 0.1); /* Add box shadow with light black color */
+    background-color: #f0f0f0;
+
+}
+.price-range {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 10px;
+    padding: 10px 10px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(18, 5, 5, 0.1); /* Add box shadow with light black color */
+    background-color: #f0f0f0; /* Set a light background color */
+}
+.price-title {
+    font-weight: bold;
+    color: #000;
+    text-align: center;
+    font-size: medium;
+    padding: 10px 0px;
+}
+.redendanent-bed-filter{
+    margin: 10px 10px;
+    padding: 10px 10px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(18, 5, 5, 0.1); 
+    background-color: #f0f0f0;
+
+}
+.bed-type-title{
+    font-weight: bold;
+    color: #000;
+    text-align: center;
+    font-size: medium;
+    padding: 4px 0px;
+
+}
+.bed-type-item{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;    
+}
 
 /* for multiple rooms css */
 .hotel-rooms {
     display: grid;
     grid-template-columns: 2fr repeat(3, 1fr); /* First div takes 2 times more space */
     gap: 15px;
-    margin: 15px;
+    margin: 5px;
     padding: 30px 30px;
     height: 50vh;
     background: #fff;
@@ -56,8 +117,6 @@ h1{
 .room-first{
     display: flex;
     flex-direction: column;
-    /* justify-content:right;
-    align-items: right; */
     justify-content: center;
     align-items: center;
     gap: 10px;
