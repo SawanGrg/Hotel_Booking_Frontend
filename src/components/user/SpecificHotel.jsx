@@ -90,6 +90,7 @@ export default function SpecificHotel() {
 
 
     const RoomCarousel = ({ room }) => {
+
         const [currentIndex, setCurrentIndex] = useState(0);
 
         const handlePrevClick = () => {
@@ -157,7 +158,7 @@ export default function SpecificHotel() {
     };
 
 
-    const [sliderValue, setSliderValue] = useState(0);
+    const [sliderValue, setSliderValue] = useState(1500);
     const [selectedBedType, setSelectedBedType] = useState('');
     const [selectedRoomCategory, setSelectedRoomCategory] = useState('');
     const [selectedRoomType, setSelectedRoomType] = useState('');
@@ -173,7 +174,6 @@ export default function SpecificHotel() {
     const handleBedTypeChange = (event) => {
         const bedType = event.target.value;
 
-        // Unselect the previously selected bed type
         if (selectedBedType === bedType) {
             setSelectedBedType('');
         } else {
@@ -181,6 +181,9 @@ export default function SpecificHotel() {
             setSelectedBedType(bedType);
         }
     };
+
+
+
 
     const handleRoomCategoryChange = (event) => {
         const roomCategory = event.target.value;
@@ -215,7 +218,7 @@ export default function SpecificHotel() {
 
         const filterRoom = async () => {
             try {
-                const data = await postRoomFilter(hotelId, sliderValue, selectedRoomType,selectedRoomCategory,selectedBedType, hasAC, hasBalcony, hasRefridge);
+                const data = await postRoomFilter(hotelId, sliderValue, selectedRoomType, selectedRoomCategory, selectedBedType, hasAC, hasBalcony, hasRefridge);
                 console.log("room data from filtered room:->", data);
 
                 setRoomData(data.body);
@@ -236,7 +239,6 @@ export default function SpecificHotel() {
         borderRadius: 10,
         boxShadow: "0 0 10px 0 rgba(0,0,0,0.3)",
     };
-
 
     return (
         <div className="pt-40">
@@ -321,11 +323,9 @@ export default function SpecificHotel() {
 
                     {/* for bed type */}
                     <div className="redendanent-bed-filter">
-
                         <div className="bed-type-title">
                             Bed Type
                         </div>
-
                         <div className="bed-type">
                             <div className="bed-type-item">
                                 <div>
@@ -336,9 +336,7 @@ export default function SpecificHotel() {
                                         onChange={handleBedTypeChange}
                                     />
                                 </div>
-
                                 <div className="bed-type">
-
                                     <label>Single</label>
                                 </div>
                             </div>
@@ -350,9 +348,7 @@ export default function SpecificHotel() {
                                     onChange={handleBedTypeChange}
                                 />
                                 <div className="bed-type">
-                                    <label>
-                                        Double
-                                    </label>
+                                    <label>Double</label>
                                 </div>
                             </div>
                             <div className="bed-type-item">
@@ -363,7 +359,7 @@ export default function SpecificHotel() {
                                     onChange={handleBedTypeChange}
                                 />
                                 <div>
-                                    King
+                                    <label>King</label>
                                 </div>
                             </div>
                             <div className="bed-type-item">
@@ -374,11 +370,23 @@ export default function SpecificHotel() {
                                     onChange={handleBedTypeChange}
                                 />
                                 <div>
-                                    Queen
+                                    <label>Queen</label>
+                                </div>
+                            </div>
+                            <div className="bed-type-item">
+                                <input
+                                    type="radio"
+                                    value=""
+                                    checked={!selectedBedType}
+                                    onChange={handleBedTypeChange}
+                                />
+                                <div>
+                                    <label>None</label>
                                 </div>
                             </div>
                         </div>
                     </div>
+
 
                     {/* for room category */}
                     <div className="redendanent-bed-filter">
@@ -399,7 +407,7 @@ export default function SpecificHotel() {
                                     Couple
                                 </div>
                             </div>
-                            <div className="bed-type-item"> 
+                            <div className="bed-type-item">
                                 <input
                                     type="radio"
                                     value="FAMILY"
@@ -443,6 +451,17 @@ export default function SpecificHotel() {
                                     Double
                                 </div>
                             </div>
+                            <div className="bed-type-item">
+                                <input
+                                    type="radio"
+                                    value=""
+                                    checked={!selectedRoomCategory}
+                                    onChange={handleRoomCategoryChange}
+                                />
+                                <div>
+                                    None
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -465,7 +484,7 @@ export default function SpecificHotel() {
                                     Deluxe
                                 </div>
                             </div>
-                            
+
                             <div className="bed-type-item">
                                 <input
                                     type="radio"
@@ -477,7 +496,7 @@ export default function SpecificHotel() {
                                     Suite
                                 </div>
                             </div>
-                            
+
 
                             <div className="bed-type-item">
                                 <input
@@ -490,7 +509,7 @@ export default function SpecificHotel() {
                                     Standard
                                 </div>
                             </div>
-                            
+
 
                             <div className="bed-type-item">
                                 <input
@@ -501,6 +520,17 @@ export default function SpecificHotel() {
                                 />
                                 <div>
                                     Economy
+                                </div>
+                            </div>
+                            <div className="bed-type-item">
+                                <input
+                                    type="radio"
+                                    value=""
+                                    checked={!selectedRoomType}
+                                    onChange={handleRoomTypeChange}
+                                />
+                                <div>
+                                    None
                                 </div>
                             </div>
                         </div>

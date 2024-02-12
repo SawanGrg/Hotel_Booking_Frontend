@@ -7,6 +7,7 @@ import Hotel from "../../pages/user/Hotel"
 import SpecificHotel from "../../components/user/SpecificHotel"
 import Booking from "../../pages/user/Booking"
 import PageNotFound from "../../pages/user/PageNotFound"
+import UserBookings from "../../pages/user/UserBookings"
 
 // kun layout ma rakhne bhani matra ho
 //just defining the layoutes here
@@ -61,6 +62,15 @@ export const userRoutes = [
     {
         path: "/profile",
         element: Profile,
+        isPrivate: false,
+        hasLayout: true,
+        isUserLayout: true,
+        isAdminLayout: false,
+        isVendorLayout: false,
+    },
+    {
+        path: "/user-booking",
+        element: UserBookings,
         isPrivate: false,
         hasLayout: true,
         isUserLayout: true,

@@ -60,16 +60,17 @@ export default function NavBar() {
           <Link to="/Blog" className="nav">
             Blog
           </Link>
-          <Link to="/Gallery" className="nav">
-            Gallery
-          </Link>
-          <Link to="/Contact" className="nav">
-            Contact
-          </Link>
           {
             selector ?
             <Link to="/profile" className="nav">
               Profile
+            </Link>
+            : null
+          }
+          {
+            selector ?
+            <Link to="/user-booking" className="nav">
+              Bookings
             </Link>
             : null
           }
@@ -80,7 +81,7 @@ export default function NavBar() {
               Logout
             </span>
           ) : null
-        }
+          }
         </nav>
         {selector ? (
             <div className="nav" onClick={toggleDropdown}>

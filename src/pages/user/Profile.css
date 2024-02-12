@@ -1,17 +1,122 @@
-.tabs-details{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
+.conditional-rendering{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin: 20px;
+    justify-content: center;
     align-items: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    border-bottom: #000000 2px solid;
+}
+.profile-heading{
+    font-size: 25px;
+    font-weight: bold;
+    color: #000000;
+    margin: 0px 20px 20px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.profile-heading button{
+    margin-left: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background: #95c8f5;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    width: 300px;
+}
+.second-div{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.second-inner-element-div{
+    padding: 0 140px;
+}
+.second-inner-element-div label{
+    font-size: 18px;
+    font-weight: bold;
+    color: #000000; 
+}
+.second-inner-element-div input{
+    width: 70%;
+    padding: 10px;
+    border: 2px solid #6c4747;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.image-input-field{
+    width: 70%;
+    padding: 10px;
+    border: 2px solid #6c4747;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 
 }
-.userProfile{
+.update-profile-button{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background: #95c8f5;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    width: 300px;
+
+}
+
+
+.third-div{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    gap: 20px;
+    margin: 10px;
+    padding-top: 20px;
+    /* border-top: #000000 2px solid; */
+}
+.third-length-div{
+    width: 800px;
+    height: 480px;
+    border-radius: 10px;
+}
+.input-field-container {
+    border: 2px solid black; /* Border around input field div */
+    border-radius: 5px;
+    padding: 5px; 
+}
+.input-field {
+    width: 100%; 
+    padding: 10px;
+    font-size: 16px;
+    border: none; /* Remove default input border */
+    outline: none; /* Remove outline */
+}
+.change-password-label{
+    font-size: 18px;
+    font-weight: bold;
+    color: #000000;
+}
+.change-password-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: left;
+    gap: 20px;
+    margin: 10px;
+}
+.change-password-button{
+    margin: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 5px;
+    background: #95c8f5;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    width: 300px;
+
 }

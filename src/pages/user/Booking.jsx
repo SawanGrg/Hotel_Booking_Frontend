@@ -84,157 +84,168 @@ export default function Booking() {
     // Add further processing or API calls here
     const res = postBookRoom(roomId, startDate, endDate, numberOfGuests, paymentMethod, userName);
 
-    if(res.message != "Success"){
+    if (res.message != "Success") {
       toast.success("Room booked successfully");
       return;
     }
     toast.error("Room booking failed");
   };
 
-    return (
-      <div className="pt-40">
-        <Toaster
-          position="top-center"
-          toastOptions={{
-            duration: 3000,
-          }}
-        />
-        <div>
-          {
-            roomData.map((room) => {
-              if (room.roomId == roomId) {
-                return (
-                  <div className="room-Amenties" key={roomId}>
-                    <div className="hotel-name">
-                      <h3>Room Amenties</h3>
-                    </div>
-                    <div className="amenties">
-                      <div className="amenity-item">
-                        <MdAir className="icons-div" />
+  return (
+    <div className="pt-40">
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 3000,
+        }}
+      />
+      <div>
+        {
+          roomData.map((room) => {
+            if (room.roomId == roomId) {
+              return (
+                <div className="room-Amenties" key={roomId}>
+                  <div className="hotel-name">
+                    <h3>Room Amenties</h3>
+                  </div>
+                  <div className="amenties">
+                    <div className="amenity-item">
+                      <MdAir className="icons-div" />
 
-                        <p className="room-title" >AC</p>
-                        <span>{room.hasAC ? 'Available' : 'Not Available'}</span>
-                      </div>
-                      <div className="amenity-item">
-                        <MdOutlineBalcony className="icons-div" />
-                        <p className="room-title" >Balcony</p>
-                        <span>{room.hasBalcony ? 'Available' : 'Not Available'}</span>
-                      </div>
-                      <div className="amenity-item">
-                        <PiTelevisionSimpleFill className="icons-div" />
-                        <p className="room-title" >TV</p>
-                        <span>{room.hasTV ? 'Available' : 'Not Available'}</span>
-                      </div>
-                      <div className="amenity-item">
-                        <TiWiFi className="icons-div" />
-                        <p className="room-title" >Wi-Fi</p>
-                        <span>{room.hasWifi ? 'Available' : 'Not Available'}</span>
-                      </div>
-                      <div className="amenity-item">
-                        <CgSmartHomeRefrigerator className="icons-div" />
-                        <p className="room-title" >Refrigerator</p>
-                        <span>{room.hasRefridge ? 'Available' : 'Not Available'}</span>
-                      </div>
+                      <p className="room-title" >AC</p>
+                      <span>{room.hasAC ? 'Available' : 'Not Available'}</span>
+                    </div>
+                    <div className="amenity-item">
+                      <MdOutlineBalcony className="icons-div" />
+                      <p className="room-title" >Balcony</p>
+                      <span>{room.hasBalcony ? 'Available' : 'Not Available'}</span>
+                    </div>
+                    <div className="amenity-item">
+                      <PiTelevisionSimpleFill className="icons-div" />
+                      <p className="room-title" >TV</p>
+                      <span>{room.hasTV ? 'Available' : 'Not Available'}</span>
+                    </div>
+                    <div className="amenity-item">
+                      <TiWiFi className="icons-div" />
+                      <p className="room-title" >Wi-Fi</p>
+                      <span>{room.hasWifi ? 'Available' : 'Not Available'}</span>
+                    </div>
+                    <div className="amenity-item">
+                      <CgSmartHomeRefrigerator className="icons-div" />
+                      <p className="room-title" >Refrigerator</p>
+                      <span>{room.hasRefridge ? 'Available' : 'Not Available'}</span>
                     </div>
                   </div>
-                );
-              }
-            })
+                </div>
+              );
+            }
+          })
+        }
+      </div>
+
+      {/* for booking form */}
+      <div className="booking-section">
+
+        {/* for start date */}
+        <div className="date-picker">
+          <label className="label">
+            Check-in Date
+          </label>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DateCalendar
+              date={startDate}
+              onChange={(newDate) => setStartDate(newDate)}
+            />
+          </LocalizationProvider>
+        </div>
+
+        {/* for end date */}
+        <div className="date-picker">
+          <label className="label">Check-out Date</label>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DateCalendar
+              date={endDate}
+              onChange={(newDate) => setEndDate(newDate)}
+            />
+          </LocalizationProvider>
+        </div>
+
+        <div className="booking-third-section">
+
+          <div className="third-section-label">
+            Select Method of Payment
+          </div>
+
+          <div className="third-second-field">
+            <label>
+              <input
+                type="radio"
+                value="Cash"
+                checked={paymentMethod === "Cash"}
+                onChange={() => setPaymentMethod("Cash")}
+              />
+              <span className="radio-label">Cash On Arrival</span>
+            </label>
+            <label>
+              <input
+                type="radio"
+                value="khalti"
+                checked={paymentMethod === "khalti"}
+                onChange={() => setPaymentMethod("khalti")}
+              />
+              <span className="radio-label">Khalti</span>
+            </label>
+          </div>
+
+          <div className="third-section-label">
+            Confirmation Details
+          </div>
+          {
+
+            <div className="booked-details">
+              <p style={{ marginBottom: '10px' }}>User Name: {userName}</p>
+              <p style={{ marginBottom: '10px' }}>Check-in Date: {startDate ? dayjs(startDate).format("DD-MM-YYYY") : null}</p>
+              <p style={{ marginBottom: '10px' }}>Check-out Date: {endDate ? dayjs(endDate).format("DD-MM-YYYY") : null}</p>
+              <p style={{ marginBottom: '10px' }}>Room Price Per Night: {preOrderPrice}</p>
+              <p style={{ marginBottom: '10px' }}>Payment Method: {paymentMethod}</p>
+            </div>
+
+          }
+
+        </div>
+
+        {/* for fourth section */}
+        <div className="fourth-section-field">
+          <div class="business-rule">
+            <div className="business-title">
+              <strong>Business Rule:</strong>
+            </div>
+            <div>
+              When booking a room from the website, ensure that:
+              <ul>
+                <li>The selected dates for booking are valid and available.</li>
+                <li>The payment process is secure and compliant with industry standards.</li>
+                <li>Within first 12 hours of booking, our receptionist will contact you.</li>
+              </ul>
+            </div>
+          </div>
+          {
+
+            <div className="booked-details">
+
+              <button className="btn btn-primary"
+                onClick={bookRoom}
+              >
+                Book Now
+              </button>
+            </div>
+
           }
         </div>
 
-        {/* for booking form */}
-        <div className="booking-section">
 
-          {/* for start date */}
-          <div className="date-picker">
-            <label className="label">
-              Check-in Date
-            </label>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DateCalendar
-                date={startDate}
-                onChange={(newDate) => setStartDate(newDate)}
-              />
-            </LocalizationProvider>
-          </div>
+      </div>
 
-          {/* for end date */}
-          <div className="date-picker">
-            <label className="label">Check-out Date</label>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DateCalendar
-                date={endDate}
-                onChange={(newDate) => setEndDate(newDate)}
-              />
-            </LocalizationProvider>
-          </div>
-
-          <div className="booking-third-section">
-
-            <div className="third-first-field">
-              <label className="label">Enter Number of People</label>
-              <br />
-              <input
-                type="text"
-                value={numberOfGuests}
-                onChange={(e) => setNumberOfGuests(e.target.value)}
-              />
-            </div>
-
-            <div className="third-second-field">
-              <label>
-                Select Method of Payment
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value="Cash"
-                  checked={paymentMethod === "Cash"}
-                  onChange={() => setPaymentMethod("Cash")}
-                />
-                <span className="radio-label">Cash On Arrival</span>
-              </label>
-              <br />
-              <label>
-                <input
-                  type="radio"
-                  value="khalti"
-                  checked={paymentMethod === "khalti"}
-                  onChange={() => setPaymentMethod("khalti")}
-                />
-                <span className="radio-label">Khalti</span>
-              </label>
-            </div>
-
-          </div>
-
-          {/* for fourth section */}
-          {/* for fourth section */}
-          <div className="fourth-section-field">
-            <p>Confirmation Details </p>
-            {
-
-              <div className="booked-details">
-                <p style={{ marginBottom: '10px' }}>User Name: {userName}</p>
-                <p style={{ marginBottom: '10px' }}>Check-in Date: {startDate ? dayjs(startDate).format("DD-MM-YYYY") : null}</p>
-                <p style={{ marginBottom: '10px' }}>Check-out Date: {endDate ? dayjs(endDate).format("DD-MM-YYYY") : null}</p>
-                <p style={{ marginBottom: '10px' }}>Number of Guests: {numberOfGuests}</p>
-                <p style={{ marginBottom: '10px' }}>Room Price Per Night: {preOrderPrice}</p>
-                <p style={{ marginBottom: '10px' }}>Payment Method: {paymentMethod}</p>
-                <button className="btn btn-primary"
-                  onClick={bookRoom}
-                >
-                  Book Now
-                </button>
-              </div>
-
-            }
-          </div>
-
-
-        </div>
-
-      </div >
-    );
-  }
+    </div >
+  );
+}

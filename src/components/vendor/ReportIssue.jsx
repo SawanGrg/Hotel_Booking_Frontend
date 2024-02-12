@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import './ReportIssue.css';
 import { postReportIssueData } from '../../services/vendor/PostReportIssueAPI';
+import JoditEditor from 'jodit-react';
 
 const ReportIssue = () => {
 
@@ -25,6 +26,12 @@ const ReportIssue = () => {
         }
     };
 
+        // Configuring JoditEditor toolbar to include only bold and italic options
+        // const editorConfig = {
+        //     toolbarAdaptive: false,
+        //     toolbar: false,
+        //     buttons: 'bold,italic',
+        // };
     return (
         <div >
             <Toaster
@@ -66,12 +73,15 @@ const ReportIssue = () => {
 
                 <div>
                     <label className="report-title">Describe the issue:</label>
-                    <textarea
-                        className="report-description"
-                        placeholder="Enter details about the issue"
+                    <JoditEditor
                         value={description}
-                        onChange={(e) => setDescription(e.target.value)}
+                        // config={editorConfig}
+                        tabIndex={1}
+                        onChange={value => setDescription(value)}
                     />
+                    {
+                        description
+                    }
                 </div>
 
                 <div>
