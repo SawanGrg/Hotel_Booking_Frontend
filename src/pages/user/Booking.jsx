@@ -18,6 +18,7 @@ import { Toaster } from "react-hot-toast";
 import getAllRoomData from "../../services/user/GetAllRoomData";
 import "./Bookings.css";
 import { postBookRoom } from "../../services/user/PostBookRoomAPI";
+import KhaltiCheckout from "khalti-checkout-web";
 
 export default function Booking() {
 
@@ -69,26 +70,76 @@ export default function Booking() {
       return;
     }
 
-    const bookingData = {
-      hotelId: hotelId,
-      roomId: roomId,
-      startDate: dayjs(startDate).format("DD-MM-YYYY"),
-      endDate: dayjs(endDate).format("DD-MM-YYYY"),
-      numberOfGuests: numberOfGuests,
-      paymentMethod: paymentMethod,
-      userName: userName
-    };
-
-    console.log(bookingData);
-
-    // Add further processing or API calls here
-    const res = postBookRoom(roomId, startDate, endDate, numberOfGuests, paymentMethod, userName);
-
-    if (res.message != "Success") {
-      toast.success("Room booked successfully");
-      return;
+    if (paymentMethod == "") {
+      toast.error("Please, select payment method")
     }
-    toast.error("Room booking failed");
+
+    if (paymentMethod == "Cash") {
+
+
+
+      const bookingData = {
+        hotelId: hotelId,
+        roomId: roomId,
+        startDate: dayjs(startDate).format("DD-MM-YYYY"),
+        endDate: dayjs(endDate).format("DD-MM-YYYY"),
+        numberOfGuests: numberOfGuests,
+        paymentMethod: paymentMethod,
+        userName: userName
+      };
+
+      console.log(bookingData);
+
+      // Add further processing or API calls here
+      const res = postBookRoom(roomId, startDate, endDate, numberOfGuests, paymentMethod, userName);
+
+      if (res.message != "Success") {
+        toast.success("Room booked successfully");
+        return;
+      }
+      toast.error("Room booking failed");
+      
+    }else if (paymentMethod == "khalti"){
+
+      console.log("khalti payment initial");
+
+      // Khalti checkout configuration
+      let config = {
+        publicKey: "test_public_key_2159d562967b41798e8bec07a8bbc2b5", // Use live public key
+        productIdentity: 12, // Update with your product identity
+        productName: "Your Product Name", // Update with your product name
+        productUrl: "https://yourproducturl.com", // Update with your product URL
+        eventHandler: {
+          onSuccess(payload) {
+            // hit merchant API for initiating verification
+            console.log(payload);
+            // Proceed with booking after successful payment
+            
+            // if (res.message === "Success") {
+            //   toast.success("Room booked successfully");
+            // } else {
+            //   toast.error("Room booking failed");
+            // }
+          },
+          onError(error) {
+            // handle errors
+            console.log(error);
+            toast.error("Payment failed");
+          },
+          onClose() {
+            console.log("Widget is closing");
+          }
+        },
+        paymentPreference: ["KHALTI"]
+      };
+    
+      // Create Khalti checkout instance
+      let checkout = new KhaltiCheckout(config);
+    
+      // Show Khalti checkout on button click
+      checkout.show({ amount: 1000});
+
+    }
   };
 
   return (
