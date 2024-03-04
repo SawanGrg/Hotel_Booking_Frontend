@@ -23,6 +23,8 @@ import { CgSmartHomeRefrigerator } from "react-icons/cg";
 import toast, { Toaster } from "react-hot-toast";
 import Slider from 'rc-slider';
 import { postRoomFilter } from "../../services/user/PostRoomFilterAPI";
+import Chatting from "./Chatting";
+
 
 
 export default function SpecificHotel() {
@@ -655,6 +657,11 @@ export default function SpecificHotel() {
                     ))
                     }
                 </div>
+            </div>
+
+            {/* chatting section */}
+            <div>
+                <Chatting hotelId={hotelId} />
             </div>
         </div >
     );

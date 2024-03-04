@@ -22,7 +22,7 @@ import KhaltiCheckout from "khalti-checkout-web";
 
 export default function Booking() {
 
-  const currentDate = dayjs().format("DD-MM-YYYY");
+  const currentDate = dayjs().format("DD-MM-YYYY"); // Get current date
   const userName = localStorage.getItem("userData").replace(/['"]+/g, '');
 
   const { hotelId, roomId, roomPrice } = useParams();
@@ -60,15 +60,15 @@ export default function Booking() {
 
     console.log(currentDate);
 
-    if (dayjs(startDate).format("DD-MM-YYYY") <= currentDate) {
-      toast.error("Start date must be later than today");
-      return;
-    }
+    // if (dayjs(startDate).format("DD-MM-YYYY") <= currentDate) {
+    //   toast.error("Start date must be later than today");
+    //   return;
+    // }
 
-    if (dayjs(endDate).format("DD-MM-YYYY") < dayjs(startDate).format("DD-MM-YYYY")) {
-      toast.error("End date must be later than start date");
-      return;
-    }
+    // if (dayjs(endDate).format("DD-MM-YYYY") < dayjs(startDate).format("DD-MM-YYYY")) {
+    //   toast.error("End date must be later than start date");
+    //   return;
+    // }
 
     if (paymentMethod == "") {
       toast.error("Please, select payment method")

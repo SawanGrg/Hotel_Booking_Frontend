@@ -1,29 +1,35 @@
 import React, { useState, useEffect } from 'react';
 
-function UserBookings( hotelId) {
+function Chatting( {hotelId}) {
 
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState('');
   const [webSocket, setWebSocket] = useState(null);
 
   useEffect(() => {
-
-
     const socket = new WebSocket(`ws://localhost:8080/chat/${hotelId}`);
-
+  
     socket.onopen = () => {
       console.log('WebSocket connected');
     };
-
+  
     socket.onmessage = (event) => {
       const receivedMessage = event.data;
       setMessages(prevMessages => [...prevMessages, receivedMessage]);
     };
-
+  
+    socket.onclose = () => {
+      console.log('WebSocket connection closed');
+    };
+  
+    socket.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+  
     setWebSocket(socket);
-
-
-  }, []);
+  
+  }, [hotelId]);
+  
 
   const handleMessageChange = (event) => {
     setMessageInput(event.target.value);
@@ -35,9 +41,10 @@ function UserBookings( hotelId) {
       setMessageInput('');
     }
   };
+  
 
   return (
-    <div className='pt-40'>
+    <div className=''>
       <h1 className='text-3xl font-bold text-center'>User Bookings</h1>
 
       <div>
@@ -59,4 +66,4 @@ function UserBookings( hotelId) {
   );
 }
 
-export default UserBookings;
+export default Chatting;

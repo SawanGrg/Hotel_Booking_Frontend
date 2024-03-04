@@ -53,11 +53,17 @@ const VendorNav = () => {
                                 view Rooms
                             </div>
                         </Link>
-                        <Link to="#" className="nav-booking">
+                        <Link to="/booking" className="nav-booking">
                             <div className="nav-item">
                                 {/* <FaBookmark className='vendor-icons' /> */}
                                 <CiBookmarkCheck className='vendor-icons'/>
                                 Bookings</div>
+                        </Link>
+                        <Link to="/chat" className="nav-booking">
+                            <div className="nav-item">
+                                {/* <FaBookmark className='vendor-icons' /> */}
+                                <CiBookmarkCheck className='vendor-icons'/>
+                                Chats</div>
                         </Link>
                         <Link to="/report-issue" className="nav-booking">
                             <div className="nav-item">
