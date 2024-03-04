@@ -2,12 +2,15 @@ import React from 'react'
 import './PageNotFound.css'
 
 function PageNotFound() {
+  
   return (
-    <div className='pt-40'>
-        <div>
-          <img src='/assets/PageNotFoundImage.jpg' alt='PageNotFound' />
+    <div>
+      {/* for image */}
+        <div className='imageStyle'>
+          <img src='/assets/NoRecord.jpg' alt='PageNotFound' />
         </div>
-        <div className='return'>
+        {/* go back to home */}
+        <div className='returnHome'>
                 <a href='/'>Back to Home</a>
         </div>
 

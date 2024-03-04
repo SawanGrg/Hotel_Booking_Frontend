@@ -7,9 +7,54 @@
     color: #000000;
     text-align: center;
 }
-.hotel-main-container{
+.content-parent-div {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 4fr; /* Half the size of the second div */
+    gap: 20px;
+}
+
+/* for parent hotel filter container */
+.parent-filter-container{
+    border-right: #000000 1.5px solid;
+    padding: 10px;
+    margin: 10px;
+}
+.hotel-filter-text{
+    font-weight: bolder;
+    color: #000000;
+    text-align: center;
+    font-size: larger;
+    margin: 10px 10px;
+    padding: 10px 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add box shadow with light black color */
+    background-color: #dbcccc;
+    border-radius: 5px;
+}
+.hotel-name{
+    color: #000000;
+    text-align: center;
+    font-size: large;
+}
+.search-hotel-by-name{
+    margin: 10px 10px;
+    padding: 10px 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add box shadow with light black color */
+    background-color: #dbcccc;
+    border-radius: 5px;
+}
+.search-hotel-by-name input{
+    width: 100%;
+    padding: 4px;
+    border-radius: 10px;
+    border: 1px solid #000000;
+}
+
+
+/* for parent hotel main container */
+
+.hotel-main-container{
+    display: flex;
+    flex-direction: column;
     gap: 50px;
     
 }

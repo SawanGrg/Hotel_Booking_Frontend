@@ -1,0 +1,35 @@
+.imageStyle{
+    width: 96%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    
+    /* object-fit: cover;
+    object-position: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    opacity: 0.5;
+    filter: blur(5px);
+    transform: scale(1.1);
+    transition: all 0.5s; */
+}
+.returnHome{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.returnHome a{
+    height: 38px;
+    width: 200px;
+    background-color: #518ec0;
+    text-align: center;
+    font-size: larger;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: 0.5s;
+    
+}
