@@ -208,3 +208,59 @@ h1{
     top: 39.5%;
     left: 40%;
 }
+.topper{
+    border-top: #000 2px solid;
+
+}
+.parent-review-section{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 12px;
+}
+.post-review{
+    display: flex;
+    flex-direction: column;
+    justify-content:start;
+    align-items: start;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 12px;
+    background-color: rgb(64, 189, 223);
+    height: 200px;
+    margin-top: 38px;
+}
+.post-review textarea{
+    border-radius: 12px;
+    padding: 15px;
+}
+.dynamic-review{
+    display: flex;
+    flex-direction: column;
+
+}
+.review-heading{
+    font-weight: bolder;
+    color: #000;
+    text-align: center;
+    font-size: larger;
+}
+.review {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: left;
+    gap: 10px;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6); /* Darker and black box shadow */
+}
+.comment-by{
+    display: flex;
+    gap: 10px;
+    justify-content: left;
+    align-items: center;
+}

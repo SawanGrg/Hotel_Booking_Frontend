@@ -23,12 +23,12 @@ const VendorNav = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         localStorage.removeItem("role");
-        window.location.href = "/vendor";
+        window.location.href = "/login";
     }
 
     return (
         <div>
-            <div className="main">
+            <div className="vendor-left-main">
                 <div className="nav-main-container">
                     <div className="nav-left-container">
                         <h4>Vendor Panel</h4>

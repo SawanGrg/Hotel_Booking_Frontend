@@ -1,0 +1,66 @@
+.main-blog-holder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 180px;
+  height: 60vh;
+}
+
+.post-blog-holder {
+  width: 900px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #f4f4f4;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.post-blog-holder h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: bold;
+}
+
+input[type="text"],
+textarea,
+input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+/* .form-group button {
+  padding: 10px;
+  text-align: right;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+} */
+
+/* button:hover {
+    background-color: #0056b3;
+} */
+
+/* Style for select tag */
+select {
+  padding: 8px 15px; /* Add padding for better spacing */
+  font-size: 16px; /* Increase font size for better readability */
+  border: 1px solid #ccc; /* Add border to the select */
+  border-radius: 5px; /* Add border radius for rounded corners */
+  background-color: #f8f8f8; /* Add background color */
+  outline: none; /* Remove outline on focus */
+}
+.blogCategory{
+    margin-left: 30px;
+}

@@ -1,0 +1,137 @@
+.contact-parent-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 130px;
+}
+
+.contact-div-holder {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    max-width: 1400px; /* Limiting maximum width for larger screens */
+    padding: 20px;
+    border-radius: 10px;
+    gap: 50px; /* Reduced gap for better alignment */
+}
+
+.contact-image {
+    height: 600px;
+
+    width: auto; /* Allowing image width to adjust according to height */
+    max-width: 100%; /* Ensuring image does not exceed parent width */
+    object-fit: cover; /* Improved object fit to cover the container */
+}
+
+.right-contact-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start; /* Aligning form items to the start */
+    width: 600px;
+    padding: 30px; /* Increased padding for better spacing */
+    border-radius: 12px;
+    background-color: #f0f7f7; /* Softened background color */
+}
+
+.right-contact-div h1 {
+    font-size: 1.8rem; /* Larger font size for the header */
+    margin-bottom: 20px; /* Added spacing below header */
+}
+
+.right-contact-div label {
+    font-size: 1.2rem; /* Larger font size for labels */
+}
+
+.right-contact-div input,
+.right-contact-div textarea {
+    width: 100%; /* Making input fields fill the container */
+    padding: 10px; /* Increased padding for better readability */
+    font-size: 1rem; /* Adjusted font size for input fields */
+    border: 1px solid #cbbaba; /* Added border for input fields */
+    border-radius: 5px; /* Rounded corners for input fields */
+    margin-top: 5px; /* Added spacing above input fields */
+}
+
+.right-contact-div button {
+    padding: 10px 20px; /* Increased padding for button */
+    font-size: 1.2rem; /* Larger font size for button */
+    background-color: #4CAF50; /* Green button color */
+    color: white; /* White text color */
+    border: none; /* Removed button border */
+    border-radius: 5px; /* Rounded corners for button */
+    cursor: pointer; /* Added pointer cursor */
+}
+
+.right-contact-div button:hover {
+    background-color: #45a049; /* Darker green color on hover */
+}
+
+.get-in-touch{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+}
+.real-fields{
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: left;
+    padding: 20px;
+    width: 100%;
+}
+
+/* css for FAQ */
+.second-contact-us{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    border-top: #0d0d0e 3px solid;
+    margin: 20px;
+}
+.FAQ-header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    padding-top: 30px;
+    margin-bottom: 30px;
+}
+.FAQ{
+    display: flex;
+    flex-direction: column;
+    justify-content:left;
+    align-items: left;
+    margin-bottom: 30px;
+}
+.FAQ-Question{
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 30px;
+    background-color: beige;
+    border-radius: 12px;
+    width: 1400px;
+}
+.FAQ-Answer{
+    display: flex;
+    flex-direction: row;
+    font-size: 18px;
+    padding: 10px 30px;
+    background-color: #f0f7f7;
+    border-radius: 12px;
+    width: 1400px;
+    margin-bottom: 20px;
+}

@@ -7,9 +7,14 @@ import { getAllHotelData } from '../../services/user/GetAllHotelAPI';
 import { getHotelDetails } from '../../services/user/GetDynamicFilter';
 import PageNotFound from '../../components/user/PageNotFound';
 import { set } from 'react-hook-form';
+import { FaLocationDot } from "react-icons/fa6";
+import { BiSolidContact } from "react-icons/bi";
+import { MdDescription } from "react-icons/md";
+import { FaStar } from "react-icons/fa6";
+import { MdRoomService } from "react-icons/md";
+
 
 export default function Hotel() {
-
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -20,35 +25,41 @@ export default function Hotel() {
   console.log('paramHotelLocation: from com', paramHotelLocation);
 
 
+  //used for the api data
   const [hotelData, setHotelData] = useState([]);
 
+  // used for filter such as hotel name, location, rating
   const [hotelName, setHotelName] = useState('');
   const [hotelLocation, setHotelLocation] = useState('');
-  const [userRating, setUserRating] = useState('');
-
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchDataFromHomePage = async () => {
       try {
-        console.log('hotelName: hhehe', paramHotelName);
-        console.log('hotelLocation: heheh', paramHotelLocation);
-        const data = await getHotelDetails(paramHotelName, paramHotelLocation);
-        setHotelData(data);
+        const data = await getAllHotelData(paramHotelName, paramHotelLocation);
+        setHotelData(data.body);
       } catch (error) {
-        console.error('Error fetching hotel data:', error);
+        console.error('Error fetching hotel data: from search hitting', error);
       }
     };
 
-    fetchData();
-  }, [paramHotelName, paramHotelLocation]); // Include dependencies here
+    fetchDataFromHomePage();
+  }, [paramHotelName || paramHotelLocation]);
+
+  useEffect(() => {
+    const fetchDataFromThisPage = async () => {
+      try {
+        const data = await getAllHotelData(hotelName, hotelLocation);
+        setHotelData(data.body);
+      } catch (error) {
+        console.error('Error fetching hotel data: from search hitting', error);
+      }
+    };
+
+    fetchDataFromThisPage();
+  }, [hotelName || hotelLocation]);
 
   return (
     <div className='main-container'>
-
-      {/* div for title */}
-      <div className='name'>
-        <h1>Hotels Available</h1>
-      </div>
 
       {/* content parent div */}
       <div className='content-parent-div'>
@@ -61,7 +72,7 @@ export default function Hotel() {
           </div>
 
           <div className='search-hotel-by-name'>
-            <div className='hotel-name'>
+            <div className='hotel-section'>
               <label>Hotel Name</label>
             </div>
             <input
@@ -73,7 +84,7 @@ export default function Hotel() {
           </div>
 
           <div className='search-hotel-by-name'>
-            <div className='hotel-name'>
+            <div className='hotel-section'>
               <label>Hotel Location</label>
             </div>
             <input
@@ -86,36 +97,99 @@ export default function Hotel() {
 
         </div>
 
-        {/* div for hotel details */}
-        <div className='hotel-main-container'>
+        {/* div for main hotel page */}
+        <div className='parent-hotel-container'>
           {hotelData.length === 0 ? (
             <PageNotFound />
           ) : (
             hotelData.map((hotel) => (
-              <div className='hotel-container' key={hotel.hotelPan}>
-                <div className='hotel-image'>
-                  <img src={`${BaseUrl}/images/${hotel.hotelImage}`} alt={hotel.hotelName} />
-                </div>
-                <div className='hotel-details'>
-                  <p> Hotel Name</p>
-                  <h2>{hotel.hotelName}</h2>
-                  <p> address </p>
-                  <h4> {hotel.hotelAddress}</h4>
-                  <h4> PAN number : {hotel.hotelPan}</h4>
-                  <h4> Contact : {hotel.hotelContact}</h4>
-                  <div className='explore-button'>
-                    <Link to={`/hotel/${hotel.hotelId}`}>
-                      <button>
-                        <span>Explore More</span>
-                        <img src='/assets/arrow.png' alt='' />
-                      </button>
-                    </Link>
+              <Link to={`/hotel/${hotel.hotelId}`} key={hotel.hotelId}>
+                <div className='hotel-details-holder' key={hotel.hotelId}>
+                  {/*  div for hotel image */}
+                  <div className='hotel-image-container'>
+                    <img
+                      src={`${BaseUrl}/images/${hotel.hotelImage}`}
+                      alt='hotel'
+                      className='hotel-image'
+                    />
                   </div>
-                </div>
-              </div>
-            ))
-          )}
+
+                  {/* div for hotel details such as name, location, contact */}
+                  <div className='second-div'>
+
+                    {/* for hotel name */}
+                    <div>
+                      <h1>{hotel.hotelName}</h1>
+                    </div>
+
+                    {/* for hotel location */}
+                    <div className='second-div-content'>
+                      <FaLocationDot
+                        className='react-icons'
+                      />
+                      Location : {hotel.hotelAddress}
+                    </div>
+
+                    {/* for hotel contact */}
+                    <div className='second-div-content'>
+                      <BiSolidContact
+                        className='react-icons'
+                      />
+                      Contact : {hotel.hotelContact}
+                    </div>
+
+                    {/* hotel description */}
+                    <div className='second-div-content'>
+                      <div>
+
+                        {/* <MdDescription
+                className='descripton-react-icons'
+                /> */}
+                      </div>
+                      {hotel.hotelDescription}
+                    </div>
+
+
+                  </div>
+
+
+                  {/* div for average review, Amenties provided, highest and lowest price */}
+                  <div className='second-third-div'>
+                    {/* div for average review */}
+                    <div className='third-div-content'>
+                      <FaStar
+                        className='react-icons'
+                      />
+                      Average Review : 4.5
+                    </div>
+
+                    {/* div for hotel amenties */}
+                    <div className='third-div-content'>
+                      <MdRoomService
+                        className='react-icons'
+                      />
+                      Amenties Provided:
+                    </div>
+
+                    <div className='amenties-list'>
+                      <ul>
+                        {hotel.hasWifi && <li>Free Wifi</li>}
+                        {hotel.hasFridge && <li> Room with Mini Fridge</li>}
+                        {hotel.hasAC && <li> Room with Air Condition</li>}
+                        {hotel.hasTV && <li>Room with Television</li>}
+                        {hotel.hasBalcony && <li>Room with Balcony</li>}
+                      </ul>
+                    </div>
+
+
+                  </div>
+                </div >
+              </Link>
+            )))}
         </div>
+
+
+
       </div>
 
 

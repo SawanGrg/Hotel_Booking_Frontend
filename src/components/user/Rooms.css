@@ -1,19 +1,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
 
-/* body {
+body {
     font-family: "Poppins", sans-serif;
     margin: 0 auto;
-  } */
+  } 
 
 .container {
   max-width: 100%;
-  margin-top: 120px;
+  margin-top: 30px;
   box-sizing: border-box;
   overflow: hidden;
+  border-top: #112434 
 }
 
 .room {
-  margin-top: 30px;
+  margin-bottom: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,13 +24,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 70px;
-  width: 88%;
+  width: 100%;
+  gap: 60px;
+  margin-bottom: 30px;
 }
 
 .room-grid {
-  height: 420px;
-  width: 285px;
+  height: 460px;
+  width: 355px;
   margin-left: 25px;
   border: 1px solid #112434;
   border-radius: 20px;
@@ -42,31 +44,39 @@
 }
 
 .room-grid #room-photo {
-  height: 200px;
-  width: 285px;
+  height: 220px;
+  width: 353px;
   border-top-right-radius: 19px;
   border-top-left-radius: 19px;
-  margin-bottom: 40px;
+  margin-bottom: 18px;
 }
 
-.room-type {
-  display: flex;
-  justify-content: left;
-  align-items: flex-start;
-  margin: 0 20px;
-}
-
-.room-price {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 0 20px;
-}
-
-.room-detail {
+.hotel-name{
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 0 20px;
+  font-weight: bold;
+}
+.room-detail {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-top: 10px;
+}
+.hotel-location{
+  display: flex;
+  justify-content: left;
+  padding-left: 20px;
+
+}
+.aligning{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-right: 12px;
+  margin-bottom: 12px;
 }
 
 .room-detail button {
@@ -79,7 +89,7 @@
   height: 40px;
   border-radius: 20px;
   cursor: pointer;
-  margin-top: 50px;
+  margin-left: 46px;
 }
 
 @media only screen and (max-width: 1230px) {

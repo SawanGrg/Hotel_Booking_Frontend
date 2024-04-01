@@ -1,12 +1,12 @@
-.main {
+/* .main {
   display: grid;
   grid-column: 1fr;
   padding: 14px;
   margin: 50px 50px;
   gap: 20px;
   height: full;
-  /* background-color: rgb(241, 245, 252); */
-}
+  background-color: rgb(241, 245, 252);
+} */
 
 .nav-main-container {
   display: flex;

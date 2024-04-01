@@ -1,48 +1,59 @@
-.main-container{
+.main-container {
     margin-top: 150px;
 }
-.name{
-    font-size:x-large;
+
+.name {
+    font-size: x-large;
     font-weight: bold;
     color: #000000;
     text-align: center;
 }
+
 .content-parent-div {
     display: grid;
-    grid-template-columns: 1fr 4fr; /* Half the size of the second div */
+    grid-template-columns: 0.80fr 3fr;
+    /* Half the size of the second div */
     gap: 20px;
 }
 
 /* for parent hotel filter container */
-.parent-filter-container{
+.parent-filter-container {
     border-right: #000000 1.5px solid;
     padding: 10px;
     margin: 10px;
 }
-.hotel-filter-text{
+
+.hotel-filter-text {
     font-weight: bolder;
     color: #000000;
     text-align: center;
     font-size: larger;
     margin: 10px 10px;
     padding: 10px 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add box shadow with light black color */
-    background-color: #dbcccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Add box shadow with light black color */
+    background-color: #e9e6e6;
     border-radius: 5px;
 }
-.hotel-name{
-    color: #000000;
+
+.hotel-section{
     text-align: center;
-    font-size: large;
-}
-.search-hotel-by-name{
+    font-size: 18px;
+    font-weight: bold;
     margin: 10px 10px;
+}
+
+.search-hotel-by-name {
+    margin: 14px 10px;
     padding: 10px 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add box shadow with light black color */
-    background-color: #dbcccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Add box shadow with light black color */
+    background-color: #e9e6e6;
+
     border-radius: 5px;
 }
-.search-hotel-by-name input{
+
+.search-hotel-by-name input {
     width: 100%;
     padding: 4px;
     border-radius: 10px;
@@ -50,15 +61,98 @@
 }
 
 
-/* for parent hotel main container */
+/* for parent hotel main container  second update*/
+.parent-hotel-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    gap: 25px;
+    margin: 15px;
 
-.hotel-main-container{
+}
+
+.hotel-details-holder{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 25px;
+    margin: 25px;
+    padding: 20px;
+    border: 1px solid #112434;
+    /* transition is used to add animation to the element like transform, opacity, etc. */
+    transition: 0.5s transform ease;
+    box-shadow: 2px 2px 2px 2px #888888;
+    border-radius: 10px;
+}
+
+.hotel-image-container {
+    display: block;
+    height: 300px; /* or any other unit you prefer */
+    width: 550px; /* or any other unit you prefer */
+   
+    overflow: hidden;
+    object-fit: fill;
+    
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.3);
+}
+
+.second-div{
+    display: flex;
+    flex-direction: column;
+    justify-content:left;
+    gap: 5px;
+    border-left: #000000 1.5px solid;
+    border-right: #000000 1.5px solid;
+}
+.second-div-content{
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    gap: 5px;
+    padding: 10px;
+
+}
+.react-icons{
+    height: 30px;
+    width: 30px;
+}
+
+/* third div */
+.second-third-div{
+    display: flex;
+    flex-direction: column;
+    justify-content:left;
+    gap: 5px;
+    border-right: #000000 1.5px solid;
+}
+.third-div-content{
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    gap: 5px;
+    padding: 10px;
+    
+}
+.amenties-list{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 2px;
+    border-radius: 10px;
+}
+/* for parent hotel main container third update */
+
+.hotel-main-container {
     display: flex;
     flex-direction: column;
     gap: 50px;
-    
+
 }
-.hotel-container{
+
+.hotel-container {
     background-color: rgb(210, 219, 219);
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -70,30 +164,35 @@
     box-shadow: 2px 2px 2px 2px #888888;
     border-radius: 10px;
 }
-.hotel-container:hover{
+
+.hotel-container:hover {
     /* transform is used to move the element from its original position */
-    transform: translateY(-8px); 
+    transform: translateY(-8px);
 }
-.hotel-image img{
+
+.hotel-image img {
     width: 300px;
     height: 300px;
     border-radius: 10px;
     margin: 10px;
 }
-.hotel-details{
+
+.hotel-details {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 5px;
 }
-.explore-button{
+
+.explore-button {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
 }
-.explore-button button{
+
+.explore-button button {
     background-color: #112434;
     color: white;
     display: flex;
@@ -105,9 +204,10 @@
     cursor: pointer;
     margin-top: 50px;
 }
+
 /* responsive hotel page */
-@media only screen and (max-width: 768px){
-    .hotel-container{
+@media only screen and (max-width: 768px) {
+    .hotel-container {
         grid-template-columns: 1fr;
     }
 }

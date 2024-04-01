@@ -4,7 +4,7 @@ import './LandingLayoutCss.css'
 export default function VendorLandingLayout({ children }) {
     return (
         <div className='main-layout'>
-            <div className='left-layout'>
+            <div className='vendor-left-layout'>
                 <VendorNav />
 
             </div>

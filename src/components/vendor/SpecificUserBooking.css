@@ -1,0 +1,59 @@
+.vendor-booking-main-holder{
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: left;
+    margin-top: 20px;
+    gap: 20px;
+
+}
+.vendor-user-details{
+    box-shadow: #000000 0px 0px 10px;
+    padding: 20px;
+    border-radius: 12px;
+}
+.vendor-user-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+.vendor-first-main-div{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-right: #000000 1px solid;
+
+}
+.vendor-first-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+
+}
+.vendor-profile-pic{
+    width: 200px;
+    height: 200px;
+    border-radius: 5%;
+    object-fit: cover;
+}
+.vendor-booking-title{
+    font-size: 20px;
+    font-weight: 550;
+}
+.room-details{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+}
+
+/* second booking details */
+.vendor-user-booking-details{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    box-shadow: #000000 0px 0px 10px;
+    padding: 20px;    
+    border-radius: 12px;
+}
+.modifying{
+    margin-top: 10px;
+}

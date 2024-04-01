@@ -1,0 +1,58 @@
+.room-header {
+    background-color: #d2d5dd;
+    font-weight: bold;
+    font-size: x-large;
+    padding: 5px;
+    /* margin: 0px 10px; */
+    border-radius: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+table{
+    width: 100%;
+    border-collapse: collapse;
+    background: #e5d3d3;
+    padding: 1rem;
+}
+th
+,td{
+    padding: 1rem;
+    margin: 4px;
+    text-align: center;
+    border-bottom: 1px solid #757575;
+}
+tr:nth-of-type(2n){
+    background: hsl(0 0% 0% / 0.10);
+}
+button{
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: none;
+    background: #cbb71f;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    margin: 0.5rem;
+}
+@media (max-width:600px){
+    th{
+        display: none;
+    }
+    td{
+        display: block;
+        padding: 0.5rem 1rem;
+    }
+    td:first-child{
+        padding-top: 1rem;
+    }
+    td:last-child{
+        padding-bottom: 1rem;
+    }
+    td::before{
+        content: attr(data-cell) ": ";
+        font-weight: bold;
+        text-transform: capitalize;
+    }
+    
+
+}

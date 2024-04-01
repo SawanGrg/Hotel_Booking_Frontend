@@ -1,0 +1,117 @@
+.main {
+    display: grid;
+    grid-column: 1fr;
+    padding: 14px;
+    margin: 50px 50px;
+    gap: 20px;
+    height: full;
+    /* background-color: rgb(241, 245, 252); */
+  }
+  
+  .nav-main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .nav-left-container {
+    margin: 20px;
+  }
+  .nav-right-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: left;
+    /* margin-right: 30px;
+    padding: 15px; */
+    gap: 30px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size: large;
+    font-size: larger;
+  
+  }
+  .nav-right-container a {
+    text-decoration: none;
+    color: black;
+  }
+  .nav-dashboard{
+    bottom: 2px solid black;
+  }
+  .nav-logout{
+    text-decoration: none;
+    color: black;
+    height: 90px;
+    width: 90px;
+    display: flex;
+    flex-direction: row;
+    height: 30px;
+    width: 140px;
+    padding-left: 5px;
+  }
+  .nav-item{
+    display: flex;
+    flex-direction:right;
+    justify-content: left;
+    align-items: center;
+    /* margin: 12px; */
+    gap: 10px;
+  }
+  .vendor-icons{
+    height: 40px;
+    width: 40px;
+  
+  }
+  .user-icons{
+    height: 30px;
+    width: 30px;
+  
+  }
+  @media screen and (max-width: 650px) {
+  
+    .main{
+      display: none;
+    }
+    .res-nav{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      margin: 20px;
+      gap: 20px;
+    }
+    .res-nav-right-container{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      /* margin-right: 30px; */
+      padding: 15px;
+      gap: 25px;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      font-size: large;
+      font-size: larger;
+    }
+    /* .res-positioning{
+      top: 0 ;
+      left: 0;
+      position: fixed;
+      height: 100vh;
+      width: 100vw;
+      background-color: rgb(60, 26, 139);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    } */
+    res-positioning{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  @media screen and (min-width: 650px) {
+    .res-nav{
+      display: none;
+    }
+  }

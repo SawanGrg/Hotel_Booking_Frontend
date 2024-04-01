@@ -1,122 +1,225 @@
-.conditional-rendering{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    margin: 20px;
-    justify-content: center;
-    align-items: center;
-    border-bottom: #000000 2px solid;
-}
-.profile-heading{
-    font-size: 25px;
-    font-weight: bold;
-    color: #000000;
-    margin: 0px 20px 20px 20px;
+.profile-image-holder {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 60vh;
+    width: 100%;
 }
-.profile-heading button{
-    margin-left: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    background: #95c8f5;
-    font-size: 1rem;
-    cursor: pointer;
+
+.profile-image-holder::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("D:\year 3\final year project\frontend\Hotel_Booking_Frontend\public\assets\mainBlog.jpg");
+    background-size: cover;
+    filter: blur(1.4px); /* Adjust the blur intensity as needed */
+    opacity: 1; /* Adjust the opacity to control the intensity of the blur */
+}
+
+.profile-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 120px;
+    position: relative;
+    z-index: 1;
+    font-size: 3rem;
     font-weight: bold;
-    width: 300px;
+    color: #f7f7f7;
+    text-align: center;
+    margin-bottom: 20px;
 }
-.second-div{
+.user-info{
     display: grid;
-    grid-template-columns: 1fr 1fr;
-}
-.second-inner-element-div{
-    padding: 0 140px;
-}
-.second-inner-element-div label{
-    font-size: 18px;
-    font-weight: bold;
-    color: #000000; 
-}
-.second-inner-element-div input{
-    width: 70%;
-    padding: 10px;
-    border: 2px solid #6c4747;
-    border-radius: 5px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-.image-input-field{
-    width: 70%;
-    padding: 10px;
-    border: 2px solid #6c4747;
-    border-radius: 5px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    grid-template-columns: 1fr 3fr;
+    grid-gap: 20px;
+    padding: 30px;
+    background-color: rgb(158, 239, 239);
 
 }
-.update-profile-button{
-    margin-top: 10px;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    background: #95c8f5;
-    font-size: 1rem;
-    cursor: pointer;
-    font-weight: bold;
-    width: 300px;
-
-}
-
-
-.third-div{
+.sidebar{
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    margin: 10px;
-    padding-top: 20px;
-    /* border-top: #000000 2px solid; */
-}
-.third-length-div{
-    width: 800px;
-    height: 480px;
+    align-items: left;
+    justify-content: left;
+    padding: 30px;
+    background-color: #f7f7f7;
     border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-.input-field-container {
-    border: 2px solid black; /* Border around input field div */
-    border-radius: 5px;
-    padding: 5px; 
-}
-.input-field {
-    width: 100%; 
+.side-bar-info{
+    display: flex;
+    flex-direction: row;
+    align-items: left;
+    justify-content: left;
     padding: 10px;
-    font-size: 16px;
-    border: none; /* Remove default input border */
-    outline: none; /* Remove outline */
+    margin: 10px;
+    background-color: #f7f7f7;
+    border-bottom: #000000 1px solid;
+    gap: 10px;
+    text-align: center;
 }
-.change-password-label{
-    font-size: 18px;
+.side-bar-icons{
+    height: 30px;
+    width: 30px;
+}
+.side-bar-title{
+    font-size: large;
     font-weight: bold;
-    color: #000000;
+    cursor: pointer;
+
 }
-.change-password-div {
+
+/* right bar */
+.rightbar{
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: left;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.right-title{
+    text-align: center;
+    font-size: larger;
+    font-weight: 900;
+    background-color: antiquewhite;
+    border-radius: 12px;
+    padding: 12px;    
+
+
+}
+.right-profile-holder{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 20px;
+}
+.right-title-holder{
     display: flex;
     flex-direction: column;
     justify-content: left;
-    align-items: left;
-    gap: 20px;
-    margin: 10px;
-}
-.change-password-button{
-    margin: 0.5rem;
-    padding: 0.5rem;
-    border-radius: 5px;
-    background: #95c8f5;
-    font-size: 1rem;
-    cursor: pointer;
-    font-weight: bold;
-    width: 300px;
+    align-content: left;
+    gap: 6px;
+    margin: 12px 0px;
+    padding: 6px;
+    border-radius: 12px;
 
 }
+.profile-title-holder{
+    display: flex;
+    justify-content: left;
+    align-content: left;
+    margin-bottom: 6px;
+}
+
+
+
+/* change user profile second div */
+.user-profile-second-div{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 20px;
+    background-color: #f7f7f7;
+
+}
+.user-update-field{
+    width: 680px;
+    height: 50px;
+    border-radius: 4px;
+    padding: 6px;
+    background-color: #fbfbfb;
+    border: #ccc 1px solid;
+}
+.second-inner-element-div{
+    padding: 10px;
+}
+
+
+
+/* change password  third div */
+.third-div{
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: left;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 10px;
+}
+.change-password-label{
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: left;
+    font-size: large;
+    font-weight: bold;
+    margin: 10px;
+    padding: 12px 12px;
+    border-top: #000000 1px solid;
+}
+.forgot-input-field{
+    width: 400px;
+    padding: 0px 12px;
+    height: 40px;
+    margin-left : 20px;
+    margin-bottom: 8px;
+}
+.change-password-button{
+    text-align: center;
+    margin-left: 20px;
+    background-color: aqua;
+}
+
+
+
+/* user profile fourth div */
+.user-profile-fourth-div {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: left;
+  }
+  
+  .user-dynamic-data-holder {
+    max-height: 500px; /* Set a maximum height for scrollable area */
+    overflow-y: auto; /* Enable vertical scrolling */
+  }
+  
+  .dynamic-user-booking-details {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: left;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+    margin: 20px;
+  }
+  .user-profile-grid-holder {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+    gap: 20px;
+  }
+  
+  .user-profile-grid-holder div {
+    padding: 10px;
+  }
+  
+  .user-profile-grid-holder div {
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .user-profile-grid-holder div p {
+    margin: 5px 0;
+  }
+  

@@ -66,6 +66,7 @@ body {
     position: absolute;
     left: 10%;
     top: 20%;
+    margin: 0;
   }
   
   .login .form h3 {
@@ -75,7 +76,7 @@ body {
   
   #userName {
     width: 98%;
-    height: 25px;
+    height: 30px;
     border-color: #0d87ea;
     border-radius: 5px;
   }

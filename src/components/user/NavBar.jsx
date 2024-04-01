@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./NavBar.css";
 import { clearUserDetails } from "../../redux/user/userSlice";
 import { clearUserData } from "../../utils/authStorage";
@@ -13,9 +13,9 @@ export default function NavBar() {
   const dispatch = useDispatch();
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [userDetails, setUserDetails] = useState([]);
-
-  
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const location = useLocation();
 
   const toggleMobileNav = () => {
     setIsMobileNavOpen(!isMobileNavOpen);
@@ -35,7 +35,7 @@ export default function NavBar() {
     const fetchUserDetails = async () => {
       try {
         const response = await getSpecificUserDetails();
-        setUserDetails(response.body);
+        setUserDetails(response);
       } catch (error) {
         console.error("Error fetching user details:", error);
       }
@@ -50,55 +50,49 @@ export default function NavBar() {
       <header className="navbar">
         <div className="left">Annapurna</div>
         <nav className="right">
-
-          <Link to="/" className="nav active">
+          <Link to="/" className={`nav ${location.pathname === "/" && "active"}`}>
             Home
           </Link>
-          <Link to="/hotel" className="nav">
+          <Link to="/hotel" className={`nav ${location.pathname === "/hotel" && "active"}`}>
             Hotels
           </Link>
-          <Link to="/Blog" className="nav">
+          <Link to="/blog" className={`nav ${location.pathname === "/blog" && "active"}`}>
             Blog
           </Link>
-          {
-            selector ?
-            <Link to="/profile" className="nav">
-              Profile
-            </Link>
-            : null
-          }
-          {
-            selector ?
-            <Link to="/user-booking" className="nav">
-              Bookings
-            </Link>
-            : null
-          }
-          {
-          selector ? 
-          ( // If user data exists, show logout link
+          <Link to="/contact" className={`nav ${location.pathname === "/contact" && "active"}`}>
+            Contact Us
+          </Link>
+          {selector && (
+            <>
+              <Link to="/profile" className={`nav ${location.pathname === "/profile" && "active"}`}>
+                Profile
+              </Link>
+            </>
+          )}
+          {selector && (
             <span className="nav" onClick={logoutSubmit}>
               Logout
             </span>
-          ) : null
-          }
+          )}
         </nav>
         {selector ? (
-            <div className="nav" onClick={toggleDropdown}>
-              {userDetails ? (
-                <img
-                  src={`${BaseUrl}${userDetails.userProfilePicture}`}
-                  className="profile-pic"
-                  alt="Profile"
-                />
-              ) : null}
-              
-            </div>
-          ) : (
-            <Link to="/Login" className="nav">
-              Login
-            </Link>
-          )}
+          <div className="nav" onClick={toggleDropdown}>
+            {userDetails ? (
+              <img
+                src={`${BaseUrl}${userDetails.userProfilePicture}`}
+                className="profile-pic"
+                alt="Profile"
+              />
+            ) : 
+            <>
+            Register
+            </>}
+          </div>
+        ) : (
+          <Link to="/login" className={`nav ${location.pathname === "/login" && "active"}`}>
+            Login
+          </Link>
+        )}
 
         <div className="hamburger" onClick={toggleMobileNav}>
           <div className={`bar1 ${isMobileNavOpen ? "animateBar1" : ""}`}></div>
@@ -109,17 +103,27 @@ export default function NavBar() {
 
       {/* for responsive */}
       <nav className={`mobileNav ${isMobileNavOpen ? "openDrawer" : ""}`}>
-        {/* Replace anchor tags with Link components */}
-        <Link to="/home" className="active">
+        <Link to="/" className={`nav ${location.pathname === "/" && "active"}`}>
           Home
         </Link>
-        <Link to="/hotel">hotel</Link>
-        <Link to="/blog">Blog</Link>
-        <Link to="/gallery">Gallery</Link>
-        <Link to="/contact">Contact</Link>
-        <Link to="/login">Login</Link>
-        <Link to="/profile">Profile</Link>
-
+        <Link to="/hotel" className={`nav ${location.pathname === "/hotel" && "active"}`}>
+          Hotels
+        </Link>
+        <Link to="/blog" className={`nav ${location.pathname === "/blog" && "active"}`}>
+          Blog
+        </Link>
+        <Link to="/gallery" className={`nav ${location.pathname === "/gallery" && "active"}`}>
+          Gallery
+        </Link>
+        <Link to="/contact" className={`nav ${location.pathname === "/contact" && "active"}`}>
+          Contact
+        </Link>
+        <Link to="/login" className={`nav ${location.pathname === "/login" && "active"}`}>
+          Login
+        </Link>
+        <Link to="/profile" className={`nav ${location.pathname === "/profile" && "active"}`}>
+          Profile
+        </Link>
       </nav>
     </div>
   );

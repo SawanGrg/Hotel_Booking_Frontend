@@ -1,146 +1,144 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
-
-body {
-    font-family: "Poppins", sans-serif;
-    margin: 0 auto;
-}
-
-.blogs {
+.image-holder {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 70px;
-    width: 88%;
-  }
-
-.blog-grid { /* Updated class name */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap; /* Allow blogs to wrap to the next row on small screens */
-    margin-top: 65px;
-}
-
-.blog-card { /* Updated class name */
-    height: 420px;
-    width: 285px;
-    margin: 0 15px 30px; /* Adjust margin for spacing between blog cards */
-    border: 1px solid #112434;
-    border-radius: 20px;
-    transition: 0.5s transform ease;
-    box-shadow: 2px 2px 2px 2px #888888;
-}
-
-.blog-card:hover {
-    transform: translateY(-8px);
-}
-
-.blog-card img {
-    height: 200px;
+    height: 70vh;
     width: 100%;
-    border-top-right-radius: 19px;
-    border-top-left-radius: 19px;
+}
+
+.image-holder::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("D:\year 3\final year project\frontend\Hotel_Booking_Frontend\public\assets\mainBlog.jpg");
+    background-size: cover;
+    filter: blur(1.4px); /* Adjust the blur intensity as needed */
+    opacity: 1; /* Adjust the opacity to control the intensity of the blur */
+}
+
+.blog-text {
+    position: relative;
+    z-index: 1;
+    font-size: 3rem;
+    font-weight: bold;
+    color: #f7f7f7;
+    text-align: center;
     margin-bottom: 20px;
 }
+.blog-container{
+    width: 100%;
+}
+.blog-item {
+    display: inline-block;
+    margin: 40px 40px;
+    cursor: pointer;
+    height: 640px;
+    width: 480px;
+    transition: transform 0.3s, box-shadow 0.3s; /* Add transition for smooth hover effect */
+    border-radius: 12px;
+    overflow: hidden; /* Ensure the border-radius applies to child elements */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Darker box shadow on hover */
+}
 
-.blog-type {
+.blog-item:hover {
+    transform: translateY(-5px); /* Move the element slightly up on hover */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Darker box shadow on hover */
+}
+
+
+.content {
     display: flex;
+    flex-direction: column;
+    align-items: left;
     justify-content: left;
-    align-items: flex-start;
-    margin: 0 20px;
+    /* background-color: #f6f6f6; */
+    border-radius: 12px;
+    padding: 20px; 
 }
-
-.blog-price {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 20px;
+.blog-dynamic-image{
+    height: 350px;
+    width: 450px;
+    border-radius: 12px;
+    margin-bottom: 20px;
 }
-
-.blog-detail {
+.semi-blog-container{
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
 }
-
-.blog-detail button {
-    background-color: #112434;
-    color: white;
+.blog-tags, .blog-title {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 250px;
-    height: 40px;
-    border-radius: 20px;
-    cursor: pointer;
-    margin-top: 50px;
+    flex-wrap: wrap;
+    font-weight: bolder;
+    font-size: larger;
+    color: #0b0a0a;
+}
+.blog-tags {
+    margin-bottom: 10px;
+    text-align: center;
+    gap: 10px;
+}
+.tags {
+margin-top: 5px;
+}
+.author-tags{
+    margin-top: 5px;
+    width: 40px;
+}
+.blog-author, .blog-date {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: left;
+    gap: 10px;
+    margin: 10px 0;
+}
+.blog-title, .blog-content {
+    margin-bottom: 10px;
+}
+.blog-author, .blog-date {
+    font-size: 1.2rem;
+    color: #0b0a0a;
 }
 
-@media only screen and (max-width: 1230px) {
-    .blog-grid {
-        flex-direction: column;
-    }
 
-    .blog-card {
-        height: 400px;
-        width: 80%; /* Adjust width for smaller screens */
-        margin-top: 25px;
-    }
+/* for post page button */
+/* PostBlog.css */
 
-    .blog-card:hover {
-        transform: translateY(0); /* Remove hover effect on small screens */
-    }
-
-    .blog-card img {
-        height: 200px;
-    }
-
-    .blog-type {
-        margin: 0 10px;
-    }
-
-    .blog-type h2 {
-        font-size: 20px;
-    }
-
-    .blog-price {
-        margin: 0 10px;
-    }
-
-    .blog-price h3 {
-        font-size: 20px;
-    }
-
-    .blog-detail button {
-        width: 70%;
-        height: 50px;
-        font-size: 10px;
-        margin-top: 50px;
-    }
+/* Style for the post-blog container */
+.page-holder{
+    text-align: right;
+    margin: 20px;
 }
-
-@media only screen and (max-width: 555px) {
-    .blog-grid {
-        flex-direction: column;
-    }
-
-    .blog-card {
-        width: 100%; /* Adjust width for small screens */
-    }
-
-    .blog-type {
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .blog-price {
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .blog-detail button {
-        margin-top: 7%;
-    }
-}
+.post-blog {
+    height: 70px;
+    width: 200px;
+    display: inline-flex; /* Display as inline flex for better alignment */
+    align-items: center; /* Align items vertically */
+    justify-content: center; /* Center content horizontally */
+    padding: 10px 20px; /* Add padding for better spacing */
+    font-size: 16px; /* Set font size */
+    background-color: #007bff; /* Set background color */
+    color: #fff; /* Set text color */
+    font-size: large;
+    border-radius: 12px; /* Add border radius for rounded corners */
+    cursor: pointer; /* Add cursor pointer on hover */
+    transition: background-color 0.3s ease; /* Add transition effect for smoother hover */
+  }
+  
+  /* Style for the author-tags icon */
+  .author-tags {
+    margin-right: 5px; /* Add margin to the right of the icon */
+  }
+  
+  /* Hover effect */
+  .post-blog:hover {
+    background-color: #0056b3; /* Change background color on hover */
+  }
+  

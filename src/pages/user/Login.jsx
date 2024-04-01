@@ -61,7 +61,7 @@ export default function Login() {
         }else if (response.roleName === "ROLE_USER"){
           navigate("/");
         }else{
-          navigate('/admin');
+          navigate('/admin/home');
         }
     
       }

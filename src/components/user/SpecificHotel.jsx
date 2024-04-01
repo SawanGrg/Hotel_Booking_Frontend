@@ -24,6 +24,10 @@ import toast, { Toaster } from "react-hot-toast";
 import Slider from 'rc-slider';
 import { postRoomFilter } from "../../services/user/PostRoomFilterAPI";
 import Chatting from "./Chatting";
+import { FaUser } from "react-icons/fa";
+
+import GetHotelReview from "../../services/user/GetHotelReview";
+import { postHotelReview } from "../../services/user/PostHotelReview";
 
 
 
@@ -62,12 +66,16 @@ export default function SpecificHotel() {
 
     }
 
+
+
     useEffect(() => {
+
         const fetchHotelData = async () => {
             try {
-
                 const data = await getAllHotelData();
+                console.log("hotel data:->", data);
                 setHotelData(data.body);
+                console.log("hotel details :->", hotelData);
             } catch (error) {
                 console.error('Error fetching all room data data:', error);
             }
@@ -76,10 +84,7 @@ export default function SpecificHotel() {
         const getAllRooms = async () => {
             try {
                 const data = await getAllRoomData(hotelId);
-                console.log("room data:->", data);
-
                 setRoomData(data.body);
-                // setImageData(data.body.roomImages);
             } catch (error) {
                 console.error('Error fetching all room data data:', error);
             }
@@ -89,6 +94,57 @@ export default function SpecificHotel() {
         getAllRooms();
 
     }, []);
+
+    const [hotelReview, setHotelReview] = useState([]);
+
+    const [userReview, setUserReview] = useState('');
+
+    const getAllReviews = async () => {
+        try {
+            const data = await GetHotelReview(hotelId);
+            console.log("Hotel Review Data:", data);
+            setHotelReview(data);
+        } catch (error) {
+            console.error('Error fetching hotel reviews:', error);
+        }
+    };
+    useEffect(() => {
+
+        getAllReviews();
+    }, [hotelId]);
+
+    // Update the handleReview method to send the review data as an object
+    const handleReview = async () => {
+
+        const jwt = localStorage.getItem('token');
+
+        if (!userReview.trim()) {
+           toast.error('Please enter a review before submitting.');
+            return;
+        }
+
+        if (!jwt) {
+            toast.error('Please login to submit a review.');
+            return;
+        }
+
+        try {
+            const response = await postHotelReview(hotelId, {
+                hotelReview: userReview,
+            });
+
+            if (response.statusCode === 200) {
+                console.log('Review submitted successfully.');
+                setUserReview('');
+                getAllReviews();
+            } else {
+                console.error('Failed to submit review:', response.message);
+            }
+        } catch (error) {
+            console.error('Error posting review:', error);
+        }
+    };
+
 
 
     const RoomCarousel = ({ room }) => {
@@ -183,9 +239,6 @@ export default function SpecificHotel() {
             setSelectedBedType(bedType);
         }
     };
-
-
-
 
     const handleRoomCategoryChange = (event) => {
         const roomCategory = event.target.value;
@@ -659,10 +712,44 @@ export default function SpecificHotel() {
                 </div>
             </div>
 
-            {/* chatting section */}
-            <div>
-                <Chatting hotelId={hotelId} />
+            {/* for comment section div */}
+            <div className="topper">
+                <div className="parent-review-section">
+                    <div className="dynamic-review">
+                        <div className="review-heading">
+                            <h2>Hotel Reviews</h2>
+
+                        </div>
+                        {hotelReview.map((review, index) => (
+                            <div key={index} className="review">
+                                <div className="comment-by">
+                                    <FaUser className='user-icons' />
+                                    Review by: {review.userName}
+                                </div>
+                                <p>{review.hotelReview}</p>
+                                <p>Created Date: {review.createdDate}</p>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="post-review">
+                        <strong>Write Your Review</strong>
+                        <textarea
+                            placeholder="Write your review here"
+                            style={{ width: "100%", height: "100px" }}
+                            value={userReview}
+                            onChange={(e) => setUserReview(e.target.value)}
+                        />
+                        <button
+                            onClick={handleReview}
+                        >Submit Review</button>
+                    </div>
+                </div>
             </div>
+
+            {/* chatting section */}
+            {/* <div>
+                <Chatting hotelId={hotelId} />
+            </div> */}
         </div >
     );
 }

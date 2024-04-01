@@ -1,0 +1,43 @@
+.vendor-booking-filter{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+    background-color: rgb(193, 186, 177);
+    border-radius: 12px;
+    height: 50px;
+    margin-bottom: 12px;
+
+    
+}
+.vendor-first-filter{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    background-color: rgb(193, 186, 177);
+    border-radius: 12px;
+    height: 50px;
+    margin-bottom: 12px;
+    padding: 12px;
+}
+.vendor-second-filter{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    background-color: rgb(193, 186, 177);
+    border-radius: 12px;
+    height: 50px;
+    padding: 4px;
+
+}
+.vendor-individual-filter {
+    padding-right: 12px;
+    border-right: #000 2px solid;
+}
+
+.filter-button{
+    font-size: large;
+    font-weight: 600;
+    font-style:inherit;
+    cursor: pointer;
+}

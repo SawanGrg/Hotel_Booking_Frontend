@@ -41,15 +41,15 @@ export default function Footer() {
                         />
                     </a>
                 </div>
-                <div className="availableIn">
+                {/* <div className="availableIn">
                     <h3>AVAILABLE IN</h3> 
-                    {/* <a href="https://www.apple.com/app-store/">
+                    <a href="https://www.apple.com/app-store/">
                         <img src="/assets/apple.jpg" alt="applestore" />
                     </a>
                     <a href="https://play.google.com/">
                         <img src="/assets/google.jpg" alt="playstore" />
-                    </a> */}
-                </div>
+                    </a>
+                </div> */}
             </div>
         </div>
     );

@@ -7,10 +7,53 @@ import { duration } from '@mui/material';
 import { postChangePasswordData } from '../../services/user/PostChangePasswordAPI';
 import updateUserDetailsAPI from '../../services/user/PostUserDetailsAPI';
 
+import { FaUser } from "react-icons/fa";
+import { CiViewList } from "react-icons/ci";
+import { MdPreview } from "react-icons/md";
+import { FiEdit } from "react-icons/fi";
+import { RiLockPasswordFill } from "react-icons/ri";
+import { PiBookBookmarkFill } from "react-icons/pi";
+
+import { getSpecificUserDetails } from '../../services/user/GetUserDetailsAPI';
+import BaseUrl from '../../services/BaseUrl';
+import { getUserBookingDetails } from '../../services/user/GetUserBookingDetails';
+
 export default function Profile() {
 
-  const [showProfile, setShowProfile] = useState(true);
-  const [showChangePassword, setShowChangePassword] = useState(false);
+  const [showUserProfile, setShowViewUserProfile] = useState(true);
+  const [showEditUserProfile, setShowEditUserProfile] = useState(false);
+  const [showChangePassword, setShowViewChangePassword] = useState(false);
+  const [showUserBookingDetails, setShowUserBookingDetails] = useState(false);
+
+  const changeState1 = () => {
+    setShowViewChangePassword(false);
+    setShowEditUserProfile(false);
+    setShowViewUserProfile(true);
+    setShowUserBookingDetails(false);
+  };
+
+  const changeState2 = () => {
+    setShowEditUserProfile(true);
+    setShowViewChangePassword(false);
+    setShowViewUserProfile(false);
+    setShowUserBookingDetails(false);
+  };
+
+  const changeState3 = () => {
+    setShowEditUserProfile(false);
+    setShowViewChangePassword(true);
+    setShowViewUserProfile(false);
+    setShowUserBookingDetails(false);
+  };
+
+  const changeState4 = () => {
+    setShowEditUserProfile(false);
+    setShowViewChangePassword(false);
+    setShowViewUserProfile(false);
+    setShowUserBookingDetails(true);
+  };
+
+
 
   const [userName, setUserName] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -25,19 +68,39 @@ export default function Profile() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+  const [userBookingDetails, setUserBookingDetails] = useState([]);
+
+  const setValues = async () => {
+    const response = await getSpecificUserDetails();
+    console.log("user details from the server in user profile", response);
+    // Set user details into state
+    setUserName(response.username);
+    setFirstName(response.userFirstName);
+    setLastName(response.userLastName);
+    setUserPhone(response.userPhone);
+    setUserEmail(response.userEmail);
+    setUserAddress(response.userAddress);
+    setUserDateOfBirth(response.dateOfBirth);
+    // Assuming you have a separate API call to get user profile picture
+    setUserProfilePic(response.profilePicture); // Adjust this line according to your API response
+  };
+
   useEffect(() => {
+    setValues();
+  }, [showUserProfile, showEditUserProfile]);
 
-  }, []);
+  const viewUserProfile = async () => {
+    const response = await getUserBookingDetails();
+    console.log("user booking details from the server ", response);
+    // Set user details into state
+    setUserBookingDetails(response);
+  };
 
-  const handleShowProfile = () => {
-    setShowProfile(true);
-    setShowChangePassword(false);
-  }
+  useEffect(() => {
+    viewUserProfile();
+  }, [showUserBookingDetails]);
 
-  const handleShowChangePassword = () => {
-    setShowProfile(false);
-    setShowChangePassword(true);
-  }
+
 
 
   const updateProfile = async () => {
@@ -121,240 +184,453 @@ export default function Profile() {
     }
 
   }
-
   return (
-    <div className='pt-40'>
-
+    <div>
       <Toaster
         position="top-center"
         toastOptions={{
           duration: 3000,
         }}
       />
-      {/* conditionally rendering the edit profile and change password */}
-      <div className='conditional-rendering'>
+      <div className='profile-image-holder'>
+        <div className='profile-title'>
+          User Profile
+        </div>
+      </div>
+      {/* div for user profile image */}
+      <div className='profile-image'>
+        {/* You can add your image here */}
+      </div>
+      {/* div for user real div */}
+      <div className='user-info'>
+        {/* div for side bar */}
+        <div className='sidebar'>
+          <div>
+            <img
+              src={`${BaseUrl}${userProfilePic}`}
+              className="profile-pic"
+              alt="Profile"
+            />
+          </div>
 
-        <div className='profile-heading' >
-          <button
-            onClick={handleShowProfile}
-          >
-            <span>
+          <div className='side-bar-info'>
+            <div>
+              <FaUser className='side-bar-icons' />
+            </div>
+            <div className='side-bar-title'>
+              User Name
+            </div>
+          </div>
+          <div className='side-bar-info'>
+
+            <div>
+
+              <MdPreview className='side-bar-icons' />
+            </div>
+            <div
+              className='side-bar-title'
+              onClick={changeState1}
+            >
+
+              View Profile
+            </div>
+          </div>
+          <div className='side-bar-info'>
+
+            <div>
+
+              <FiEdit className='side-bar-icons' />
+            </div>
+            <div
+              className='side-bar-title'
+              onClick={changeState2}
+            >
+
               Edit Profile
-            </span>
-          </button>
-        </div>
+            </div>
+          </div>
 
-        <div className='profile-heading'>
-          <button
-            onClick={handleShowChangePassword}
-          >
-            <span>
+          {/* for change password button */}
+          <div className='side-bar-info'>
+
+            <div>
+
+              <RiLockPasswordFill className='side-bar-icons' />
+            </div>
+            <div
+              className='side-bar-title'
+              onClick={changeState3}>
+
               Change Password
-            </span>
-          </button>
-        </div>
+            </div>
+          </div>
 
+          {/* for user can view their button */}
+          <div className='side-bar-info'>
+
+            <div>
+              <PiBookBookmarkFill className='side-bar-icons' />
+            </div>
+            <div
+              className='side-bar-title'
+              onClick={changeState4}>
+
+              My Bookings
+            </div>
+          </div>
+
+        </div>
+        {/* div for right bar */}
+        <div className='rightbar'>
+
+          {/* default: showing the view div */}
+          {showUserProfile && (
+            <div>
+              <div className='right-title' >
+                User Profile
+              </div>
+
+              <div className='right-profile-holder'>
+
+                <div>
+                  <div className='right-title-holder'>
+
+                    <div className='profile-title-holder'>
+
+                      <h1> User Name:  </h1>
+                    </div>
+
+                    <div className='dynamic-user-holder'>
+
+                      {userName}
+                    </div>
+                  </div>
+
+                  <div className='right-title-holder'>
+
+                    <div className='profile-title-holder'>
+
+                      <h1> User First Name:  </h1>
+                    </div>
+
+                    {firstName}
+                  </div>
+
+                  <div className='right-title-holder'>
+
+                    <div className='profile-title-holder'>
+
+                      <h1> User Last Name:  </h1>
+                    </div>
+
+                    {lastName}
+                  </div>
+
+                  <div className='right-title-holder'>
+
+                    <div className='profile-title-holder'>
+
+                      <h1> User Contact:  </h1>
+                    </div>
+
+                    {userPhone}
+                  </div>
+                </div>
+
+                <div>
+                  <div className='right-title-holder'>
+
+                    <div className='profile-title-holder'>
+
+                      <h1> Email Address:  </h1>
+                    </div>
+
+                    {userEmail}
+                  </div>
+                  <div className='right-title-holder'>
+
+                    <div className='profile-title-holder'>
+
+                      <h1> User Location:  </h1>
+                    </div>
+
+                    {userAddress}
+                  </div>
+                  <div className='right-title-holder'>
+
+                    <div className='profile-title-holder'>
+
+                      <h1> Date of Birth:  </h1>
+                    </div>
+
+                    {userDateOfBirth}
+                  </div>
+
+                </div>
+
+              </div>
+
+
+
+            </div>
+          )}
+
+
+          {/* showing edit page if user clicks on the edit profile div */}
+          {
+            showEditUserProfile &&
+            <div>
+              <div className='right-title' >
+                Edit Profile
+              </div>
+              <div className='user-profile-second-div'>
+                {/* for username, first name, last name, user phone */}
+                <div>
+
+                  {/* for username */}
+                  <div className='second-inner-element-div'>
+                    <label>
+                      Enter your username
+                    </label>
+                    <br />
+                    <input
+                      type="text"
+                      placeholder='Enter Your New User Name'
+                      value={userName}
+                      onChange={(e) => setUserName(e.target.value)}
+                    />
+                  </div>
+
+                  <div className='second-inner-element-div'>
+                    <label>
+                      Enter your user first name
+                    </label>
+                    <br />
+                    <input
+                      type="text"
+                      placeholder='Enter Your New First Name'
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                    />
+                  </div>
+
+                  <div className='second-inner-element-div'>
+                    <label>
+                      Enter your user last name
+                    </label>
+                    <br />
+                    <input
+                      type="text"
+                      placeholder='Enter Your New Last Name'
+                      value={lastName}
+                      className='user-update-field'
+                      onChange={(e) => setLastName(e.target.value)}
+                    />
+                  </div>
+
+                  <div className='second-inner-element-div'>
+                    <label>
+                      Enter your user phone
+                    </label>
+                    <br />
+                    <input
+                      type="phone"
+                      placeholder='Enter Your New Phone'
+                      className='user-update-field'
+
+                      value={userPhone}
+                      onChange={(e) => setUserPhone(e.target.value)}
+                    />
+                  </div>
+                  <div className='second-inner-element-div'>
+                    <label>
+                      Enter your user email
+                    </label>
+                    <br />
+                    <input
+                      type="email"
+                      placeholder='Enter Your New Email'
+                      className='user-update-field'
+
+                      value={userEmail}
+                      onChange={(e) => setUserEmail(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                {/* for profile pic, user email, user address, user date of birth */}
+                <div>
+                  <div className='second-inner-element-div'>
+                    <label htmlFor="userProfilePic">Upload Your Profile Picture</label>
+                    <br />
+                    <input
+                      type="file"
+                      id="userProfilePic"
+                      onChange={(e) => setUserProfilePic(e.target.files[0])}
+                      className="image-input-field"
+                    />
+                  </div>
+
+
+                  <div className='second-inner-element-div'>
+                    <label>
+                      Enter your user address
+                    </label>
+                    <br />
+                    <input
+                      type="text"
+                      placeholder='Enter Your New Address'
+                      value={userAddress}
+                      onChange={(e) => setUserAddress(e.target.value)}
+                    />
+                  </div>
+
+                  <div className='second-inner-element-div'>
+                    <label>
+                      Enter your user date of birth
+                    </label>
+                    <br />
+                    <input
+                      type="date"
+                      value={userDateOfBirth}
+                      className='user-update-field'
+                      onChange={(e) => setUserDateOfBirth(e.target.value)}
+                    />
+                  </div>
+
+                  <div className='second-inner-element-div'>
+                    <button
+                      onClick={updateProfile}
+                      className='update-profile-button'
+                    >
+                      Update Profile
+                    </button>
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+          }
+
+
+          {/* showing change passwod if user clicks on the change password div */}
+          {showChangePassword &&
+            <div className='third-div'>
+              <div className='third-length-div'>
+
+                <div className='right-title' >
+                  Change Password
+                </div>
+                <br />
+
+                <div className='change-password-div'>
+
+                  <div className='change-password-label'>
+                    Old Password
+                  </div>
+
+                  <div className='input-field-container'>
+                    <input
+                      placeholder='Enter Old Password'
+                      value={oldPassword}
+                      onChange={(e) => setOldPassword(e.target.value)}
+                      className="forgot-input-field"
+                    />
+                  </div>
+
+                </div>
+
+                <div className='change-password-div'>
+
+                  <div className='change-password-label'>
+                    New Password
+                  </div>
+                  <div className='input-field-container'>
+                    <input
+                      type="password"
+                      placeholder='Enter New Password'
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      className="forgot-input-field"
+                    />
+                  </div>
+                </div>
+
+                <div className='change-password-div'>
+                  <div className='change-password-label'>
+                    Confirm Password
+                  </div>
+                  <div className='input-field-container'>
+                    <input
+                      type="password"
+                      placeholder='Enter Confirm Password'
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className="forgot-input-field"
+                    />
+                  </div>
+                </div>
+
+
+
+                <div className='change-password-div'>
+
+                  <button
+                    onClick={changePassword}
+                    className='change-password-button'
+                  >
+                    Change Password
+                  </button>
+                </div>
+              </div>
+            </div>
+          }
+
+          {
+            showUserBookingDetails &&
+            <div className='user-profile-fourth-div'>
+              <div className='right-title'>
+                My Bookings
+              </div>
+              <div className='user-dynamic-data-holder'>
+                <div className='scrollable-booking-details'>
+                  {userBookingDetails.map(booking => (
+                    <div key={booking.bookingId} className='dynamic-user-booking-details'>
+
+                      <div className='user-profile-grid-holder'>
+                        {/* div for hotel data */}
+                        <div>
+                          <p>Hotel Name: {booking.hotelRoom.roomNumber}</p>
+                          <p>Room Type: {booking.hotelRoom.roomType}</p>
+                          <p>Room Category: {booking.hotelRoom.roomCategory}</p>
+                          <p>Room Bed: {booking.hotelRoom.roomBed}</p>
+                          <p>Room Price: {booking.hotelRoom.roomPrice}</p>
+                          <p> Room Status : {booking.hotelRoom.roomStatus}</p>
+                        </div>
+
+                        {/* div for booking data */}
+                        <div>
+                          <p>Check-In Date: {booking.checkInDate}</p>
+                          <p>Check-Out Date: {booking.checkOutDate}</p>
+                          <p>Booking Date: {booking.bookingDate}</p>
+                          <p>Status: {booking.status}</p>
+                          <p>Payment Method: {booking.paymentMethod}</p>
+                          <p>Total Amount: {booking.totalAmount}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          }
+
+
+
+
+        </div>
       </div>
-
-      {showProfile && (
-        // edit your profile
-        <div className='second-div'>
-
-          {/* for username, first name, last name, user phone */}
-          <div>
-
-            {/* for username */}
-            <div className='second-inner-element-div'>
-              <label>
-                Enter your username
-              </label>
-              <br />
-              <input
-                type="text"
-                placeholder='Enter Your New User Name'
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-              />
-            </div>
-
-            <div className='second-inner-element-div'>
-              <label>
-                Enter your user first name
-              </label>
-              <br />
-              <input
-                type="text"
-                placeholder='Enter Your New First Name'
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-              />
-            </div>
-
-            <div className='second-inner-element-div'>
-              <label>
-                Enter your user last name
-              </label>
-              <br />
-              <input
-                type="text"
-                placeholder='Enter Your New Last Name'
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-              />
-            </div>
-
-            <div className='second-inner-element-div'>
-              <label>
-                Enter your user phone
-              </label>
-              <br />
-              <input
-                type="phone"
-                placeholder='Enter Your New Phone'
-                value={userPhone}
-                onChange={(e) => setUserPhone(e.target.value)}
-              />
-            </div>
-            <div className='second-inner-element-div'>
-              <label>
-                Enter your user email
-              </label>
-              <br />
-              <input
-                type="email"
-                placeholder='Enter Your New Email'
-                value={userEmail}
-                onChange={(e) => setUserEmail(e.target.value)}
-              />
-            </div>
-          </div>
-
-          {/* for profile pic, user email, user address, user date of birth */}
-          <div>
-            <div className='second-inner-element-div'>
-              <label htmlFor="userProfilePic">Upload Your Profile Picture</label>
-              <br />
-              <input
-                type="file"
-                id="userProfilePic"
-                onChange={(e) => setUserProfilePic(e.target.files[0])}
-                className="image-input-field"
-              />
-            </div>
-
-
-            <div className='second-inner-element-div'>
-              <label>
-                Enter your user address
-              </label>
-              <br />
-              <input
-                type="text"
-                placeholder='Enter Your New Address'
-                value={userAddress}
-                onChange={(e) => setUserAddress(e.target.value)}
-              />
-            </div>
-
-            <div className='second-inner-element-div'>
-              <label>
-                Enter your user date of birth
-              </label>
-              <br />
-              <input
-                type="date"
-                value={userDateOfBirth}
-                onChange={(e) => setUserDateOfBirth(e.target.value)}
-              />
-            </div>
-
-            <div className='second-inner-element-div'>
-              <button
-                onClick={updateProfile}
-                className='update-profile-button'
-              >
-                Update Profile
-              </button>
-            </div>
-          </div>
-
-
-        </div>
-      )
-      }
-
-      {showChangePassword && (
-        <div className='third-div'>
-          <div className='third-length-div'>
-
-            <div className='change-password-label'>
-              Change Your Profile Password
-            </div>
-
-            <div className='change-password-div'>
-
-              <div className='change-password-label'>
-                Old Password
-              </div>
-
-              <div className='input-field-container'>
-                <input
-                  type="text"
-                  placeholder='Enter Old Password'
-                  value={oldPassword}
-                  onChange={(e) => setOldPassword(e.target.value)}
-                  className="input-field"
-                />
-              </div>
-
-            </div>
-
-            <div className='change-password-div'>
-
-              <div className='change-password-label'>
-                New Password
-              </div>
-              <div className='input-field-container'>
-                <input
-                  type="password"
-                  placeholder='Enter New Password'
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  className="input-field"
-                />
-              </div>
-            </div>
-
-            <div className='change-password-div'>
-              <div className='change-password-label'>
-                Confirm Password
-              </div>
-              <div className='input-field-container'>
-                <input
-                  type="password"
-                  placeholder='Enter Confirm Password'
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="input-field"
-                />
-              </div>
-            </div>
-
-
-
-            <div className='change-password-div'>
-
-              <button
-                onClick={changePassword}
-                className='change-password-button'
-              >
-                Change Password
-              </button>
-          </div>
-        </div>
-      </div>
-      )
-      }
     </div>
   );
-}
+}  

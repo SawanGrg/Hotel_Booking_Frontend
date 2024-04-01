@@ -1,8 +1,9 @@
 .imageStyle{
-    width: 96%;
-    height: 50%;
+    width: 70%;
+    height: 20%;
     display: flex;
     justify-content: center;
+    padding-left: 400px;
     
     /* object-fit: cover;
     object-position: center;

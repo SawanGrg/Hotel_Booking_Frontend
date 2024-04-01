@@ -8,6 +8,10 @@ import SpecificHotel from "../../components/user/SpecificHotel"
 import Booking from "../../pages/user/Booking"
 import PageNotFound from "../../pages/user/PageNotFound"
 import UserBookings from "../../pages/user/UserBookings"
+import SpecificBlog from "../../components/user/SpecificBlog"
+import PostBlog from "../../components/user/PostBlog"
+import Contact from "../../pages/user/Contact"
+import UserRegistration from "../../pages/user/UserRegistration"
 
 // kun layout ma rakhne bhani matra ho
 //just defining the layoutes here
@@ -60,6 +64,36 @@ export const userRoutes = [
         isVendorLayout: false,
     },
     {
+        path: "/specificBlog/:blogId",
+        element: SpecificBlog,
+        hasLayout: true,
+        isUserLayout: true,
+        isPrivate: false,
+        isAdminLayout: false,
+        isVendorLayout: false
+    },
+    {
+
+        path: "/postBlog",
+        element: PostBlog,
+        hasLayout: true,
+        isUserLayout: true,
+        isPrivate: true,
+        isAdminLayout: false,
+        isVendorLayout: false
+
+    },
+    {
+        path: "/contact",
+        element: Contact,
+        hasLayout: true,
+        isUserLayout: true,
+        isPrivate: false,
+        isAdminLayout: false,
+        isVendorLayout: false,
+
+    },
+    {
         path: "/profile",
         element: Profile,
         isPrivate: false,
@@ -103,6 +137,15 @@ export const userRoutes = [
         isPrivate: false,
         isAdminLayout: false,
         isVendorLayout: false,
+    },
+    {
+        path:"/UserRegistration",
+        element: UserRegistration,
+        hasLayout: false,
+        isUserLayout: true,
+        isPrivate: false,
+        isAdminLayout: false,
+        isVendorLayout: false
     }
 
 ]

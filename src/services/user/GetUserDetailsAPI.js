@@ -14,7 +14,7 @@ export async function getSpecificUserDetails(){
         const responseData = await response.json();
         // Handle successful response
         console.log("Success:", responseData);
-        return responseData;
+        return responseData.body;
     } else {
         const errorData = await response.json();
         // Handle error response

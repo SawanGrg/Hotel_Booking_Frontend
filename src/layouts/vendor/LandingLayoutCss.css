@@ -3,22 +3,21 @@
     display: grid;
     grid-template-columns: 300px 1fr; /* 300px for left layout and rest for the right layout */
     height: 100vh;
+    background-color: rgb(216, 197, 197);
 }
 
-.left-layout {
+.vendor-left-layout {
     width: 300px;
-    background-color: rgb(181, 205, 226);
-    border-bottom: #8296d4;
+    background-color: rgb(223, 226, 229);
     border-radius: 10px;
     margin-top: 20px;
     margin-left: 10px;
     margin-right: 10px;
     margin-bottom: 20px;
-    height: 95%;
 }
 
 .right-layout {
-    background-color: #8296d4;
+    background-color: #bf7878;
     padding: 20px;
     border-radius: 10px;
     margin: 20px;

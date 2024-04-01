@@ -5,10 +5,12 @@ import { DeleteRoomAPI } from '../../services/vendor/DeleteRoomAPI';
 import toast, { Toast } from 'react-hot-toast';
 import { set } from 'react-hook-form';
 import { Toaster } from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 
 export default function VendorViewAllRooms() {
 
     const [roomList, setRoomList] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
 
     useEffect(() => {
         fetchAllRooms();
@@ -40,11 +42,18 @@ export default function VendorViewAllRooms() {
         try {
             const roomData = await getAllRoomData(pageNumber, pageSize);
             const rooms = roomData.content;
+            console.log("All Rooms:", rooms);
             setRoomList(rooms);
+            setFilteredData(rooms);
         } catch (error) {
             console.error("Error:", error.message);
         }
     };
+
+    const filteredDataByAvailability = (status) => {
+        const filtered = roomList.filter(room => room.roomStatus == status);
+        setFilteredData(filtered);
+    }
 
     return (
         <div>
@@ -56,45 +65,88 @@ export default function VendorViewAllRooms() {
                     }}
                 />
             </div>
-                <div className='room-header'>
-                    <h1>View All Rooms</h1>
-                </div>
-                <div>
-                    <table>
-                        <tr>
-                            <th>Room Id</th>
-                            <th>Room Description</th>
-                            <th>Room Type</th>
-                            <th>Room Price</th>
-                            <th>Room Bed</th>
-                            <th>Room Status</th>
-                            <th>Activities</th>
-                        </tr>
-                        {
-                            roomList.map((room, i) => (
-                                <tr key={i}>
-                                    <td data-cell="Room Id">{room.roomId}</td>
-                                    <td data-cell="Room Description">{room.roomDescription}</td>
-                                    <td data-cell="Room Type">{room.roomType}</td>
-                                    <td data-cell="Room Price">{room.roomPrice}</td>
-                                    <td data-cell="Room Bed">{room.roomBed}</td>
-                                    <td data-cell="Room Status">{room.roomStatus}</td>
-                                    <td data-cell="Activities">
-                                        <button>
-                                            Edit
-                                        </button>
-                                        <button
-                                            onClick={() => deleteSpecificRoom(room.roomId)}
-                                        >
-                                            Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))
-                        }
-
-                    </table>
-                </div>
+            <div className='room-header'>
+                <h1>View All Rooms</h1>
             </div>
-            );
+
+            {/* filter section */}
+            <div className="vendor-booking-filter">
+                <div className='vendor-first-filter'>
+
+                    <div className='vendor-individual-filter' >
+                        <div className='filter-button'>
+                            View All Rooms
+                        </div>
+                    </div>
+                    <div className='vendor-individual-filter' >
+                        <div className='filter-button' onClick={() => filteredDataByAvailability("AVAILABLE")} >
+                            View Available Rooms
+                        </div>
+                    </div>
+                    <div className='vendor-individual-filter' >
+                        <div className='filter-button' onClick={() => filteredDataByAvailability("BOOKED")}>
+                            View Booked Rooms
+                        </div>
+                    </div>
+                </div>
+
+                {/* second filter */}
+                <div >
+                    <div className='vendor-second-filter'>
+                        <input type="text" placeholder="Search Room Name"
+                        
+                        onChange={(e) => {
+                            const searchValue = e.target.value;
+                            const filtered = roomList.filter(room => room.roomNumber.toLowerCase().includes(searchValue.toLowerCase()));
+                            setFilteredData(filtered);
+                        }}
+
+                        />
+                    </div>
+                </div>
+
+            </div>
+
+            <div>
+                <table>
+                    <tr>
+                        <th>Room Name</th>
+                        <th>Room Bed</th>
+                        <th>Room Type</th>
+                        <th>Room Price</th>
+                        <th>Room Category</th>
+                        <th>Added Date</th>
+                        <th>Room Status</th>
+                        <th>Activities</th>
+                    </tr>
+                    {
+                        filteredData.map((room, i) => (
+                            <tr key={i}>
+                                <td data-cell="Room Id">{room.roomNumber}</td>
+                                <td data-cell="Room Description">{room.roomBed}</td>
+                                <td data-cell="Room Type">{room.roomType}</td>
+                                <td data-cell="Room Price">{room.roomPrice}</td>
+                                <td data-cell="Room Bed">{room.roomBed}</td>
+                                <td data-cell="Room Status">{new Date(room.createdAt).toLocaleDateString()}</td>
+                                <td data-cell="Room Status">{room.roomStatus}</td>
+                                <td data-cell="Activities">
+                                    <button>
+                                        <Link to = {`/vendor/editRoom/${room.roomId}`}>
+                                        Edit
+                                        </Link>
+                                    </button>
+                                    <button
+                                        onClick={() => deleteSpecificRoom(room.roomId)}
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        ))
+                    }
+
+                </table>
+            </div>
+        </div>
+    );
 }

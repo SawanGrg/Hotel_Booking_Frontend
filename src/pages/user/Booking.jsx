@@ -19,6 +19,7 @@ import getAllRoomData from "../../services/user/GetAllRoomData";
 import "./Bookings.css";
 import { postBookRoom } from "../../services/user/PostBookRoomAPI";
 import KhaltiCheckout from "khalti-checkout-web";
+import getRoomAvailability from "../../services/user/GetRoomAvailability";
 
 export default function Booking() {
 
@@ -40,19 +41,37 @@ export default function Booking() {
   const [paymentMethod, setPaymentMethod] = useState("");
   const [preOrderPrice, setPreOrderRoomPrice] = useState(roomPriceInt);
 
+  const getAllRooms = async () => {
+    try {
+      const data = await getAllRoomData(hotelId);
+      console.log("room data:->", data);
+
+      setRoomData(data.body);
+    } catch (error) {
+      console.error('Error fetching all room data data:', error);
+    }
+  };
+
+  const [roomAvailability, setRoomAvailability] = useState({});
+
+  const getRoomStatus = async (roomId) => {
+    try {
+      const res = await getRoomAvailability(roomId);
+      console.log("Room availability data:", res);
+      setRoomAvailability(res);
+      setStartDate("");
+      setEndDate("");
+      setPaymentMethod("");
+    } catch (error) {
+      console.error("Error fetching room availability:", error);
+    }
+  };
+
+
   useEffect(() => {
 
-    const getAllRooms = async () => {
-      try {
-        const data = await getAllRoomData(hotelId);
-        console.log("room data:->", data);
-
-        setRoomData(data.body);
-      } catch (error) {
-        console.error('Error fetching all room data data:', error);
-      }
-    };
     getAllRooms();
+    getRoomStatus(roomId);
   }, []);
 
   const bookRoom = () => {
@@ -65,13 +84,18 @@ export default function Booking() {
     //   return;
     // }
 
-    // if (dayjs(endDate).format("DD-MM-YYYY") < dayjs(startDate).format("DD-MM-YYYY")) {
-    //   toast.error("End date must be later than start date");
-    //   return;
-    // }
+    if (dayjs(endDate).format("DD-MM-YYYY") < dayjs(startDate).format("DD-MM-YYYY")) {
+      toast.error("End date must be later than start date");
+      return;
+    }
 
     if (paymentMethod == "") {
       toast.error("Please, select payment method")
+    }
+
+    if(roomAvailability.status == "Booked"){
+      toast.error("Room is already booked");
+      return;
     }
 
     if (paymentMethod == "Cash") {
@@ -94,7 +118,12 @@ export default function Booking() {
       const res = postBookRoom(roomId, startDate, endDate, numberOfGuests, paymentMethod, userName);
 
       if (res.message != "Success") {
-        toast.success("Room booked successfully");
+        toast.success("Room booking successfully and is in pending status");
+        setStartDate("");
+        setEndDate("");
+        setPaymentMethod("");
+
+
         return;
       }
       toast.error("Room booking failed");

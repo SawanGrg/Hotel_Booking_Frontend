@@ -1,15 +1,18 @@
 import BaseUrl from "../BaseUrl";
 
 export async function getAllHotelData(
-    // pageNumber = 0, pageSize = 8
+    hotelName, 
+    hotelLocation
     ) {
 
-    // const userToken =  localStorage.getItem("token");
-    // const removeQuotesuserToken = userToken.replace(/['"]+/g, '');
-
     try {
-        // const response = await fetch(`${BaseUrl}/v1/user/hotel?page=${pageNumber}&size=${pageSize}`, {
-        const response = await fetch(`${BaseUrl}/v1/user/hotel`, {
+        if (hotelName === null || hotelName == undefined) {
+            hotelName = '';
+        }
+        if (hotelLocation === null || hotelLocation == undefined) {
+            hotelLocation = '';
+        }
+        const response = await fetch(`${BaseUrl}/v1/user/hotel?hotelName=${hotelName}&hotelLocation=${hotelLocation}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
