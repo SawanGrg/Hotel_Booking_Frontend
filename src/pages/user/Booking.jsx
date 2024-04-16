@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Calendar from "react-calendar";
 import { useParams } from "react-router-dom";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -20,6 +21,9 @@ import "./Bookings.css";
 import { postBookRoom } from "../../services/user/PostBookRoomAPI";
 import KhaltiCheckout from "khalti-checkout-web";
 import getRoomAvailability from "../../services/user/GetRoomAvailability";
+import { FaUser } from "react-icons/fa";
+import postRoomKhalti from "../../services/user/PostRoomKhalti";
+import postKhaltiAPI from "../../services/user/PostKhaltiAPI";
 
 export default function Booking() {
 
@@ -27,6 +31,7 @@ export default function Booking() {
   const userName = localStorage.getItem("userData").replace(/['"]+/g, '');
 
   const { hotelId, roomId, roomPrice } = useParams();
+  const navigate = useNavigate();
   const roomPriceInt = parseInt(roomPrice);
 
   console.log("hotelId:->", hotelId);
@@ -40,6 +45,8 @@ export default function Booking() {
   const [numberOfGuests, setNumberOfGuests] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState("");
   const [preOrderPrice, setPreOrderRoomPrice] = useState(roomPriceInt);
+
+  const [res, setRes] = useState({});
 
   const getAllRooms = async () => {
     try {
@@ -67,14 +74,48 @@ export default function Booking() {
     }
   };
 
+  const khaltiPost = async (pidx, status, bookingId, amount) => {
+
+    try{
+      const response = await postKhaltiAPI(pidx, status, bookingId, amount);
+      console.log("Response from khalti post:", response);
+      toast.success("Payment successful");
+      
+
+    }catch(error){
+      console.error("Error while khalti integration:", error);
+      toast.error("Payment failed");
+    }
+  }
 
   useEffect(() => {
 
+    console.log("useEffect called");
+
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const params = Object.fromEntries(urlSearchParams.entries());
+
+    console.log(params); // This will log an object containing all the query parameters
+
+    if(params.pidx && params.transaction_id && params.amount && params.status){
+    // Access individual parameters
+    const pidx = params.pidx;
+    const amount = params.amount;
+    const status = params.status;
+    const bookingId = params.purchase_order_id;
+
+    console.log(pidx, bookingId, amount, status); // Log individual parameters
+    khaltiPost(pidx, status, bookingId, amount);
+    return;
+  }
+
+  console.log("useEffect called");
     getAllRooms();
     getRoomStatus(roomId);
+    console.log("Room availability status:", roomAvailability.status);
   }, []);
 
-  const bookRoom = () => {
+  const bookRoom = async () => {
     // Validation of data
 
     console.log(currentDate);
@@ -93,7 +134,7 @@ export default function Booking() {
       toast.error("Please, select payment method")
     }
 
-    if(roomAvailability.status == "Booked"){
+    if (roomAvailability.status == "BOOKED") {
       toast.error("Room is already booked");
       return;
     }
@@ -115,9 +156,9 @@ export default function Booking() {
       console.log(bookingData);
 
       // Add further processing or API calls here
-      const res = postBookRoom(roomId, startDate, endDate, numberOfGuests, paymentMethod, userName);
+      const res = await postBookRoom(roomId, startDate, endDate, numberOfGuests, paymentMethod, userName);
 
-      if (res.message != "Success") {
+      if (res.message == "Success") {
         toast.success("Room booking successfully and is in pending status");
         setStartDate("");
         setEndDate("");
@@ -127,48 +168,39 @@ export default function Booking() {
         return;
       }
       toast.error("Room booking failed");
-      
-    }else if (paymentMethod == "khalti"){
 
-      console.log("khalti payment initial");
+    } else if (paymentMethod == "khalti") {
 
-      // Khalti checkout configuration
-      let config = {
-        publicKey: "test_public_key_2159d562967b41798e8bec07a8bbc2b5", // Use live public key
-        productIdentity: 12, // Update with your product identity
-        productName: "Your Product Name", // Update with your product name
-        productUrl: "https://yourproducturl.com", // Update with your product URL
-        eventHandler: {
-          onSuccess(payload) {
-            // hit merchant API for initiating verification
-            console.log(payload);
-            // Proceed with booking after successful payment
-            
-            // if (res.message === "Success") {
-            //   toast.success("Room booked successfully");
-            // } else {
-            //   toast.error("Room booking failed");
-            // }
-          },
-          onError(error) {
-            // handle errors
-            console.log(error);
-            toast.error("Payment failed");
-          },
-          onClose() {
-            console.log("Widget is closing");
-          }
-        },
-        paymentPreference: ["KHALTI"]
+      console.log("khalti payment initial")
+
+      const bookingData = {
+        hotelId: hotelId,
+        roomId: roomId,
+        startDate: dayjs(startDate).format("DD-MM-YYYY"),
+        endDate: dayjs(endDate).format("DD-MM-YYYY"),
+        numberOfGuests: numberOfGuests,
+        paymentMethod: paymentMethod,
+        userName: userName
       };
-    
-      // Create Khalti checkout instance
-      let checkout = new KhaltiCheckout(config);
-    
-      // Show Khalti checkout on button click
-      checkout.show({ amount: 1000});
+
+      console.log(bookingData);
+
+      try {
+        const response = await postRoomKhalti(roomId, startDate, endDate, numberOfGuests, paymentMethod, userName);
+
+        setRes(response);
+
+        console.log("Response from khalti payment:", response.payment_url);
+        window.location.href = response.payment_url;
+
+      } catch (error) {
+        console.error("Error:", error);
+        toast.error("Room booking failed");
+      }
+
 
     }
+
   };
 
   return (
@@ -188,7 +220,7 @@ export default function Booking() {
                   <div className="hotel-name">
                     <h3>Room Amenties</h3>
                   </div>
-                  <div className="amenties">
+                  <div className="amenities">
                     <div className="amenity-item">
                       <MdAir className="icons-div" />
 
@@ -229,7 +261,9 @@ export default function Booking() {
         {/* for start date */}
         <div className="date-picker">
           <label className="label">
-            Check-in Date
+            <h1>
+              Check-in Date
+            </h1>
           </label>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DateCalendar
@@ -241,7 +275,11 @@ export default function Booking() {
 
         {/* for end date */}
         <div className="date-picker">
-          <label className="label">Check-out Date</label>
+          <label className="label">
+            <h1>
+              Check-out Date
+            </h1>
+          </label>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DateCalendar
               date={endDate}
@@ -250,10 +288,14 @@ export default function Booking() {
           </LocalizationProvider>
         </div>
 
-        <div className="booking-third-section">
+
+        {/* third div */}
+        <div className="booking-third-section-custom">
 
           <div className="third-section-label">
-            Select Method of Payment
+            <h1>
+              Select Method of Payment
+            </h1>
           </div>
 
           <div className="third-second-field">
@@ -266,6 +308,7 @@ export default function Booking() {
               />
               <span className="radio-label">Cash On Arrival</span>
             </label>
+            <br />
             <label>
               <input
                 type="radio"
@@ -277,40 +320,8 @@ export default function Booking() {
             </label>
           </div>
 
-          <div className="third-section-label">
-            Confirmation Details
-          </div>
+
           {
-
-            <div className="booked-details">
-              <p style={{ marginBottom: '10px' }}>User Name: {userName}</p>
-              <p style={{ marginBottom: '10px' }}>Check-in Date: {startDate ? dayjs(startDate).format("DD-MM-YYYY") : null}</p>
-              <p style={{ marginBottom: '10px' }}>Check-out Date: {endDate ? dayjs(endDate).format("DD-MM-YYYY") : null}</p>
-              <p style={{ marginBottom: '10px' }}>Room Price Per Night: {preOrderPrice}</p>
-              <p style={{ marginBottom: '10px' }}>Payment Method: {paymentMethod}</p>
-            </div>
-
-          }
-
-        </div>
-
-        {/* for fourth section */}
-        <div className="fourth-section-field">
-          <div class="business-rule">
-            <div className="business-title">
-              <strong>Business Rule:</strong>
-            </div>
-            <div>
-              When booking a room from the website, ensure that:
-              <ul>
-                <li>The selected dates for booking are valid and available.</li>
-                <li>The payment process is secure and compliant with industry standards.</li>
-                <li>Within first 12 hours of booking, our receptionist will contact you.</li>
-              </ul>
-            </div>
-          </div>
-          {
-
             <div className="booked-details">
 
               <button className="btn btn-primary"
@@ -321,6 +332,80 @@ export default function Booking() {
             </div>
 
           }
+
+        </div>
+
+        {/* for fourth section */}
+        <div className="booking-third-section">
+          <div className="third-section-label">
+            <h1>
+              Confirmation Details
+            </h1>
+          </div>
+          {
+
+            <div className="booked-details">
+
+              {/* div for user name  */}
+              <div className='right-title-holder'>
+
+                <div className="booking-title-holder">
+
+                  User Name:
+                </div>
+
+                <div className='dynamic-user-holder'>
+                  {userName}
+                </div>
+              </div>
+
+              {/* div for check in date */}
+              <div className="right-title-holder">
+                <div className="booking-title-holder">
+                  Check-in Date:
+                </div>
+                <div className="dynamic-user-holder">
+                  {dayjs(startDate).format("DD-MM-YYYY")}
+                </div>
+              </div>
+
+
+              {/* div for check out date */}
+              <div className="right-title-holder">
+                <div className="booking-title-holder">
+                  Check-out Date:
+                </div>
+                <div className="dynamic-user-holder">
+                  {dayjs(endDate).format("DD-MM-YYYY")}
+                </div>
+              </div>
+
+
+              {/* div for total price */}
+              <div className="right-title-holder">
+                <div className="booking-title-holder">
+                  Room Price Per Night:
+                </div>
+                <div className="dynamic-user-holder">
+                  {preOrderPrice}
+                </div>
+              </div>
+
+
+              {/* div for payment method */}
+              <div className="right-title-holder">
+                <div className="booking-title-holder">
+                  Payment Method:
+                </div>
+                <div className="dynamic-user-holder">
+                  {paymentMethod}
+                </div>
+              </div>
+
+            </div>
+
+          }
+
         </div>
 
 

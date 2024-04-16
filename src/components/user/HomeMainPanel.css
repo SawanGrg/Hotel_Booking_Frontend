@@ -52,7 +52,7 @@
   padding: 20px;
   border-radius: 16px;
 }
-.button-color{
+.home-button-color{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -62,4 +62,5 @@
     margin-left: 14px;
     width: 300px;
     background-color:aliceblue;
+    color: black;
 }

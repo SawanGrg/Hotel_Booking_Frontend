@@ -68,9 +68,9 @@ function SpecificBlog() {
         if (!postComment) {
             toast.error('Please enter a comment');
             return;
-        }   
+        }
 
-        if(!jwt){
+        if (!jwt) {
             toast.error('Please login to post a comment');
             return;
         }
@@ -175,7 +175,7 @@ function SpecificBlog() {
                                     </div>
                                     <div className='post-comment-button'>
                                         <button
-                                            className='comment-button'
+                                            className='update-profile-button'
                                             onClick={postCommentData}
                                         >
                                             Post Comment
@@ -184,26 +184,39 @@ function SpecificBlog() {
                                 </div>
                             </div>
 
-                            {/* div to display each comment */}
-                            {blogCommentData.map((comment) => (
-                                <div key={comment.blogCommentId} className='comment'>
-                                    <div className='comment-user'>
-                                        <div className='user-info'>
-                                            <div className='other-icons'>
-                                                <FaUserPen />
-                                                {comment.userName.userFirstName} {comment.userName.userLastName}
+                            {
+                                blogCommentData.length === 0 ? (
+                                    <div className='hotel-review'>
+                                        <h1>No comment have been posted</h1>
+                                    </div>
+                                
+                                ) : (
+                                    /* div to display each comment */
+                                    blogCommentData.map((comment) => (
+                                        <div key={comment.blogCommentId} className='comment'>
+                                            <div className='comment-user'>
+                                                <div className='user-blog-info'>
+                                                    <div className='other-icons'>
+                                                        <FaUserPen />
+                                                        {comment.userName.userFirstName} {comment.userName.userLastName}
+                                                    </div>
+                                                    <div className='other-icons'>
+                                                        <MdDateRange />
+                                                        {comment.createdDate}
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div className='other-icons'>
-                                                <MdDateRange />
-                                                {comment.createdDate}
+                                            <div className='comment-text-holder'>
+                                                <p className='comment-text'>{comment.comment}</p>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className='comment-text-holder'>
-                                        <p className='comment-text'>{comment.comment}</p>
-                                    </div>
-                                </div>
-                            ))}
+                                    ))
+                                )
+                            }
+
+
+
+
                         </div>
 
                     </div>

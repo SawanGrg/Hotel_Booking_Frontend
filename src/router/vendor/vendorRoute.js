@@ -7,6 +7,7 @@ import VendorBookingPage from "../../pages/vendor/VendorBookingPage";
 import VendorRegistration from "../../pages/vendor/VendorRegistration";
 import SpecificUserBooking from "../../components/vendor/SpecificUserBooking";
 import EditRoom from "../../components/vendor/EditRoom";
+import ViewVendorRoom from "../../components/vendor/ViewVendorRoom";
 
 export const vendorRoutes = [
     {
@@ -89,5 +90,14 @@ export const vendorRoutes = [
         isAdminLayout: false,
         isVendorLayout: true
 
+    },
+    {
+        path: "/room/:roomId",
+        element: ViewVendorRoom,
+        isUserLayout: false,
+        hasLayout: true,
+        isPrivate: false,
+        isAdminLayout: false,
+        isVendorLayout: true
     }
 ]

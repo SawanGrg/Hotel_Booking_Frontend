@@ -1,19 +1,26 @@
 import React from 'react'
 import AdminNavBar from '../../components/admin/AdminNavBar'
 import './AdminLandingLayoutCss.css'
+import AdminUpperNavBar from '../../components/admin/AdminUpperNavBar'
 
 function AdminLandingLayout({children}) {
     return (
-        <div className='main-layout'>
-            <div className='left-layout'>
-                <AdminNavBar />
-
+        <div className='vendor-parent'>
+            <div>
+                <AdminUpperNavBar />
             </div>
-            <div className='right-layout'>
-                {
-                    children
-                }
+            <div className='main-layout'>
 
+                <div className='vendor-left-layout'>
+                    <AdminNavBar />
+
+                </div>
+                <div className='right-layout'>
+                    {
+                        children
+                    }
+
+                </div>
             </div>
         </div>
     )

@@ -6,14 +6,45 @@ import { clearUserDetails } from "../../redux/user/userSlice";
 import { clearUserData } from "../../utils/authStorage";
 import { getSpecificUserDetails } from "../../services/user/GetUserDetailsAPI";
 import BaseUrl from "../../services/BaseUrl";
+import { set } from "react-hook-form";
 
 export default function NavBar() {
+
+  const [showVendorProfile, setShowVendorProfile] = useState(false);
+  const [showUserProfile, setShowUserProfile] = useState(false);
+  const [showAdminProfile, setShowAdminProfile] = useState(false);
+
+  const tokenFromStorage = localStorage.getItem("role");
+  const token = tokenFromStorage ? tokenFromStorage.replace(/['"]+/g, "") : null;
+
+
+  useEffect(() => {
+    if (token == "ROLE_ADMIN") {
+      setShowAdminProfile(true);
+      setShowUserProfile(false);
+      setShowVendorProfile(false);
+
+    } else if (token == "ROLE_VENDOR") {
+      setShowVendorProfile(true);
+      setShowUserProfile(false);
+      setShowAdminProfile(false);
+    } else {
+      setShowUserProfile(true);
+      setShowVendorProfile(false);
+      setShowAdminProfile(false);
+    }
+  }, [token]);
+
+
   const selector = useSelector((state) => state.user.userData);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [userDetails, setUserDetails] = useState([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+
+
 
   const location = useLocation();
 
@@ -53,6 +84,20 @@ export default function NavBar() {
           <Link to="/" className={`nav ${location.pathname === "/" && "active"}`}>
             Home
           </Link>
+           {
+            showVendorProfile && (
+              <Link to="/vendor" className={`nav ${location.pathname === "/vendor" && "active"}`}>
+                Vendor
+              </Link>
+            )
+          }
+          {
+            showAdminProfile && (
+              <Link to="/admin/home" className={`nav ${location.pathname === "/admin" && "active"}`}>
+                Admin
+              </Link>
+            )
+          } 
           <Link to="/hotel" className={`nav ${location.pathname === "/hotel" && "active"}`}>
             Hotels
           </Link>
@@ -60,7 +105,7 @@ export default function NavBar() {
             Blog
           </Link>
           <Link to="/contact" className={`nav ${location.pathname === "/contact" && "active"}`}>
-            Contact Us
+            Contact
           </Link>
           {selector && (
             <>
@@ -83,10 +128,10 @@ export default function NavBar() {
                 className="profile-pic"
                 alt="Profile"
               />
-            ) : 
-            <>
-            Register
-            </>}
+            ) :
+              <>
+                Register
+              </>}
           </div>
         ) : (
           <Link to="/login" className={`nav ${location.pathname === "/login" && "active"}`}>

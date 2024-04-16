@@ -59,12 +59,16 @@ const VendorNav = () => {
                                 <CiBookmarkCheck className='vendor-icons'/>
                                 Bookings</div>
                         </Link>
+
+                        {/* 
                         <Link to="/chat" className="nav-booking">
                             <div className="nav-item">
-                                {/* <FaBookmark className='vendor-icons' /> */}
+                                
                                 <CiBookmarkCheck className='vendor-icons'/>
                                 Chats</div>
-                        </Link>
+                        </Link> 
+                        */}
+
                         <Link to="/report-issue" className="nav-booking">
                             <div className="nav-item">
                                 {/* <FaBookmark className='vendor-icons' /> */}

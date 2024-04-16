@@ -48,10 +48,12 @@ function PostBlog() {
                 <h1>Post a Blog</h1>
                 <div className='form-group'>
                     <label htmlFor='blogTitle'>Blog Title</label>
+                    <br />
                     <input id='blogTitle' type='text' value={blogTitle} onChange={(e) => setBlogTitle(e.target.value)} />
                 </div>
                 <div className='form-group'>
                     <label htmlFor='blogDescription'>Blog Description</label>
+                    <br />
                     <textarea id='blogDescription' value={blogDescription} onChange={(e) => setBlogDescription(e.target.value)} />
                 </div>
                 {/* Dropdown menu for selecting blog category */}
@@ -66,10 +68,14 @@ function PostBlog() {
                 </div>
                 <div className='form-group'>
                     <label htmlFor='blogImage'>Blog Main Image</label>
+                    <br />
+
                     <input id='blogImage' type='file' onChange={handleImageChange} />
                 </div>
                 <div className='form-group'>
-                    <button onClick={handlePostBlog}>Post Blog</button>
+                    <button onClick={handlePostBlog}
+                    className='update-profile-button'
+                    >Post Blog</button>
                 </div>
             </div>
         </div>

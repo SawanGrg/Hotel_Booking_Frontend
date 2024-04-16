@@ -24,6 +24,7 @@ export async function getAllHotelData(
             throw new Error(errorMessage);
         }
         const data = await response.json();
+        console.log(" get all hotel details", data);
         return data;
     } catch (error) {
         throw new Error(`Error fetching all in get all hotel api hotel data: ${error}`);

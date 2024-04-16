@@ -255,7 +255,10 @@ function SpecificUserBooking() {
                 </div>
               </div>
 
+
               {/* button  */}
+{
+        booking.vendorUpdated == false &&
               <div className='modifying'>
                 <div className='vendor-booking-title'>
                   Update Booking Status
@@ -270,6 +273,7 @@ function SpecificUserBooking() {
                   </select>
                 </div>
               </div>
+      }
             </div>
           </div>
         </div>

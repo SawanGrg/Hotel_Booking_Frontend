@@ -16,10 +16,6 @@ import { FaBuildingUser } from "react-icons/fa6";
 import { FaUser } from "react-icons/fa";
 
 
-
-
-
-
 function AdminNavBar() {
     const [showMenu, setShowMenu] = useState(false);
 
@@ -44,33 +40,48 @@ function AdminNavBar() {
                     <nav className="nav-right-container">
                         <Link to="/admin/home" className="nav-dashboard">
                             <div className="nav-item">
-                                <TbDeviceAnalytics className='vendor-icons' />
+                                <TbDeviceAnalytics className='vendor-icons'/>
                                 Analytics</div>
                         </Link>
-                        <Link to="/admin/user" className="nav-add-rooms">
+                        <Link to="/admin/viewAllUser" className="nav-add-rooms">
                             <div className="nav-item">
                                 {/* <FaCirclePlus className='vendor-icons'/> */}
-                                <FaUser  className='user-icons' />
+                                <IoMdAdd className='vendor-icons'/>
 
-                                All User
+                                View Users
                             </div>
                         </Link>
-                        <Link to="/admin/vendor" className="nav-view-rooms">
+                        <Link to="/admin/viewAllHotels" className="nav-view-rooms">
                             <div className="nav-item">
-                                <FaBuildingUser className='vendor-icons' />
-                            All Vendor
+                                <BiSolidHotel className='vendor-icons'/>
+                                View Hotels
                             </div>
                         </Link>
-
-                        <Link to="/admin/viewAllReport" className="nav-booking">
+                        <Link to="/booking" className="nav-booking">
                             <div className="nav-item">
                                 {/* <FaBookmark className='vendor-icons' /> */}
-                                <MdOutlineReport className='vendor-icons' />
-                                Vendor Issue</div>
+                                <CiBookmarkCheck className='vendor-icons'/>
+                                Vendor Issues</div>
+                        </Link>
+
+                        {/* 
+                        <Link to="/chat" className="nav-booking">
+                            <div className="nav-item">
+                                
+                                <CiBookmarkCheck className='vendor-icons'/>
+                                Chats</div>
+                        </Link> 
+                        */}
+
+                        <Link to="/report-issue" className="nav-booking">
+                            <div className="nav-item">
+                                {/* <FaBookmark className='vendor-icons' /> */}
+                                <MdOutlineReport className='vendor-icons'/>
+                                Report Issue</div>
                         </Link>
                         <Link className="nav-logout" onClick={handleLogout}>
                             <div className="nav-item">
-                                <IoIosLogOut className='vendor-icons' />
+                                <IoIosLogOut  className='vendor-icons'/>
                                 Log out
                             </div>
                         </Link>

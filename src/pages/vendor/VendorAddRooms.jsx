@@ -111,9 +111,9 @@ function VendorAddRooms() {
     };
 
     return (
-        <div className='parentdiv'>
+        <div >
             <div className='header'>
-                <h1>Add Rooms</h1>
+                <h1>Add Hotel Rooms</h1>
             </div>
 
             <div className='body'>

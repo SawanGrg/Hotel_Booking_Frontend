@@ -1,0 +1,22 @@
+.room-history{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+}
+.real-room-history{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+}
+.room-book-history{
+    border-top: #070707 2px solid;
+    border-bottom: #070707 2px solid;
+    width: 100%;
+    padding: 10px 0px;
+}

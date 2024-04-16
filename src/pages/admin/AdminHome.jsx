@@ -3,138 +3,195 @@ import './AdminHome.css';
 import GetGraphData from '../../services/admin/GetGraphData';
 
 import Chart from 'chart.js/auto';
-
+import GetAdminRevenue from '../../services/admin/GetAdminRevenue';
+import { Pie } from "react-chartjs-2";
+import { RiCalendarCheckLine } from "react-icons/ri";
+import { FiArrowRightCircle } from "react-icons/fi";
+import { MdNextWeek } from "react-icons/md";
+import { FaMoneyBillTrendUp } from "react-icons/fa6";
+import { MdLocalHotel } from "react-icons/md";
 
 export default function AdminHome() {
   const [graphData, setGraphData] = useState({});
+  const [adminRevenue, setAdminRevenue] = useState({});
+  const totalRevenue = adminRevenue.cashOnArrival + adminRevenue.khaltiPayment;
 
-  async function fetchGraphData() {
-    try {
-      const data = await GetGraphData();
-      setGraphData(data);
-      console.log("Graph data:", data);
-    } catch (error) {
-      console.error("Error fetching graph data:", error.message);
-    }
+  const getGraphData = async () => {
+    const res = await GetGraphData();
+    setGraphData(res);
   }
 
-  function renderBarGraph() {
-    const canvas = document.getElementById('myChart');
-    const ctx = canvas.getContext('2d');
-  
-    // Check if there's an existing chart instance and destroy it
-    if (canvas.chart) {
-      canvas.chart.destroy();
-    }
-  
-    canvas.chart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Users', 'Vendors', 'Rooms', 'Bookings'],
-        datasets: [{
-          label: 'Annapurna Analytics',
-          data: [graphData.totalUsers, graphData.totalVendors, graphData.totalRooms, graphData.totalBookings],
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.8)', // Red
-            'rgba(255, 206, 86, 0.8)', // Yellow
-            'rgba(75, 192, 192, 0.8)', // Cyan
-            'rgba(153, 102, 255, 0.8)', // Purple
-          ],
-          borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-          ],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: {
-              font: {
-                size: 22, // Adjust font size
-                weight: 'bolder', // Bold font weight
-                color: 'rgba(0, 0, 0, 0.0)', // Darker text color
-              }
-            }
-          }
-        },
-        plugins: {
-          legend: {
-            labels: {
-              font: {
-                size: 22, // Adjust font size
-                weight: 'bolder', // Bold font weight
-                color: 'rgba(0, 0, 0, 0.0)', // Darker text color
-              }
-            }
-          }
-        }
-      }
-    });
+  const getAdminRevenue = async () => {
+    const res = await GetAdminRevenue();
+    setAdminRevenue(res);
   }
-  
-  
-
-
 
   useEffect(() => {
-    fetchGraphData();
-    renderBarGraph();
+    getGraphData();
+    getAdminRevenue();
   }, []);
 
+  const userPieChartData = {
+    labels: ['Normal Users', 'Vendors'],
+    datasets: [
+      {
+        data: [graphData.totalUsers, graphData.totalVendors],
+        backgroundColor: ['#FF6384', '#36A2EB'],
+        hoverBackgroundColor: ['#FF6384', '#36A2EB']
+      }
+    ]
+  };
+
+  const revenuePieChartData = {
+    labels: ['Cash On Arrival', 'Khalti Payment'],
+    datasets: [
+      {
+        data: [adminRevenue.cashOnArrival, adminRevenue.khaltiPayment],
+        backgroundColor: ['#FF6384', '#36A2EB'],
+        hoverBackgroundColor: ['#FF6384', '#36A2EB']
+      }
+    ]
+  };
+
+
   return (
-    <div>
-      <h1> Admin Analytics </h1>
-      {/* div for showing the total number */}
-      <div className='index-div'>
-
-        <div className='child-content'>
-          <div className='child-content-heading'>
-            <h2> Total Number of Users </h2>
-          </div>
-          <div className='child-content-number'>
-            <h3> {graphData.totalUsers} </h3>
+    <div className="vendor-dashboard-parent">
+      <div className="vendor-dashboard-holder">
+        {/* div for welcome and showing export data */}
+        <div className="vendor-first-div-board">
+          <div className="vendor-welcome">Welcome to Admin Dashboard</div>
+          <div className="export-data">
+            {/* <div className="download-export-data">Export Data</div> */}
+            <div className="download-export-data">Download PDF</div>
           </div>
         </div>
 
-        <div className='child-content'>
-          <div className='child-content-heading'>
-            <h2> Total Number of Vendors </h2>
+        {/* div for showing total number of ratio */}
+        <div className="vendor-each-info-div">
+          {/* individual displaying data in square format*/}
+          <div className="each-info-div">
+            <div className="dashboard-title">
+              <div>
+                <RiCalendarCheckLine className="vendor-dashboard-icons" />
+              </div>
+              <div className="for-full-width">Total Registered User</div>
+            </div>
+
+            <div className="vendor-dashboard-dynamic-data">{graphData.totalUsers}</div>
+
+            <div className="each-dashboard-data">
+              <div>More info</div>
+              <div>
+                <FiArrowRightCircle className="vendor-dashboard-icons" />
+              </div>
+            </div>
           </div>
-          <div className='child-content-number'>
-            <h3> {graphData.totalVendors} </h3>
+
+          {/* individual displaying data in square format*/}
+          <div className="each-info-div">
+            <div className="dashboard-title">
+              <div>
+                <MdNextWeek className="vendor-dashboard-icons" />
+              </div>
+              <div>Total Registered Vendor</div>
+            </div>
+
+            <div className="vendor-dashboard-dynamic-data">{graphData.totalVendors}</div>
+
+            <div className="each-dashboard-data">
+              <div>More info</div>
+              <div>
+                <FiArrowRightCircle className="vendor-dashboard-icons" />
+              </div>
+            </div>
+          </div>
+
+          {/* third individual displaying data in square format */}
+          <div className="each-info-div">
+            <div className="dashboard-title">
+              <div>
+                <FaMoneyBillTrendUp className="vendor-dashboard-icons" />
+              </div>
+              <div>Total Revenue Generated</div>
+            </div>
+
+            <div className="vendor-dashboard-dynamic-data">{totalRevenue}</div>
+
+            <div className="each-dashboard-data">
+              <div>More info</div>
+              <div>
+                <FiArrowRightCircle className="vendor-dashboard-icons" />
+              </div>
+            </div>
+          </div>
+
+          {/* fourth individual data in sqare format */}
+          <div className="each-info-div">
+            <div className="dashboard-title">
+              <div>
+                <MdLocalHotel className="vendor-dashboard-icons" />
+              </div>
+              <div>Total Booking Till Date</div>
+            </div>
+
+            <div className="vendor-dashboard-dynamic-data">{graphData.totalBookings}</div>
+
+            <div className="each-dashboard-data">
+              <div>More info</div>
+              <div>
+                <FiArrowRightCircle className="vendor-dashboard-icons" />
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className='child-content'>
-          <div className='child-content-heading'>
-            <h2> Total Number of Rooms </h2>
+        {/* div for bar graph and pie chart */}
+        <div className="vendor-graph">
+          <div className="vendor-pie-chart">
+            <div className="pie-chart-title">
+              Numbers of User Registered in System
+            </div>
+            <div style={{ width: "700px", height: "500px" }}>
+              <Pie
+                className="pie-chart"
+                data={userPieChartData}
+                options={{
+                  plugins: {
+                    legend: {
+                      display: true,
+                      position: "bottom"
+                    }
+                  },
+                  maintainAspectRatio: false,
+                  responsive: true
+                }}
+              />
+            </div>
           </div>
-          <div className='child-content-number'>
-            <h3> {graphData.totalRooms} </h3>
+
+          <div className="vendor-pie-chart">
+            <div className="pie-chart-title">
+              System's Main Source of Revenue
+            </div>
+            <div style={{ width: "700px", height: "500px" }}>
+              <Pie
+                className="pie-chart"
+                data={revenuePieChartData}
+                options={{
+                  plugins: {
+                    legend: {
+                      display: true,
+                      position: "bottom"
+                    }
+                  },
+                  maintainAspectRatio: false,
+                  responsive: true
+                }}
+              />
+            </div>
           </div>
         </div>
-
-        <div className='child-content'>
-          <div className='child-content-heading'>
-            <h2>Total Number of Booking</h2>
-          </div>
-          <div className='child-content-number'>
-            <h3> {graphData.totalBookings} </h3>
-          </div>
-        </div>
-
       </div>
-
-      {/* div for showing in bar graph */}
-      <div className='bar-graph'>
-        <canvas id="myChart" width="200" height="200"></canvas>
-      </div>
-
     </div>
   );
 }

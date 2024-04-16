@@ -19,12 +19,21 @@
     filter: blur(1.4px); /* Adjust the blur intensity as needed */
     opacity: 1; /* Adjust the opacity to control the intensity of the blur */
 }
+.image-middle-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
 
+}
 .profile-title {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-left: 120px;
+    /* padding-left: 120px; */
     position: relative;
     z-index: 1;
     font-size: 3rem;
@@ -38,8 +47,7 @@
     grid-template-columns: 1fr 3fr;
     grid-gap: 20px;
     padding: 30px;
-    background-color: rgb(158, 239, 239);
-
+    background-color: #faf5fc;
 }
 .sidebar{
     display: flex;
@@ -47,7 +55,7 @@
     align-items: left;
     justify-content: left;
     padding: 30px;
-    background-color: #f7f7f7;
+    background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -57,9 +65,10 @@
     align-items: left;
     justify-content: left;
     padding: 10px;
-    margin: 10px;
-    background-color: #f7f7f7;
-    border-bottom: #000000 1px solid;
+    margin: 15px;
+    /* background-color: #fff; */
+    border: #000000 1px solid;
+    border-radius: 12px;
     gap: 10px;
     text-align: center;
 }
@@ -81,7 +90,7 @@
     align-items: left;
     justify-content: left;
     padding: 20px;
-    background-color: #f7f7f7;
+    background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -89,7 +98,8 @@
     text-align: center;
     font-size: larger;
     font-weight: 900;
-    background-color: antiquewhite;
+    Background-color: #53defa;
+    ;
     border-radius: 12px;
     padding: 12px;    
 
@@ -126,7 +136,7 @@
     grid-template-columns: 1fr 1fr;
     gap: 20px;
     padding: 20px;
-    background-color: #f7f7f7;
+    background-color: #ffffff;
 
 }
 .user-update-field{
@@ -140,6 +150,13 @@
 .second-inner-element-div{
     padding: 10px;
 }
+.update-profile-button{
+    text-align: center;
+    background-color: aqua;
+    color: #000000;
+    height: 50px;
+    width: 200px;
+}
 
 
 
@@ -150,7 +167,7 @@
     align-items: left;
     justify-content: left;
     padding: 20px;
-    background-color: #f7f7f7;
+    background-color: #ffffff;
     border-radius: 10px;
 }
 .change-password-label{
@@ -170,6 +187,8 @@
     height: 40px;
     margin-left : 20px;
     margin-bottom: 8px;
+    border: #000000 1px solid;
+    border-radius: 12px;
 }
 .change-password-button{
     text-align: center;

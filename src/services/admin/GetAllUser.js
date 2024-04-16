@@ -1,6 +1,7 @@
 import BaseUrl from "../BaseUrl";
 
 export default async function GetAllUser(userName, ascending) {
+    
     if (!userName) {
         userName = "";
     }

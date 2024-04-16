@@ -14,7 +14,6 @@ export default async function getAllRoomData(hotelId) {
             throw new Error(errorMessage);
         }
         const data = await response.json();
-        console.log(" json form from service file ", data);
         return data;
 
     } catch (error) {

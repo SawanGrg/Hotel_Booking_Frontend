@@ -1,5 +1,6 @@
 import React from 'react';
 import './Banner.css';
+import { Link } from 'react-router-dom';
 
 export default function Banner() {
     return (
@@ -24,12 +25,19 @@ export default function Banner() {
                     <p>
                         By becoming a vendor, you unlock a world of opportunities. Joining our platform means increased visibility, allowing you to reach a wider audience and attract more customers. Experience business growth as you expand your reach and open doors to new sales opportunities.
                     </p>
-                    <br     />
+                    <br />
                     <p>
                         Moreover, being a vendor offers networking opportunities, connecting you with other vendors and potential partners. Enjoy the flexibility of managing your own schedule and achieving financial independence. Gain access to resources, tools, and support from the platform to further enhance your success as a vendor.
                     </p>
+                    <div className="vendor-register">
+                        <Link to="/vendorRegistration">
+                        <button>
+                            <h3>Vendor Registration </h3> <img src="/assets/arrow.png" alt="" />
+                        </button>
+                        </Link>
+                    </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }

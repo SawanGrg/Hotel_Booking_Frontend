@@ -17,7 +17,7 @@
 }
 .banner-content {
     margin-left: 30px;
-    height: 500px;
+    height: 550px;
     width: 600px;
     display: flex;
     flex-direction: column;
@@ -45,4 +45,19 @@
 }
 .benefits p{
     font-size: 20px;
+    margin-bottom: 10px;
 }
+
+
+
+.vendor-register button {
+    background-color: #112434;
+    color: white;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 300px;
+    height: 50px;
+    border-radius: 20px;
+    cursor: pointer;
+  }

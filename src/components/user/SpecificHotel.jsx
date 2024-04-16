@@ -23,29 +23,40 @@ import { CgSmartHomeRefrigerator } from "react-icons/cg";
 import toast, { Toaster } from "react-hot-toast";
 import Slider from 'rc-slider';
 import { postRoomFilter } from "../../services/user/PostRoomFilterAPI";
-import Chatting from "./Chatting";
 import { FaUser } from "react-icons/fa";
+import { MdDateRange } from "react-icons/md";
+import { FaFilter } from "react-icons/fa";
+import { FaMoneyBillTransfer } from "react-icons/fa6";
+import { MdOutlineCottage } from "react-icons/md";
+import { FaPhoneAlt } from "react-icons/fa";
+import { IoLocation } from "react-icons/io5";
+import { MdEmail } from "react-icons/md";
+import { ImListNumbered } from "react-icons/im";
+
+
 
 import GetHotelReview from "../../services/user/GetHotelReview";
 import { postHotelReview } from "../../services/user/PostHotelReview";
-
+import getHotelRoomBookingStatus from "../../services/user/GetHotelRoomBookingStatus";
+import GetHotelOwnerUserName from "../../services/user/GetHotelOwnerUserName";
 
 
 export default function SpecificHotel() {
 
     const [hotelData, setHotelData] = useState([]);
     const [roomData, setRoomData] = useState([]);
-
+    const [hotelOwnerUserName, setHotelOwnerUserName] = useState('');
     const { hotelId } = useParams();
-
     const navigate = useNavigate();
 
     async function handleRoomBooking(roomId, roomPrice) {
 
-        console.log(roomId);
         const token = localStorage.getItem("token");
         const userPayload = localStorage.getItem("userData");
         const role = localStorage.getItem("role");
+
+        const removedQuotes = role.replace(/['"]+/g, '');
+        const userName = userPayload.replace(/['"]+/g, '');
 
         //if role is null then redirect to login page
         if (!role) {
@@ -53,9 +64,17 @@ export default function SpecificHotel() {
             return;
         }
 
-        const removedQuotes = role.replace(/['"]+/g, '');
+        if (removedQuotes == "ROLE_ADMIN") {
+            toast.error("Please login as user to book room");
+            return;
+        }
 
-        if (removedQuotes == "ROLE_USER") {
+        if (userName == hotelOwnerUserName) {
+            toast.error("You are the owner of this hotel, you can't book room");
+            return;
+        }
+
+        if (removedQuotes == "ROLE_USER" || removedQuotes == "ROLE_VENDOR") {
             console.log("userPayload:->", userPayload);
             console.log("role:->", role);
             console.log("token:->", token);
@@ -66,37 +85,56 @@ export default function SpecificHotel() {
 
     }
 
+    const [bookingStatus, setBookingStatus] = useState([]);
 
+    const getRoomBookingStatus = async () => {
+        try {
+            const data = await getHotelRoomBookingStatus(hotelId);
+            console.log("Room Booking Status Data:", data);
+            setBookingStatus(data);
+        } catch (error) {
+            console.error('Error fetching room booking status:', error);
+        }
+    }
+
+    const fetchHotelData = async () => {
+        try {
+            const data = await getAllHotelData();
+            setHotelData(data.body);
+        } catch (error) {
+            console.error('Error fetching all room data data:', error);
+        }
+    };
+
+    const getAllRooms = async () => {
+        try {
+            const data = await getAllRoomData(hotelId);
+            setRoomData(data.body);
+        } catch (error) {
+            console.error('Error fetching all room data data:', error);
+        }
+    };
+
+    const getHotelOwnerUserName = async (hotelId) => {
+        try {
+            const data = await GetHotelOwnerUserName(hotelId);
+            setHotelOwnerUserName(data.body);
+        } catch (error) {
+            console.error('Error fetching hotel owner user name:', error);
+        }
+    }
 
     useEffect(() => {
 
-        const fetchHotelData = async () => {
-            try {
-                const data = await getAllHotelData();
-                console.log("hotel data:->", data);
-                setHotelData(data.body);
-                console.log("hotel details :->", hotelData);
-            } catch (error) {
-                console.error('Error fetching all room data data:', error);
-            }
-        };
-
-        const getAllRooms = async () => {
-            try {
-                const data = await getAllRoomData(hotelId);
-                setRoomData(data.body);
-            } catch (error) {
-                console.error('Error fetching all room data data:', error);
-            }
-        };
-
         fetchHotelData();
         getAllRooms();
+        getRoomBookingStatus();
+        getHotelOwnerUserName(hotelId);
 
     }, []);
 
+    // hotel review section
     const [hotelReview, setHotelReview] = useState([]);
-
     const [userReview, setUserReview] = useState('');
 
     const getAllReviews = async () => {
@@ -119,7 +157,7 @@ export default function SpecificHotel() {
         const jwt = localStorage.getItem('token');
 
         if (!userReview.trim()) {
-           toast.error('Please enter a review before submitting.');
+            toast.error('Please enter a review before submitting.');
             return;
         }
 
@@ -216,14 +254,14 @@ export default function SpecificHotel() {
     };
 
 
-    const [sliderValue, setSliderValue] = useState(1500);
+    const [sliderValue, setSliderValue] = useState(5000);
     const [selectedBedType, setSelectedBedType] = useState('');
     const [selectedRoomCategory, setSelectedRoomCategory] = useState('');
     const [selectedRoomType, setSelectedRoomType] = useState('');
 
-    const [hasAC, setHasAC] = useState(true);
-    const [hasBalcony, setHasBalcony] = useState(true);
-    const [hasRefridge, setHasRefridge] = useState(true);
+    const [hasAC, setHasAC] = useState('');
+    const [hasBalcony, setHasBalcony] = useState('');
+    const [hasRefridge, setHasRefridge] = useState('');
 
     const handleSliderChange = (event) => {
         setSliderValue(parseInt(event.target.value, 10));
@@ -264,6 +302,17 @@ export default function SpecificHotel() {
         }
     }
 
+    const filterRoom = async () => {
+        try {
+            const data = await postRoomFilter(hotelId, sliderValue, selectedRoomType, selectedRoomCategory, selectedBedType, hasAC, hasBalcony, hasRefridge);
+            console.log("room data from filtered room:->", data);
+
+            setRoomData(data.body);
+
+        } catch (error) {
+            console.error('Error fetching filter room data data:', error);
+        }
+    }
     useEffect(() => {
 
         console.log("sliderValue:->", sliderValue);
@@ -271,17 +320,6 @@ export default function SpecificHotel() {
         console.log("selectedRoomCategory:->", selectedRoomCategory);
         console.log("selectedRoomType:->", selectedRoomType);
 
-        const filterRoom = async () => {
-            try {
-                const data = await postRoomFilter(hotelId, sliderValue, selectedRoomType, selectedRoomCategory, selectedBedType, hasAC, hasBalcony, hasRefridge);
-                console.log("room data from filtered room:->", data);
-
-                setRoomData(data.body);
-
-            } catch (error) {
-                console.error('Error fetching filter room data data:', error);
-            }
-        }
         filterRoom();
 
     }, [sliderValue, selectedBedType, selectedRoomCategory, selectedRoomType]);
@@ -307,36 +345,101 @@ export default function SpecificHotel() {
                 if (hotel.hotelId == hotelId) {
                     return (
                         <div key={hotel.hotelPan}>
-                            <h1> {hotel.hotelName}</h1>
-                            <h2>Hotel Details for ID: {hotelId}</h2>
+                            <div className="hotel-name-div">
+                                {hotel.hotelName}
+                            </div>
                             <div className="">
                                 <div>{/* for hotel image */}</div>
                                 {/* for hotel description */}
                                 <div className="highlight">
-                                    <div className="hotel-description">
-                                        {
-                                            hotel.hotelDescription
-                                        }
+
+                                    {/* hotel description */}
+                                    <div className="hotel-first-div">
+
+                                        <div className="hotel-first-details">
+                                            {/* hotel contact */}
+                                            <div className="first-holder">
+
+                                                <FaPhoneAlt className="hotel-icons" />
+                                                <label>Contact</label>
+                                                {
+                                                    hotel.hotelContact
+                                                }
+
+                                            </div>
+
+                                            {/* hotel address */}
+                                            <div className="first-holder">
+                                                <IoLocation className="hotel-icons" />
+                                                <label >Address</label>
+                                                {
+                                                    hotel.hotelAddress
+                                                }
+                                            </div>
+
+                                            {/* hotel email */}
+                                            <div className="first-holder">
+                                                <MdEmail className="hotel-icons" />
+                                                <label >Email</label>
+                                                {
+                                                    hotel.hotelEmail
+                                                }
+                                            </div>
+
+                                        </div>
+
+                                        <div className="hotel-description">
+                                            {
+                                                hotel.hotelDescription
+                                            }
+                                        </div>
                                     </div>
+
+
+                                    {/* amenities section */}
                                     <div className="hotel-Amenties">
                                         <div className="hotel-name">
-                                            <h3>Hotel Amenties</h3>
+                                            <h3>Hotel Amenities</h3>
                                         </div>
-                                        <div className="amenties">
-                                            <div className="amenties-item">
-                                                <FontAwesomeIcon icon={faWifi} />
-                                                <p>Free Wifi</p>
-                                            </div>
-                                            <div className="amenties-item">
-                                                <FontAwesomeIcon icon={faFan} />
-                                                <p>AC</p>
-                                            </div>
-                                            <div className="amenties-item">
-                                                <FontAwesomeIcon icon={faPersonThroughWindow} />
-                                                <p>Terrace</p>
-                                            </div>
+
+                                        <div className="amenities">
+                                            {hotel.hasWifi && (
+                                                <div className="amenties-item">
+                                                    <TiWiFi className="icons-div" />
+                                                    <p>Free Wifi</p>
+                                                </div>
+                                            )}
+                                            {hotel.hasAC && (
+                                                <div className="amenties-item">
+                                                    <MdAir className="icons-div" /><p>AC</p>
+                                                </div>
+                                            )}
+                                            {hotel.hasBalcony && (
+                                                <div className="amenties-item">
+                                                    <MdOutlineBalcony className="icons-div" />
+
+                                                    <p>Balcony</p>
+                                                </div>
+                                            )}
+                                            {
+                                                hotel.hasTV && (
+                                                    <div className="amenties-item">
+                                                        <PiTelevisionSimpleFill className="icons-div" />
+                                                        <p>TV</p>
+                                                    </div>
+                                                )
+                                            }
+                                            {
+                                                hotel.hasRefridge && (
+                                                    <div className="amenties-item">
+                                                        <FontAwesomeIcon icon={faPersonThroughWindow} />
+                                                        <p>Refrigerator</p>
+                                                    </div>
+                                                )
+                                            }
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -349,14 +452,25 @@ export default function SpecificHotel() {
 
                 <div className="parent-filter-section">
                     <div className="filter-text">
-                        Filter according to your need
+                        <div>
+                            <FaFilter className="room-filter-icons" />
+                        </div>
+                        <div className="filter-room-title" >
+                            Filter Hotel Rooms
+                        </div>
                     </div>
 
                     {/* for price slider */}
                     <div className="price-range">
 
                         <div className="price-title">
-                            Select Price Range (in Rs.)
+                            <div>
+                                <FaMoneyBillTransfer className="room-filter-icons" />
+                            </div>
+                            <div className="filter-title-text">
+                                Select Price Range (in Rs.)
+
+                            </div>
                         </div>
 
                         <div className="price-input">
@@ -375,11 +489,176 @@ export default function SpecificHotel() {
                         </div>
                     </div>
 
+                    {/* for room category */}
+                    <div className="redendanent-bed-filter">
+
+                        <div className="bed-type-title">
+                            <div>
+                                <FaHotel className="room-filter-icons" />
+                            </div>
+                            <div>
+                                Room Category
+                            </div>
+                        </div>
+
+                        <div className="room-category">
+                            <div className="bed-type-item">
+                                <input
+                                    type="radio"
+                                    value="COUPLE"
+                                    checked={selectedRoomCategory === 'COUPLE'}
+                                    onChange={handleRoomCategoryChange}
+                                />
+                                <div>
+                                    <label>Couple</label>
+                                </div>
+                            </div>
+                            <div className="bed-type-item">
+                                <input
+                                    type="radio"
+                                    value="FAMILY"
+                                    checked={selectedRoomCategory === 'FAMILY'}
+                                    onChange={handleRoomCategoryChange}
+                                />
+                                <div>
+                                    <label>Family</label>
+                                </div>
+                            </div>
+                            <div className="bed-type-item">
+                                <input
+                                    type="radio"
+                                    value="BUSINESS"
+                                    checked={selectedRoomCategory === 'BUSINESS'}
+                                    onChange={handleRoomCategoryChange}
+                                />
+                                <div>
+                                    <label>Business</label>
+                                </div>
+                            </div>
+                            <div className="bed-type-item">
+                                <input
+                                    type="radio"
+                                    value="SINGLE"
+                                    checked={selectedRoomCategory === 'SINGLE'}
+                                    onChange={handleRoomCategoryChange}
+                                />
+                                <div>
+                                    <label>Single</label>
+                                </div>
+                            </div>
+                            <div className="bed-type-item">
+                                <input
+                                    type="radio"
+                                    value="DOUBLE"
+                                    checked={selectedRoomCategory === 'DOUBLE'}
+                                    onChange={handleRoomCategoryChange}
+                                />
+                                <div>
+                                    <label>Double</label>
+                                </div>
+                            </div>
+                            <div className="bed-type-item">
+                                <input
+                                    type="radio"
+                                    value=""
+                                    checked={!selectedRoomCategory}
+                                    onChange={handleRoomCategoryChange}
+                                />
+                                <div>
+                                    <label>None</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* for room type */}
+                    <div className="redendanent-bed-filter">
+
+                        <div className="bed-type-title">
+                            <div>
+                                <MdOutlineCottage className="room-filter-icons" />
+                            </div>
+                            <div>
+                                Room Type
+
+                            </div>
+                        </div>
+
+                        <div className="room-category">
+                            <div className="bed-type-item">
+                                <input
+                                    type="radio"
+                                    value="DELUXE"
+                                    checked={selectedRoomType === 'DELUXE'}
+                                    onChange={handleRoomTypeChange}
+                                />
+                                <div>
+                                    <label>Deluxe</label>
+                                </div>
+                            </div>
+
+                            <div className="bed-type-item">
+                                <input
+                                    type="radio"
+                                    value="SUITE"
+                                    checked={selectedRoomType === 'SUITE'}
+                                    onChange={handleRoomTypeChange}
+                                />
+                                <div>
+                                    <label>Suite</label>
+                                </div>
+                            </div>
+
+
+                            <div className="bed-type-item">
+                                <input
+                                    type="radio"
+                                    value="STANDARD"
+                                    checked={selectedRoomType === 'STANDARD'}
+                                    onChange={handleRoomTypeChange}
+                                />
+                                <div>
+                                    <label>Standard</label>
+                                </div>
+                            </div>
+
+
+                            <div className="bed-type-item">
+                                <input
+                                    type="radio"
+                                    value="ECONOMY"
+                                    checked={selectedRoomType === 'ECONOMY'}
+                                    onChange={handleRoomTypeChange}
+                                />
+                                <div className="bed-type">
+                                    <label>Economy</label>
+                                </div>
+                            </div>
+                            <div className="bed-type-item">
+                                <input
+                                    type="radio"
+                                    value=""
+                                    checked={!selectedRoomType}
+                                    onChange={handleRoomTypeChange}
+                                />
+                                <div className="bed-type">
+                                    <label>None</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
 
                     {/* for bed type */}
                     <div className="redendanent-bed-filter">
                         <div className="bed-type-title">
-                            Bed Type
+                            <div>
+                                <FaBed className="room-filter-icons" />
+                            </div>
+                            <div>
+                                Bed Type
+
+                            </div>
                         </div>
                         <div className="bed-type">
                             <div className="bed-type-item">
@@ -443,153 +722,8 @@ export default function SpecificHotel() {
                     </div>
 
 
-                    {/* for room category */}
-                    <div className="redendanent-bed-filter">
-
-                        <div className="bed-type-title">
-                            Room Category
-                        </div>
-
-                        <div className="room-category">
-                            <div className="bed-type-item">
-                                <input
-                                    type="radio"
-                                    value="COUPLE"
-                                    checked={selectedRoomCategory === 'COUPLE'}
-                                    onChange={handleRoomCategoryChange}
-                                />
-                                <div>
-                                    Couple
-                                </div>
-                            </div>
-                            <div className="bed-type-item">
-                                <input
-                                    type="radio"
-                                    value="FAMILY"
-                                    checked={selectedRoomCategory === 'FAMILY'}
-                                    onChange={handleRoomCategoryChange}
-                                />
-                                <div>
-                                    Family
-                                </div>
-                            </div>
-                            <div className="bed-type-item">
-                                <input
-                                    type="radio"
-                                    value="BUSINESS"
-                                    checked={selectedRoomCategory === 'BUSINESS'}
-                                    onChange={handleRoomCategoryChange}
-                                />
-                                <div>
-                                    Business
-                                </div>
-                            </div>
-                            <div className="bed-type-item">
-                                <input
-                                    type="radio"
-                                    value="SINGLE"
-                                    checked={selectedRoomCategory === 'SINGLE'}
-                                    onChange={handleRoomCategoryChange}
-                                />
-                                <div>
-                                    Single
-                                </div>
-                            </div>
-                            <div className="bed-type-item">
-                                <input
-                                    type="radio"
-                                    value="DOUBLE"
-                                    checked={selectedRoomCategory === 'DOUBLE'}
-                                    onChange={handleRoomCategoryChange}
-                                />
-                                <div>
-                                    Double
-                                </div>
-                            </div>
-                            <div className="bed-type-item">
-                                <input
-                                    type="radio"
-                                    value=""
-                                    checked={!selectedRoomCategory}
-                                    onChange={handleRoomCategoryChange}
-                                />
-                                <div>
-                                    None
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* for room type */}
-                    <div className="redendanent-bed-filter">
-
-                        <div className="bed-type-title">
-                            Room Type
-                        </div>
-
-                        <div className="room-category">
-                            <div className="bed-type-item">
-                                <input
-                                    type="radio"
-                                    value="DELUXE"
-                                    checked={selectedRoomType === 'DELUXE'}
-                                    onChange={handleRoomTypeChange}
-                                />
-                                <div>
-                                    Deluxe
-                                </div>
-                            </div>
-
-                            <div className="bed-type-item">
-                                <input
-                                    type="radio"
-                                    value="SUITE"
-                                    checked={selectedRoomType === 'SUITE'}
-                                    onChange={handleRoomTypeChange}
-                                />
-                                <div>
-                                    Suite
-                                </div>
-                            </div>
 
 
-                            <div className="bed-type-item">
-                                <input
-                                    type="radio"
-                                    value="STANDARD"
-                                    checked={selectedRoomType === 'STANDARD'}
-                                    onChange={handleRoomTypeChange}
-                                />
-                                <div>
-                                    Standard
-                                </div>
-                            </div>
-
-
-                            <div className="bed-type-item">
-                                <input
-                                    type="radio"
-                                    value="ECONOMY"
-                                    checked={selectedRoomType === 'ECONOMY'}
-                                    onChange={handleRoomTypeChange}
-                                />
-                                <div>
-                                    Economy
-                                </div>
-                            </div>
-                            <div className="bed-type-item">
-                                <input
-                                    type="radio"
-                                    value=""
-                                    checked={!selectedRoomType}
-                                    onChange={handleRoomTypeChange}
-                                />
-                                <div>
-                                    None
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
 
@@ -690,21 +824,44 @@ export default function SpecificHotel() {
                                     </div>
                                 </div>
                                 <div className="room-third">
-                                    <div
-                                        className="room-description-div"
-                                    >
-                                        <h4 className="feature-div"
-                                        >Room Description</h4>
+                                    <div>
+                                        {bookingStatus.map(status => {
+                                            if (status.roomId === room.roomId && status.bookingStatus === "BOOKED") {
+                                                return (
+                                                    <div key={status.bookingId} className="alert-booking-div">
+                                                        <div className="alert-head-booking">
+                                                            Room is Booked
+                                                        </div>
+                                                        <div className="night">
+                                                            <strong>Check in :</strong> {status.checkInDate}
+                                                        </div>
+                                                        <div className="night">
+                                                            <strong>Check out:</strong> {status.checkOutDate}
+                                                        </div>
+                                                    </div>
+                                                )
+                                            } else {
+                                                return null;
+                                            }
+                                        })}
+                                    </div>
+                                    <div className="room-description-div">
+                                        <h4 className="feature-div">Room Description</h4>
                                         <p>{room.roomDescription}</p>
                                     </div>
-                                    <button className="book-button"
-                                        onClick={() => {
-                                            handleRoomBooking(room.roomId, room.roomPrice)
-                                        }}
-                                    >
-                                        Book Now
-                                    </button>
+                                    {bookingStatus.some(status => status.roomId === room.roomId && status.bookingStatus === "BOOKED") ? (
+                                        <button className="book-button" disabled>
+                                            Room is booked
+                                        </button>
+                                    ) : (
+                                        <button className="book-button" onClick={() => handleRoomBooking(room.roomId, room.roomPrice)}>
+                                            Book Now
+                                        </button>
+                                    )}
                                 </div>
+
+
+
                             </div>
                         </div>
                     ))
@@ -720,26 +877,48 @@ export default function SpecificHotel() {
                             <h2>Hotel Reviews</h2>
 
                         </div>
-                        {hotelReview.map((review, index) => (
-                            <div key={index} className="review">
-                                <div className="comment-by">
-                                    <FaUser className='user-icons' />
-                                    Review by: {review.userName}
+                        {
+                            hotelReview.length === 0 ? (
+                                <div >
+                                    <div className="hotel-no-review">
+                                        No reviews available
+                                    </div>
+                                    <div className="hotel-review">
+                                        Be the first person to give review
+                                    </div>
                                 </div>
-                                <p>{review.hotelReview}</p>
-                                <p>Created Date: {review.createdDate}</p>
-                            </div>
-                        ))}
+                            ) : (
+                                hotelReview.map((review, index) => (
+                                    <div key={index} className="review">
+                                        <div className="comment-by">
+                                            <div className="hotel-each-review">
+                                                <FaUser className='user-icons' />
+                                                <p className="reviewed-by">Review by: {review.userName}</p>
+                                            </div>
+                                            <div className="hotel-each-review">
+                                                <MdDateRange className='user-icons' />
+                                                <p className="reviewed-by">Reviewed Date: {new Date(review.createdDate).toDateString()}</p>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p className="real-review">{review.hotelReview}</p>
+                                        </div>
+                                    </div>
+                                ))
+                            )
+                        }
+
                     </div>
                     <div className="post-review">
                         <strong>Write Your Review</strong>
                         <textarea
                             placeholder="Write your review here"
-                            style={{ width: "100%", height: "100px" }}
+                            style={{ width: "100%", height: "300px" }}
                             value={userReview}
                             onChange={(e) => setUserReview(e.target.value)}
                         />
                         <button
+                            className="post-comment"
                             onClick={handleReview}
                         >Submit Review</button>
                     </div>

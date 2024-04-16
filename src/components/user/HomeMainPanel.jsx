@@ -38,9 +38,9 @@ function HomeMainPanel() {
                                 value={hotelLocation}
                                 onChange={(e) => setHotelLocation(e.target.value)}
                             />
-                            <div className='button-color'>
+                            <div className='home-button-color'>
 
-                                <button className='button-color' type="submit">Search Hotels</button>
+                                <button className='home-button-color' type="submit">Search Hotels</button>
                             </div>
                         </div>
                     </div>

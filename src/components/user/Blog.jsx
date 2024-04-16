@@ -11,7 +11,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 
 function Blog() {
-    
+
     const [blogData, setBlogData] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -49,45 +49,41 @@ function Blog() {
             <div className='blog-container'>
                 <div className='semi-blog-container'>
                     {blogData.map((blog) => (
-                        <Link to={`/specificBlog/${blog.id}`} style={{ textDecoration: 'none', color: 'black' }}>
-                        <div key={blog.id} className='blog-item'>
-                            <div className='content'>
-                                {/* Display blog image */}
-                                <img src={`http://localhost:8080${blog.blogImage}`} alt={blog.title} className='blog-dynamic-image' />
+                        <Link to={`/specificBlog/${blog.id}`} style={{ textDecoration: 'none', color: 'black' }} key={blog.id}>
+                            <div className='blog-item'>
+                                <div className='content'>
+                                    {/* Display blog image */}
+                                    <img src={`http://localhost:8080${blog.blogImage}`} alt={blog.title} className='blog-dynamic-image' />
 
-                                {/* Display blog tags */}
-                                <div className='blog-tags'>
-                                    <div className='tags'>
-                                        <BiTagAlt />
+                                    {/* Display blog tags */}
+                                    <div className='blog-tags'>
+                                        <div className='tags'>
+                                            <BiTagAlt />
+                                        </div>
+                                        {blog.blogTag.toUpperCase()}
                                     </div>
-                                    {blog.blogTag.toUpperCase()}
-                                </div>
 
-                                {/* Display blog title */}
-                                <div className='blog-title'>
-                                    {blog.title.toUpperCase()}
-                                </div>
+                                    {/* Display blog title */}
+                                    <div className='blog-title'>
+                                        {blog.title.toUpperCase()}
+                                    </div>
 
-                                {/* Display blog content */}
-                                {/* <div className='blog-content'>
-                                    {blog.description.length > 30 ? `${blog.description.substring(0, 30)}...` : blog.description}
-                                </div> */}
+                                    {/* Display blog author */}
+                                    <div className='blog-author'>
+                                        <FaUserPen className='author-tags' />
+                                        Author: {blog.user.userFirstName} {blog.user.userLastName}
+                                    </div>
 
-                                {/* Display blog author */}
-                                <div className='blog-author'>
-                                    <FaUserPen className='author-tags' />
-                                    Author: {blog.user.userFirstName} {blog.user.userLastName}
-                                </div>
-
-                                {/* Display blog created date */}
-                                <div className='blog-date'>
-                                    <MdDateRange className='author-tags' />
-                                    Date: {formatDate(blog.createdDate)}
+                                    {/* Display blog created date */}
+                                    <div className='blog-date'>
+                                        <MdDateRange className='author-tags' />
+                                        Date: {formatDate(blog.createdDate)}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         </Link>
                     ))}
+
                 </div>
             </div>
 
@@ -99,7 +95,7 @@ function Blog() {
                         <FaUserEdit className='author-tags' />
                         Post Blog
                     </div>
-                    </Link>
+                </Link>
             </div>
         </div>
     );

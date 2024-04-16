@@ -8,41 +8,79 @@ import { MdNextWeek } from "react-icons/md";
 import { FaMoneyBillTrendUp } from "react-icons/fa6";
 import { MdLocalHotel } from "react-icons/md";
 
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
+import { Pie } from "react-chartjs-2";
+import getVendorHotelReview from "../../services/vendor/GetHotelReview";
+import GetVendorRevenueAPI from "../../services/vendor/GetVendorRevenueAPI";
 
 export default function VendorDashBoard() {
   const [userAnalytics, setUserAnalytics] = useState({});
-
+  
   const getVendorDashboard = async () => {
     const response = await GetVendorDashboard();
     setUserAnalytics(response);
   };
 
+  const [vendorRevenue, setVendorRevenue] = useState({});
+
+  const getVendorRevenue = async () => {
+    const response = await GetVendorRevenueAPI();
+    setVendorRevenue(response);
+  };
+  
   useEffect(() => {
     getVendorDashboard();
+    getVendorRevenue();
   }, []);
 
-  const data = [
-    {
-      name: "Total Available Rooms",
-      value: userAnalytics.totalAvailableRooms || 0,
-    },
-    { name: "Total Booked Rooms", value: userAnalytics.totalBookedRooms || 0 },
-    {
-      name: "Total Cancelled Rooms",
-      value: userAnalytics.totalCancelledRooms || 0,
-    },
-    {
-      name: "Total Pending Rooms",
-      value: userAnalytics.totalPendingRooms || 0,
-    },
-    {
-      name: "Total Refunded Rooms",
-      value: userAnalytics.totalRefundedRooms || 0,
-    },
-  ];
+  // Prepare data for the pie chart
+  const pieChartData = {
+    labels: [
+      "Total Booked Rooms",
+      "Total Available Rooms",
+      "Total Pending Rooms",
+      "Total Cancelled Rooms",
+      "Total Refunded Rooms"
+    ],
+    datasets: [
+      {
+        label: "Room Status",
+        data: [
+          userAnalytics.totalBookedRooms,
+          userAnalytics.totalAvailableRooms,
+          userAnalytics.totalPendingRooms,
+          userAnalytics.totalCancelledRooms,
+          userAnalytics.totalRefundedRooms
+        ],
+        backgroundColor: [
+          "#FF6384",
+          "#36A2EB",
+          "#FFCE56",
+          "#4BC0C0",
+          "#9966FF"
+        ]
+      }
+    ]
+  };
 
-  const COLORS = ["#FF6384", "#36A2EB", "#FFCE56", "#FF00FF", "#800080"];
+  const pieChartRevenue = {
+    labels : [
+      "Total Cash On Arrival Revenue",
+      "Total Khalti Revenue",
+    ],
+    datasets: [
+      {
+        label: "Revenue Source",
+        data: [
+          vendorRevenue.cashOnArrival,
+          vendorRevenue.khaltiPayment,
+        ],
+        backgroundColor: [
+          "#9966FF",
+          "#4BC0C0",
+        ]
+      }
+    ]
+  }
 
   return (
     <div className="vendor-dashboard-parent">
@@ -51,7 +89,7 @@ export default function VendorDashBoard() {
         <div className="vendor-first-div-board">
           <div className="vendor-welcome">Welcome to Vendor Dashboard</div>
           <div className="export-data">
-            <div className="download-export-data">Export Data</div>
+            {/* <div className="download-export-data">Export Data</div> */}
             <div className="download-export-data">Download PDF</div>
           </div>
         </div>
@@ -67,7 +105,7 @@ export default function VendorDashBoard() {
               <div className="for-full-width">Total Arriving Today</div>
             </div>
 
-            <div className="vendor-dashboard-dynamic-data">2</div>
+            <div className="vendor-dashboard-dynamic-data">{userAnalytics.arrivalsToday}</div>
 
             <div className="each-dashboard-data">
               <div>More info</div>
@@ -105,7 +143,7 @@ export default function VendorDashBoard() {
               <div>Total Revenue Generated</div>
             </div>
 
-            <div className="vendor-dashboard-dynamic-data">8</div>
+            <div className="vendor-dashboard-dynamic-data">{userAnalytics.totalRevenue}</div>
 
             <div className="each-dashboard-data">
               <div>More info</div>
@@ -121,10 +159,10 @@ export default function VendorDashBoard() {
               <div>
                 <MdLocalHotel className="vendor-dashboard-icons" />
               </div>
-              <div>Total Arriving Tomorrow</div>
+              <div>Total Availalble Room</div>
             </div>
 
-            <div className="vendor-dashboard-dynamic-data">8</div>
+            <div className="vendor-dashboard-dynamic-data">{userAnalytics.totalAvailableRooms}</div>
 
             <div className="each-dashboard-data">
               <div>More info</div>
@@ -136,34 +174,61 @@ export default function VendorDashBoard() {
         </div>
 
         {/* div for bar graph and pie chart */}
-        <div>
-          line graph and pie chart
-          <h2>Pie Chart</h2>
+        <div className="vendor-graph">
+          {/* Bar graph */}
           <div className="vendor-pie-chart">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  dataKey="value"
-                  data={data}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  label
-                >
-                  {data.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={COLORS[index % COLORS.length]}
-                    />
-                  ))}
-                </Pie>
-                <Legend />
-              </PieChart>
-            </ResponsiveContainer>
+            <div className="pie-chart-title">
+              Hotel Main Source of Revenue
+            </div>
+            <div>
+              <div className="review-holder">
+              <div style={{ width: "700px", height: "500px" }}>
+              <Pie
+                className="pie-chart"
+                data={pieChartRevenue}
+                options={{
+                  plugins: {
+                    legend: {
+                      display: true,
+                      position: "bottom"
+                    }
+                  },
+                  maintainAspectRatio: false,
+                  responsive: true
+                }}
+              />
+            </div>
+              </div>
+            </div>
           </div>
+
+          {/* Pie chart */}
+          <div className="vendor-pie-chart">
+            <div className="pie-chart-title">
+              Room Visual Representation
+            </div>
+            <div style={{ width: "700px", height: "500px" }}>
+              <Pie
+                className="pie-chart"
+                data={pieChartData}
+                options={{
+                  plugins: {
+                    legend: {
+                      display: true,
+                      position: "bottom"
+                    }
+                  },
+                  maintainAspectRatio: false,
+                  responsive: true
+                }}
+              />
+            </div>
+          </div>
+
+
         </div>
 
 
-        
       </div>
     </div>
   );

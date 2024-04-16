@@ -19,7 +19,7 @@ export async function postBookRoom(roomId, checkInDate, checkOutDate, numberOfGu
     if (response.ok) {
         const responseData = await response.json();
         // Handle successful response
-        console.log("Success:", responseData);
+        console.log("Success booking room:", responseData);
         return responseData;
     } else {
         const errorData = await response.json();

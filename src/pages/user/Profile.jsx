@@ -20,6 +20,9 @@ import { getUserBookingDetails } from '../../services/user/GetUserBookingDetails
 
 export default function Profile() {
 
+  const mainUserName = localStorage.getItem('userData').replace(/['"]+/g, '');
+
+
   const [showUserProfile, setShowViewUserProfile] = useState(true);
   const [showEditUserProfile, setShowEditUserProfile] = useState(false);
   const [showChangePassword, setShowViewChangePassword] = useState(false);
@@ -193,8 +196,17 @@ export default function Profile() {
         }}
       />
       <div className='profile-image-holder'>
-        <div className='profile-title'>
-          User Profile
+        <div className='image-middle-div'>
+          <div className='flex flex-col'>
+            <img
+              src={`https://source.unsplash.com/200x200/?portrait`}
+              className="profile-pic"
+              alt="Profile"
+            />
+          </div>
+          <div className='profile-title'>
+            {mainUserName}
+          </div>
         </div>
       </div>
       {/* div for user profile image */}
@@ -205,13 +217,6 @@ export default function Profile() {
       <div className='user-info'>
         {/* div for side bar */}
         <div className='sidebar'>
-          <div>
-            <img
-              src={`${BaseUrl}${userProfilePic}`}
-              className="profile-pic"
-              alt="Profile"
-            />
-          </div>
 
           <div className='side-bar-info'>
             <div>
@@ -369,9 +374,6 @@ export default function Profile() {
                 </div>
 
               </div>
-
-
-
             </div>
           )}
 
@@ -456,6 +458,14 @@ export default function Profile() {
                       onChange={(e) => setUserEmail(e.target.value)}
                     />
                   </div>
+                  <div className='second-inner-element-div'>
+                    <button
+                      onClick={updateProfile}
+                      className='update-profile-button'
+                    >
+                      Update Profile
+                    </button>
+                  </div>
                 </div>
 
                 {/* for profile pic, user email, user address, user date of birth */}
@@ -498,14 +508,7 @@ export default function Profile() {
                     />
                   </div>
 
-                  <div className='second-inner-element-div'>
-                    <button
-                      onClick={updateProfile}
-                      className='update-profile-button'
-                    >
-                      Update Profile
-                    </button>
-                  </div>
+
                 </div>
 
 
@@ -578,7 +581,7 @@ export default function Profile() {
 
                   <button
                     onClick={changePassword}
-                    className='change-password-button'
+                    className='update-profile-button'
                   >
                     Change Password
                   </button>
@@ -595,42 +598,51 @@ export default function Profile() {
               </div>
               <div className='user-dynamic-data-holder'>
                 <div className='scrollable-booking-details'>
-                  {userBookingDetails.map(booking => (
-                    <div key={booking.bookingId} className='dynamic-user-booking-details'>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Room Name</th>
+                        <th>Room Category</th>
+                        <th>Room Bed</th>
+                        <th>Room Price</th>
+                        <th>Room Status</th>
+                        <th>Check-In Date</th>
+                        <th>Check-Out Date</th>
+                        <th>Booking Date</th>
+                        <th>Status</th>
+                        <th>Payment Method</th>
+                        <th>Total Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {userBookingDetails.map(booking => (
+                        <tr key={booking.bookingId}>
+                          <td>{booking.hotelRoom.roomNumber}</td>
+                          <td>{booking.hotelRoom.roomCategory}</td>
+                          <td>{booking.hotelRoom.roomBed}</td>
+                          <td>{booking.hotelRoom.roomPrice}</td>
+                          <td>{booking.hotelRoom.roomStatus}</td>
+                          <td>{booking.checkInDate}</td>
+                          <td>{booking.checkOutDate}</td>
+                          <td>{booking.bookingDate}</td>
+                          <td>{booking.status}</td>
+                          <td>{booking.paymentMethod}</td>
+                          <td>{booking.totalAmount}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
 
-                      <div className='user-profile-grid-holder'>
-                        {/* div for hotel data */}
-                        <div>
-                          <p>Hotel Name: {booking.hotelRoom.roomNumber}</p>
-                          <p>Room Type: {booking.hotelRoom.roomType}</p>
-                          <p>Room Category: {booking.hotelRoom.roomCategory}</p>
-                          <p>Room Bed: {booking.hotelRoom.roomBed}</p>
-                          <p>Room Price: {booking.hotelRoom.roomPrice}</p>
-                          <p> Room Status : {booking.hotelRoom.roomStatus}</p>
-                        </div>
-
-                        {/* div for booking data */}
-                        <div>
-                          <p>Check-In Date: {booking.checkInDate}</p>
-                          <p>Check-Out Date: {booking.checkOutDate}</p>
-                          <p>Booking Date: {booking.bookingDate}</p>
-                          <p>Status: {booking.status}</p>
-                          <p>Payment Method: {booking.paymentMethod}</p>
-                          <p>Total Amount: {booking.totalAmount}</p>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
                 </div>
               </div>
-            </div>
+              </div>
           }
 
 
 
 
-        </div>
+            </div>
       </div>
-    </div>
-  );
+      </div>
+      );
 }  

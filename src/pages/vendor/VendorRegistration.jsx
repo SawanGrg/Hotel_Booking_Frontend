@@ -101,6 +101,7 @@ const SecondPage = ({ onBack, onNext, onUpdateHotelDetails }) => {
         hotelEmail: '',
         hotelPan: '',
         hotelDescription: '',
+        hotelStar: '',
     });
 
     const [hotelImage, setHotelImage] = useState(null);
@@ -138,8 +139,8 @@ const SecondPage = ({ onBack, onNext, onUpdateHotelDetails }) => {
                 <input type="text" name="hotelContact" value={hotelDetails.hotelContact} onChange={handleChange} />
             </div>
             <div >
-                    <label >Hotel  Description</label>
-                    <textarea type='text' name='hotelDescription' value={hotelDetails.hotelDescription} onChange={handleChange} />
+                <label >Hotel  Description</label>
+                <textarea type='text' name='hotelDescription' value={hotelDetails.hotelDescription} onChange={handleChange} />
             </div>
             <div>
                 <label>Hotel Email:</label>
@@ -149,6 +150,21 @@ const SecondPage = ({ onBack, onNext, onUpdateHotelDetails }) => {
                 <label>Hotel PAN:</label>
                 <input type="text" name="hotelPan" value={hotelDetails.hotelPan} onChange={handleChange} />
             </div>
+            <br />
+            <div>
+                <label>Hotel Star:</label>
+                <br/>
+                <select name="hotelStar" value={hotelDetails.hotelStar} onChange={handleChange}>
+                    <option value="">Select Star Rating</option>
+                    <option value="0">No Star</option>
+                    <option value="1">1 Star</option>
+                    <option value="2">2 Stars</option>
+                    <option value="3">3 Stars</option>
+                    <option value="4">4 Stars</option>
+                    <option value="5">5 Stars</option>
+                </select>
+            </div>
+            <br />
             <div>
                 <label>Hotel Image:</label>
                 <input type="file" onChange={handleHotelImageChange} />

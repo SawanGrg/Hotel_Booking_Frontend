@@ -17,13 +17,15 @@ function Testimony() {
             <div className='testimony-container'>
                 <div className='testimony-holder'>
                     {/* client testimony */}
-                    <div >
-                        <div className='testimony-content-holder'>
-                            "I've been using the hotel booking system for quite some time now, and I must say it's incredibly efficient and user-friendly. Booking a room is just a few clicks away, and the interface is intuitive. It's made managing my hotel stays a breeze!"
+                    <div className='testimony-content-holder'>
+                        <div >
+                            "I absolutely love the hotel booking system! It's incredibly user-friendly and efficient. Booking my stays has never been easier. Highly recommended!"
                         </div>
                         <br />
-                        <div className='testimony-author'>
-                            <h1>- John Smith</h1>
+                        <div className=''>
+                            <h1>
+                            - Shrinkhala Khatriwada
+                            </h1>
                         </div>
                     </div>
 
@@ -40,7 +42,7 @@ function Testimony() {
                     {/* testimonial image */}
                     <div className='testimony-user-image' >
                         <div >
-                            <img src='/assets/testimony-client-2.jpg' alt='client' className='testimony-image' />
+                            <img src='/assets/sisan.png' alt='client' className='testimony-image' />
                         </div>
                     </div>
                     {/* client testimony */}
@@ -51,7 +53,7 @@ function Testimony() {
                         <br />
                         <div className=''>
                             <h1>
-                                - Stephan Curry
+                                - Sisan Baniya
                             </h1>
                         </div>
                     </div>

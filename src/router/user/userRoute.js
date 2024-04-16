@@ -27,6 +27,15 @@ export const userRoutes = [
         isVendorLayout: false,
     },
     {
+        path: '/register',
+        element: UserRegistration,
+        isUserLayout: true,
+        hasLayout: false,
+        isPrivate: false,
+        isAdminLayout: false,
+        isVendorLayout: false,
+    },
+    {
         path: '/',
         element: Home,
         hasLayout: true,

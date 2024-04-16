@@ -1,5 +1,7 @@
 .vendor-dashboard-parent{
-    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 0px;
+    margin : 0px;
 }
 .vendor-dashboard-holder{
     display: flex;
@@ -35,8 +37,8 @@
     width: 200px;
     height: 50px;
     border-radius: 10px;
-    background-color: #476cba;
-    color: #ffffff;
+    background-color: #00b4d8;
+    color: #010101;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -53,7 +55,7 @@
     flex-direction: row;
     justify-content: start;
     align-items:start;
-    gap: 20px;
+    gap: 70px;
     margin: 20px;
 }
 .each-info-div{
@@ -64,20 +66,20 @@
     gap: 10px;
     padding: 10px 10px;
     border-radius: 10px;
-    background-color: #6273d4;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 1);
     height: 200px;
     width: 350px;
 }
 .dashboard-title{
     font-size: 1.2rem;
     font-weight: bold;
-    color: #ffffff;
+    color: #231616;
     height: 150px;
     display: flex;
     flex-direction: row;
     justify-content: center;
-    border-bottom: #ffffff 1px solid;
+    border-bottom: #151212 1px solid;
     align-items: center;
     gap: 10px;
     height: 200px;
@@ -93,27 +95,27 @@
 .vendor-dashboard-dynamic-data{
     font-size: 1.2rem;
     font-weight: bold;
-    color: #ffffff;
+    color: #0d0909;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     gap: 10px;
-    padding-left: 30px;
+    padding-left: 20px;
     height: 150px;
-    width: 60px;
+    width: 120px;
     font-size:xx-large;
 }
 .each-dashboard-data{
     font-size: 1.2rem;
     font-weight: bold;
-    color: #ffffff;
+    color: #1a1313;
     height: 150px;
     display: flex;
     flex-direction: row;
     justify-content: end;
     align-items: end;
-    border-top: #ffffff 1px solid;
+    border-top: #1f1a1a 1px solid;
     align-items: center;
     gap: 10px;
     width: 100%;
@@ -130,16 +132,15 @@
 }
 
 /* pie chart */
-.vendor-pie-chart{
+/* .vendor-pie-chart{
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     gap: 20px;
-    margin: 20px;
-    height: 400px;
+    height: 600px;
     width: 800px;
-}
+} */
 /* pie chart container */
 .vendor-pie-chart-container {
     height: 100%;
@@ -147,12 +148,108 @@
 }
 
 /* pie chart */
-.vendor-pie-chart {
+/* .vendor-pie-chart {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
     width: 100%;
+} */
+
+/* graph css */
+.vendor-graph{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: space-between;
+    align-items: center;
+    gap: 90px;
+    padding: 20px;
+    height: 550px;
+    width: 1600px;
+    margin: 0;
+    padding: 0;
+}
+.vendor-pie-chart{
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    align-items: center;
+    gap: 20px;
+    height: 600px;
+    width: 750px;
+    border-radius: 12px;
+    box-shadow: #000000 0px 0px 10px 0px;
+}
+.pie-chart-title{
+    color: #000000;
+    background-color: #00b4d8;
+    font-size: 1.4rem;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 720px;
+    border-radius: 12px;
+    padding: 6px;
+    margin-top: 10px;
+
 }
 
+
+/* review css */
+.blog-review-holder{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    margin-bottom: 20px;
+
+    border-top: #090808 2px solid;
+    /* box-shadow: #090808 2px 2px 5px; */
+}
+.review-title{
+    font-size: larger;
+    font-weight: 600;
+}
+.review{
+    padding: 16px;
+    margin: 10px 20px;
+    box-shadow: #090808 2px 2px 5px;
+}
+.review-text-holder{
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: left;
+    border-radius: 12px;
+}
+.review-icons{
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: left;
+    gap: 10px;
+    font-weight: 550;
+}
+.review-holder {
+    overflow: auto; /* Add scrollbar when content exceeds the height */
+  }
+
+.making{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    background-color: #00b4d8;
+    color: #000000;
+    
+}  
+.icons{
+    height: 25px;
+    width: 25px;
+}
+  
 

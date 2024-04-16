@@ -1,153 +1,53 @@
 body {
     font-family: "Poppins", sans-serif;
     font-size: large;
-    margin: 0 auto;
-    width: 100%;
-  }
-  
-  .loginPage {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #87B1Ac;
-    width: 100%;
-    height: 1030px;
   }
   
   .loginForm {
-    width: 50%;
-    height: 700px;
-    background-color: aliceblue;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: space-evenly;
+  
     border-radius: 10px;
-  }
-  
-  .loginPhoto {
-    width: 45%;
-    height: 100%;
-    background-color: aqua;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-  }
-  
-  .loginPhoto img {
-    
-    width: 100%;
-    height: 100%;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-  }
-  
+    box-shadow: #000000 0px 0px 10px 0px;
+  }   
   .login {
-   
-    width: 55%;
-    height: 100%;
-    background-color: aquamarine;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-  }
-  
-  .login h2 {
-    position: absolute;
-    top: 5%;
-    font-size: larger;
-  }
-  
-  .form {
-    width: 80%;
+
     display: flex;
     flex-direction: column;
-    position: absolute;
-    left: 10%;
-    top: 20%;
-    margin: 0;
-  }
-  
-  .login .form h3 {
-    font-size: medium;
-    padding: 10px 0;
-  }
-  
-  #userName {
-    width: 98%;
-    height: 30px;
-    border-color: #0d87ea;
-    border-radius: 5px;
-  }
-  
-  #password {
-    width: 98%;
-    height: 25px;
-    border-color: #0d87ea;
-    border-radius: 5px;
-  }
-  
-  .forgot {
-    text-align: right;
-    margin: 10px 0;
-    text-decoration: none;
-    cursor: pointer;
-    color: #0d87ea;
-  }
+    justify-content: center;
+    align-items: center;
+    margin-right: 100px;
 
-  .form input{
-    padding: 16px;
   }
-  
-  .login .form button {
+  .login-title h1{
+    font-size: 2.3rem;
+    font-weight: 900;
+    color: rgb(6, 8, 152);
+    margin-top: 20px;
+  }
+  .user-register-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 45vh;
     width: 100%;
-    height: 40px;
-    border-radius: 5px;
-    background-color: #112434;
-    color: aliceblue;
-    font-size: large;
-    cursor: pointer;
   }
-  
-  .policy {
-    position: absolute;
-    bottom: 30%;
-    text-align: center;
-    width: 80%;
+  .user-login-label{
+    font-size:larger;
+    font-weight: 900;
+    color: rgb(6, 8, 152);
+    padding-bottom: 20px;
   }
-  
-  .policy a {
-    color: #0d87ea;
+  .p{
+    height: 150px;
+    width: 800px;
   }
-  
-  @media only screen and (max-width: 1215px) {
-    .loginPhoto {
-      display: none;
-    }
-  
-    .login {
-      width: 75%;
-      height: 100%;
-      background-color: aquamarine;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      border-top-right-radius: 10px;
-      border-bottom-right-radius: 10px;
-    }
-  }
-  
-  @media only screen and (max-width:891px){
-    .login {
-      width: 100%;
-    }
-    .form {
-      width: 80%;
-    }
-    .policy {
-      width: 100%;
-      bottom: 27%;
-    }
+  .user-login-input{
+    width: 200px;
+    height: 50px;
+    border-radius: 10px;
+    border: 2px solid rgb(255, 255, 255);
+    padding: 10px;
   }

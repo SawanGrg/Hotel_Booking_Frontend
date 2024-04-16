@@ -1,24 +1,39 @@
-import React,{useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import GetAllUser from '../../services/admin/GetAllUser'
 import './ViewAllUser.css'
+import { FaEye } from "react-icons/fa";
+import { Link } from 'react-router-dom';
+
 
 function ViewAllUser() {
 
     const [userList, setUserList] = useState([])
+    const [filteredData, setFilteredData] = useState([])
 
-    async function fetchUserData(){
+    async function fetchUserData() {
         try {
             const userData = await GetAllUser();
             setUserList(userData);
+            setFilteredData(userData)
             console.log("all User Data:", userData);
         } catch (error) {
             console.error("Error:", error.message);
         }
-    
+
     }
 
+    const filteredDataByAvailability = (status) => {
+        const filtered = userList.filter(user => {
+            // Check if any authority matches the given status
+            return user.authorities.some(authority => authority.authority == status);
+        });
+        setFilteredData(filtered)
+    }
+
+
+
     useEffect(() => {
-            fetchUserData();
+        fetchUserData();
     }, [])
 
     return (
@@ -26,11 +41,52 @@ function ViewAllUser() {
             <div className='room-header'> {/* Use the same class 'room-header' */}
                 <h1>View All Users</h1>
             </div>
+
+            {/* filter section */}
+            <div className="vendor-booking-filter">
+                <div className='vendor-first-filter'>
+
+                    <div className='vendor-individual-filter' >
+                        <div className='filter-button' onClick={() => fetchUserData()}>
+                            View All User
+                        </div>
+                    </div>
+                    <div className='vendor-individual-filter' >
+                        <div className='filter-button' onClick={() => filteredDataByAvailability("ROLE_USER")} >
+                            View Normal Users
+                        </div>
+                    </div>
+                    <div className='vendor-individual-filter' >
+                        <div className='filter-button' onClick={() => filteredDataByAvailability("ROLE_VENDOR")}>
+                            View Owners
+                        </div>
+                    </div>
+                </div>
+
+                {/* second filter */}
+                <div >
+                    <div className='vendor-second-filter'>
+                        <input type="text" placeholder="Search User Name"
+
+                            onChange={(e) => {
+                                const searchValue = e.target.value;
+                                const filteredData = userList.filter(user => user.username.toLowerCase().includes(searchValue.toLowerCase()));
+                                setFilteredData(filteredData);
+                            }}
+
+                        />
+                    </div>
+                </div>
+
+            </div>
+
+
+
             <div>
                 <table>
                     <thead>
                         <tr>
-                            <th>User ID</th>
+                            <th>User Name</th>
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Email</th>
@@ -42,9 +98,10 @@ function ViewAllUser() {
                         </tr>
                     </thead>
                     <tbody>
-                        {userList.map((user, index) => (
+                        {filteredData.map((user, index) => (
                             <tr key={index}>
-                                <td>{user.userId}</td>
+                                
+                                <td>{user.username}</td>
                                 <td>{user.userFirstName}</td>
                                 <td>{user.userLastName}</td>
                                 <td>{user.userEmail}</td>
@@ -52,10 +109,20 @@ function ViewAllUser() {
                                 <td>{user.userAddress}</td>
                                 <td>{user.dateOfBirth}</td>
                                 <td>{user.userStatus}</td>
+                                
                                 <td>
-                                    <button>Edit</button>
-                                    {/* Add onClick handler for delete action */}
-                                    <button>Delete</button>
+                                    <button>
+                                        <Link to={`/admin/viewSpecificUser/${user.userId}`}>
+                                            <div className='making'>
+                                                <div>
+                                                    <FaEye className='icons' />
+                                                </div>
+                                                <div>
+                                                    View
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    </button>
                                 </td>
                             </tr>
                         ))}

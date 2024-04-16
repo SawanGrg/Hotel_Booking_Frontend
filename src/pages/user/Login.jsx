@@ -5,6 +5,8 @@ import { postLoginData } from '../../services/user/LoginAPI';
 import { useDispatch } from 'react-redux';
 import { setUserDetails } from '../../redux/user/userSlice';
 import toast, { Toaster } from 'react-hot-toast';
+import { set } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 
 export default function Login() {
 
@@ -19,7 +21,7 @@ export default function Login() {
     e.preventDefault();
     console.log('Form submitted');
     console.log(userName, password);
-  
+
     if (userName === '' || password === '') {
       toast.error('Please fill username and password fields');
       return;
@@ -42,8 +44,18 @@ export default function Login() {
         // Display an error toast for unauthorized access
         toast.error('Please check your credentials.');
         return;
-      }        
-  
+      }
+
+      if (response.token == "vendor is not verified") {
+        toast.error('Vendor is not verified');
+        return;
+      }
+
+      if (response.token == "user is not verified") {
+        toast.error('User is not verified');
+        return;
+      }
+      
       if (!response.username) {
         toast.error('Invalid Credentials');
         return;
@@ -53,17 +65,17 @@ export default function Login() {
       if (response.username) {
         // Token is present, indicating a successful login
         // Dispatch the setUserDetails action to save user data in Redux store and localStorage
-        dispatch(setUserDetails({ token: response.token, userData: response.username, roleName: response.roleName}));
+        dispatch(setUserDetails({ token: response.token, userData: response.username, roleName: response.roleName }));
 
         // Redirecting based on the role
-        if(response.roleName === "ROLE_VENDOR"){
+        if (response.roleName === "ROLE_VENDOR") {
           navigate('/vendor');
-        }else if (response.roleName === "ROLE_USER"){
+        } else if (response.roleName === "ROLE_USER") {
           navigate("/");
-        }else{
+        } else {
           navigate('/admin/home');
         }
-    
+
       }
     } catch (error) {
       console.error(error.message);
@@ -72,55 +84,77 @@ export default function Login() {
   };
 
   return (
-    <div>
-      <div className="loginPage">
         <div className="loginForm">
-        <Toaster
-                    position='top-center'
-                    toastOptions={{
-                        duration: 3000,
-                    }}
+          <Toaster
+            position='top-center'
+            toastOptions={{
+              duration: 3000,
+            }}
           />
-          <div className="loginPhoto">
-            <img src='assets/cube.avif' alt="cube" />
-          </div>
-          <div className="login">
-            <h2>Welcome to our Annapurna Hotel</h2>
-            <h3>
-              {error && <div> {error}</div>}
-            </h3>
-            <form action="" className="form" onSubmit={handleSubmit}>
-              <label htmlFor="userName"><h3>Username</h3></label>
-              <input
-                type="text"
-                id="userName"
-                name="userName"
-                placeholder='eg : Sxxxx@gmail.com'
-                // required
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-              />
-              <label htmlFor="password"><h3>Password</h3></label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder='eg : *********'
-                //required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <a href="" className="forgot">Forgot Password?</a>
-              <button type="submit" id="btn">Log In</button>
-            </form>
-            <div className="policy">
 
-              <p>By continuing, you accept our terms & conditions and our privacy policy.</p>
-              <p>Don’t have an account? <a href="">Sign Up</a> </p>
-            </div>
+
+          <div> 
+            <img
+              src="https://images.unsplash.com/photo-1605106702734-205df224ecce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+
+              alt='user-register'
+              className='user-register-image'
+            />
           </div>
+
+
+          <div className="login">
+              <div className='login-title'>
+                <h1>Welcome to Annapurna Hotel Booking System</h1>
+              </div>
+
+              <form onSubmit={handleSubmit} className='user-register-form'>
+                <div className='p'>
+                  <label className='user-login-label'>User Name</label>
+                  <input
+                    type='text'
+                    placeholder='eg : Sxxxxx'
+                    className='user-login-input'
+                    value={userName}
+                    onChange={(e) => setUserName(e.target.value)}
+                  />
+                </div>
+
+                <div className='p' >
+                  <label className='user-login-label'>Password</label>
+                  <input
+                    type='text'
+                    placeholder='eg : xxxxxx'
+                    className='user-login-input'
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
+
+
+                
+
+                <div>
+                <button
+                  className='user-register-button'
+                  type='submit'
+                >
+                  Login 
+                </button>
+              </div>
+              </form>
+
+              <div>
+                <div className='register-contract'>
+                  Dont have an account? <Link to='/userRegistration' className='login-link'><span class="underline">Register</span></Link>
+                </div>
+                <div className='register-contract'>
+                  For any queries, contact us at <Link to='/contact' className='login-link'><span class="underline">Contact</span></Link>
+                </div>
+              </div>
+          </div>  
+
+
         </div>
-      </div>
-    </div>
   );
 }

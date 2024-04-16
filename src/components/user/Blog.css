@@ -34,10 +34,10 @@
 }
 .blog-item {
     display: inline-block;
-    margin: 40px 40px;
+    margin: 20px 40px;
     cursor: pointer;
     height: 640px;
-    width: 480px;
+    width: 450px;
     transition: transform 0.3s, box-shadow 0.3s; /* Add transition for smooth hover effect */
     border-radius: 12px;
     overflow: hidden; /* Ensure the border-radius applies to child elements */
@@ -124,7 +124,7 @@ margin-top: 5px;
     justify-content: center; /* Center content horizontally */
     padding: 10px 20px; /* Add padding for better spacing */
     font-size: 16px; /* Set font size */
-    background-color: #007bff; /* Set background color */
+    background-color: #33c3f7; /* Set background color */
     color: #fff; /* Set text color */
     font-size: large;
     border-radius: 12px; /* Add border radius for rounded corners */
