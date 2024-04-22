@@ -79,12 +79,7 @@ export default function AdminHome() {
 
             <div className="vendor-dashboard-dynamic-data">{graphData.totalUsers}</div>
 
-            <div className="each-dashboard-data">
-              <div>More info</div>
-              <div>
-                <FiArrowRightCircle className="vendor-dashboard-icons" />
-              </div>
-            </div>
+
           </div>
 
           {/* individual displaying data in square format*/}
@@ -98,12 +93,10 @@ export default function AdminHome() {
 
             <div className="vendor-dashboard-dynamic-data">{graphData.totalVendors}</div>
 
-            <div className="each-dashboard-data">
-              <div>More info</div>
-              <div>
-                <FiArrowRightCircle className="vendor-dashboard-icons" />
-              </div>
-            </div>
+
+           
+
+
           </div>
 
           {/* third individual displaying data in square format */}
@@ -117,12 +110,6 @@ export default function AdminHome() {
 
             <div className="vendor-dashboard-dynamic-data">{totalRevenue}</div>
 
-            <div className="each-dashboard-data">
-              <div>More info</div>
-              <div>
-                <FiArrowRightCircle className="vendor-dashboard-icons" />
-              </div>
-            </div>
           </div>
 
           {/* fourth individual data in sqare format */}
@@ -136,12 +123,7 @@ export default function AdminHome() {
 
             <div className="vendor-dashboard-dynamic-data">{graphData.totalBookings}</div>
 
-            <div className="each-dashboard-data">
-              <div>More info</div>
-              <div>
-                <FiArrowRightCircle className="vendor-dashboard-icons" />
-              </div>
-            </div>
+
           </div>
         </div>
 

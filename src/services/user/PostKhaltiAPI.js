@@ -11,12 +11,7 @@ export default async function postKhaltiAPI(pidx, status, bookingId, amount) {
                 "Authorization": `Bearer ${token}`
             }
         });
-
-        if (response.status !== 200) {
-            const errorMessage = `Server responded with status ${response.status}: ${response.statusText}`;
-            throw new Error(errorMessage);
-        }
-
+        
         const data = await response.json();
         console.log("Response from postKhaltiAPI:", data);
         return data; // Assuming data is the response object containing the API response

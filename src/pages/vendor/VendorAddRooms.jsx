@@ -91,6 +91,9 @@ function VendorAddRooms() {
             const data = await postRoomData(roomData, mainRoomImage, roomImage1, roomImage2, roomImage3);
             console.log('Room added successfully:', data);
 
+            if (data.statusCode == 400 && data.message == "Room Number already exists") {
+                toast.error('Room Number Aleady Exists');
+            } else
             if (data.statusCode == 200) {
                 toast.success('Room added successfully');
             }

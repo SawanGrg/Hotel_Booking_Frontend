@@ -1,0 +1,11 @@
+.admin-verify-button{
+    background-color: #063c8f;
+    color: white;
+    border: #000000;
+    padding: 10px;
+    border-radius: 12px;
+    font-size: large;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+}

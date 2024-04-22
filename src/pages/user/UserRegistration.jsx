@@ -10,6 +10,8 @@ function UserRegistration() {
 
   const navigate = useNavigate()
 
+  const errors = {};
+
   const [showRegisterPage, setShowRegisterPage] = useState(true)
   const [showOTPPage, setShowOTPPage] = useState(false)
 
@@ -38,10 +40,59 @@ function UserRegistration() {
 
     const userProfilePicture = userProfileImage
 
+    //validation
+    if (!userFirstName.trim()) {
+      toast.error('First Name is required')
+      return;
+    }else if (userFirstName.length < 3) {
+      toast.error('First Name must be at least 3 characters long')
+      return;
+    }
+    if (!userLastName.trim()) {
+      toast.error('Last Name is required')
+      return;
+    }
+
+    if (!userEmail.trim()) {
+      toast.error('Email is required');
+      return;
+    } else if (!/\S+@\S+\.\S+/.test(userEmail)) {
+      toast.error('Email is invalid');
+      return;
+    }
+    if (!userName.trim()) {
+      toast.error('User Name is required');
+      return;
+    }else if (userName.length < 3) {
+      toast.error('User Name must be at least 3 characters long')
+      return;
+    }
+
+    
+    if (!userProfilePicture) {
+      toast.error('Profile Picture is required')
+      return;
+    }
+    
+    
+    if (!userPassword.trim()) {
+      toast.error('Password is required');
+      return;
+    }else if (userPassword.length < 6) {
+      toast.error('Password must be at least 6 characters long')
+      return;
+    }
+
+
     try {
 
       const response = await postUserRegistrationData(userData, userProfilePicture)
       console.log("User Registration Response: ", response)
+
+      if (response.message == "User already exist") {
+        toast.error('User already exists')
+        return
+      }
 
       if (response.status == "OK") {
         // redirect to opt div 
@@ -49,6 +100,7 @@ function UserRegistration() {
         setShowOTPPage(true)
       } else {
         // show error message in toaster
+
       }
 
     } catch (error) {
@@ -78,6 +130,12 @@ function UserRegistration() {
 
   return (
     <div className='register-parent'>
+      <Toaster
+        position='top-center'
+        toastOptions={{
+          duration: 3000,
+        }}
+      />
       {
         showOTPPage ? (
           <div className='otp-div'>
@@ -107,12 +165,12 @@ function UserRegistration() {
 
             <div className='otp-button-div'>
               <div>
-              <button
-                onClick={hitOtpAPI}
-                className='otp-register-button'
-              >
-                Verify OTP
-              </button>
+                <button
+                  onClick={hitOtpAPI}
+                  className='otp-register-button'
+                >
+                  Verify OTP
+                </button>
               </div>
             </div>
 
@@ -126,6 +184,7 @@ function UserRegistration() {
             <div className='user-header'>
               Welcome to Annapurna Hotel Booking System
             </div>
+
 
             {/* div for form */}
             <div className='form-holder'>
@@ -232,6 +291,7 @@ function UserRegistration() {
                     className='user-input'
                     value={userDateOfBirth}
                     onChange={(e) => setUserDateOfBirth(e.target.value)}
+                    required
                   />
                 </div>
 
@@ -244,7 +304,9 @@ function UserRegistration() {
                   <input
                     type='file'
                     className='user-input'
+
                     onChange={(e) => setUserProfileImage(e.target.files[0])}
+                    required
                   />
                 </div>
               </div>
@@ -260,6 +322,7 @@ function UserRegistration() {
               {/* div for button */}
               <div>
                 <button
+                  type='submit'
                   className='user-register-button'
                   onClick={postUserInfo}
                 >

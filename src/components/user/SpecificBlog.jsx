@@ -43,7 +43,8 @@ function SpecificBlog() {
             const response = await getAllBlogData();
             if (response && Array.isArray(response)) {
                 const filteredData = response.filter((blog) => blog.id !== blogId);
-                setOtherBlogData(filteredData);
+                const limitedData = filteredData.slice(0, 3); // Select first 4 blogs
+                setOtherBlogData(limitedData);
             } else {
                 console.error("Invalid response format:", response);
             }
@@ -51,6 +52,7 @@ function SpecificBlog() {
             console.error("Error fetching blog data:", error);
         }
     };
+    
 
     const getAllBlogCommentData = async () => {
         try {

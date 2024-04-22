@@ -11,9 +11,12 @@ import { MdLocalHotel } from "react-icons/md";
 import { Pie } from "react-chartjs-2";
 import getVendorHotelReview from "../../services/vendor/GetHotelReview";
 import GetVendorRevenueAPI from "../../services/vendor/GetVendorRevenueAPI";
+import { getHotelDetails } from "../../services/vendor/GetHotelDetails";
 
 export default function VendorDashBoard() {
+
   const [userAnalytics, setUserAnalytics] = useState({});
+  const [hotelDetails, setHotelDetails] = useState({});
   
   const getVendorDashboard = async () => {
     const response = await GetVendorDashboard();
@@ -26,10 +29,17 @@ export default function VendorDashBoard() {
     const response = await GetVendorRevenueAPI();
     setVendorRevenue(response);
   };
+
+  const getHotelDetail = async () => {
+    const res = await getHotelDetails();
+    console.log("hotel details", res);
+    setHotelDetails(res);
+  };
   
   useEffect(() => {
     getVendorDashboard();
     getVendorRevenue();
+    getHotelDetail();
   }, []);
 
   // Prepare data for the pie chart
@@ -87,10 +97,10 @@ export default function VendorDashBoard() {
       <div className="vendor-dashboard-holder">
         {/* div for welcome and showing export data */}
         <div className="vendor-first-div-board">
-          <div className="vendor-welcome">Welcome to Vendor Dashboard</div>
+          <div className="vendor-welcome">Welcome to {hotelDetails.hotelName} Dashboard</div>
           <div className="export-data">
             {/* <div className="download-export-data">Export Data</div> */}
-            <div className="download-export-data">Download PDF</div>
+            {/* <div className="download-export-data">Download PDF</div> */}
           </div>
         </div>
 
@@ -107,12 +117,7 @@ export default function VendorDashBoard() {
 
             <div className="vendor-dashboard-dynamic-data">{userAnalytics.arrivalsToday}</div>
 
-            <div className="each-dashboard-data">
-              <div>More info</div>
-              <div>
-                <FiArrowRightCircle className="vendor-dashboard-icons" />
-              </div>
-            </div>
+
           </div>
 
           {/* individual displaying data in square format*/}
@@ -126,12 +131,7 @@ export default function VendorDashBoard() {
 
             <div className="vendor-dashboard-dynamic-data">8</div>
 
-            <div className="each-dashboard-data">
-              <div>More info</div>
-              <div>
-                <FiArrowRightCircle className="vendor-dashboard-icons" />
-              </div>
-            </div>
+            
           </div>
 
           {/* third individual displaying data in square format */}
@@ -145,12 +145,7 @@ export default function VendorDashBoard() {
 
             <div className="vendor-dashboard-dynamic-data">{userAnalytics.totalRevenue}</div>
 
-            <div className="each-dashboard-data">
-              <div>More info</div>
-              <div>
-                <FiArrowRightCircle className="vendor-dashboard-icons" />
-              </div>
-            </div>
+            
           </div>
 
           {/* fourth individual data in sqare format */}
@@ -164,12 +159,7 @@ export default function VendorDashBoard() {
 
             <div className="vendor-dashboard-dynamic-data">{userAnalytics.totalAvailableRooms}</div>
 
-            <div className="each-dashboard-data">
-              <div>More info</div>
-              <div>
-                <FiArrowRightCircle className="vendor-dashboard-icons" />
-              </div>
-            </div>
+            
           </div>
         </div>
 

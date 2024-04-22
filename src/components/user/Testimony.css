@@ -27,13 +27,13 @@
 .testimony-author{
     margin-bottom: 30px;
 }
-.testimony-image{
-    display: block; /* Ensure the image fills its container */
-    width: 100%; /* Make the image fill its container */
-    height: auto; /* Maintain aspect ratio */
-    border-radius: 100%;
-
+.testimony-image {
+    width: 100%;
+    border-radius: 50%; /* Make the image round */
+    object-fit:fill;
+    height: 300px;
 }
+
 .testimony-content{
     display: flex;
     flex-direction: column;

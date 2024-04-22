@@ -28,11 +28,6 @@ export async function updateRoomData(roomId, roomDetails, mainRoomImage, roomIma
             body: formData,
         });
 
-        if (response.status !== 200) {
-            const errorMessage = `Server responded with status ${response.status}: ${response.statusText}`;
-            throw new Error(errorMessage);
-        }
-
         const data = await response.json();
         return data;
     } catch (error) {

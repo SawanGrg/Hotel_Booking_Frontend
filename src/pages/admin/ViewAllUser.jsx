@@ -3,6 +3,10 @@ import GetAllUser from '../../services/admin/GetAllUser'
 import './ViewAllUser.css'
 import { FaEye } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import DeleteUser from '../../services/admin/DeleteUser';
+import { toast } from 'react-hot-toast';
+import { MdDelete } from "react-icons/md";
+
 
 
 function ViewAllUser() {
@@ -30,6 +34,17 @@ function ViewAllUser() {
         setFilteredData(filtered)
     }
 
+    const deleteSpecificUser = async (userId) => {
+        const res = await DeleteUser(userId);
+        if (res == 200) {
+            console.log("done from res 200 before")
+            toast.success('User Deleted successfully');
+        }
+        if (res) {
+            toast.success("User Deleted Successfully");
+            await fetchUserData();
+        }
+    }
 
 
     useEffect(() => {
@@ -118,11 +133,24 @@ function ViewAllUser() {
                                                     <FaEye className='icons' />
                                                 </div>
                                                 <div>
-                                                    View
+                                                    
                                                 </div>
                                             </div>
                                         </Link>
                                     </button>
+                                    <button
+                                            onClick={() => deleteSpecificUser(user.userId)}
+                                        >
+                                            <div className='making'>
+                                                <div>
+                                                    <MdDelete className='icons' />
+                                                </div>
+                                                <div>
+                                                    
+                                                </div>
+                                            </div>
+
+                                        </button>
                                 </td>
                             </tr>
                         ))}

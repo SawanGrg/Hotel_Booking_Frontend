@@ -75,17 +75,16 @@ export default function Booking() {
   };
 
   const khaltiPost = async (pidx, status, bookingId, amount) => {
-
-    try{
+    let showSuccess = true;
+    if(status == "Completed" && showSuccess == true){
       const response = await postKhaltiAPI(pidx, status, bookingId, amount);
       console.log("Response from khalti post:", response);
-      toast.success("Payment successful");
-      
-
-    }catch(error){
-      console.error("Error while khalti integration:", error);
-      toast.error("Payment failed");
+      toast.success("Payment successful from khalti post method");
+      showSuccess = false;
+      return;
     }
+    toast.error("Payment failed From khalti post method");
+    return;   
   }
 
   useEffect(() => {
@@ -192,10 +191,10 @@ export default function Booking() {
 
         console.log("Response from khalti payment:", response.payment_url);
         window.location.href = response.payment_url;
+        return;
 
       } catch (error) {
-        console.error("Error:", error);
-        toast.error("Room booking failed");
+        console.error("Error  while booking room", error);
       }
 
 

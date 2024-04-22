@@ -24,7 +24,7 @@ function Testimony() {
                         <br />
                         <div className=''>
                             <h1>
-                            - Shrinkhala Khatriwada
+                            - Ramesh Sharma
                             </h1>
                         </div>
                     </div>
@@ -42,7 +42,7 @@ function Testimony() {
                     {/* testimonial image */}
                     <div className='testimony-user-image' >
                         <div >
-                            <img src='/assets/sisan.png' alt='client' className='testimony-image' />
+                            <img src='/assets/sisan.jpg' alt='client' className='testimony-image' />
                         </div>
                     </div>
                     {/* client testimony */}
@@ -53,7 +53,7 @@ function Testimony() {
                         <br />
                         <div className=''>
                             <h1>
-                                - Sisan Baniya
+                                - Anunaya Baral
                             </h1>
                         </div>
                     </div>

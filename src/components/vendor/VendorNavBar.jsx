@@ -31,7 +31,9 @@ const VendorNav = () => {
             <div className="vendor-left-main">
                 <div className="nav-main-container">
                     <div className="nav-left-container">
-                        <h4>Vendor Panel</h4>
+                        <Link to="/vendor" className="nav-dashboard">
+                        <h1>Vendor Panel</h1>
+                        </Link>
                     </div>
                     <nav className="nav-right-container">
                         <Link to="/vendor" className="nav-dashboard">

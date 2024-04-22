@@ -12,16 +12,43 @@ function PostBlog() {
     async function handlePostBlog(e) {
         e.preventDefault();
 
-        if (blogTitle === '' || blogDescription === '' || blogCategory === '' || !blogImage) {
-            console.log('All fields are required');
-            toast.error("Please fill all the fields");
+        if (blogTitle == ""){
+            toast.error('Please enter blog title');
+            return;
+        }else if (blogTitle.length < 5){
+            toast.error('Blog title should be atleast 10 characters');
             return;
         }
+
+        if (blogDescription == ""){
+            toast.error('Please enter blog description');
+            return;
+        }
+        else if (blogDescription.length < 50){
+            toast.error('Blog description should be atleast 50 characters');
+            return;
+        }
+
+        if (blogImage == null){
+            toast.error('Please select blog image');
+            return;
+        }
+
+        if (blogCategory == ""){
+            toast.error('Please select blog category');
+            return;
+        }
+
 
         try {
             const res = await PostUserBlog(blogTitle, blogDescription, blogCategory, blogImage);
             console.log(res);
             toast.success('Blog posted successfully');
+            setBlogTitle('');
+            setBlogDescription('');
+            setBlogCategory('TECHNOLOGY');
+            setBlogImage(null);
+            
         } catch (error) {
             console.error('Error posting blog:', error);
             toast.error('Error while posting blog');

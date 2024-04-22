@@ -8,15 +8,14 @@
   background-color: rgb(241, 245, 252);
 } */
 
-.nav-main-container {
+.nav-main-container h1{
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 20px;
 }
-.nav-left-container {
-  margin: 20px;
-}
+
 .nav-right-container {
   display: flex;
   flex-direction: column;

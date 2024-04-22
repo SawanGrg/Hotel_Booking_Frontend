@@ -29,14 +29,10 @@ export async function postVendorRegisterData(vendorDetails, vendorImage, hotelDe
             body: formData,
         });
 
-        if (!response.ok) {
-            const errorMessage = `Server responded with status ${response.status}: ${response.statusText}`;
-            throw new Error(errorMessage);
-        }
-
         const data = await response.json();
         return data;
     } catch (error) {
         throw new Error(`Error posting vendor data: ${error}`);
     }
 }
+

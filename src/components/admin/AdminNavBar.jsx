@@ -14,6 +14,10 @@ import { MdOutlineReport } from "react-icons/md";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { FaBuildingUser } from "react-icons/fa6";
 import { FaUser } from "react-icons/fa";
+import { GoBook } from "react-icons/go";
+import { RiHotelLine } from "react-icons/ri";
+import { FaRegUser } from "react-icons/fa";
+import { FiMessageSquare } from "react-icons/fi";
 
 
 function AdminNavBar() {
@@ -25,9 +29,9 @@ function AdminNavBar() {
 
     function handleLogout() {
         localStorage.removeItem("token");
-        localStorage.removeItem("user");
+        localStorage.removeItem("userData");
         localStorage.removeItem("role");
-        window.location.href = "/vendor";
+        window.location.href = "/login";
     }
 
     return (
@@ -46,22 +50,36 @@ function AdminNavBar() {
                         <Link to="/admin/viewAllUser" className="nav-add-rooms">
                             <div className="nav-item">
                                 {/* <FaCirclePlus className='vendor-icons'/> */}
-                                <IoMdAdd className='vendor-icons'/>
+                                <FaRegUser  className='vendor-icons'/>
 
                                 View Users
                             </div>
                         </Link>
                         <Link to="/admin/viewAllHotels" className="nav-view-rooms">
                             <div className="nav-item">
-                                <BiSolidHotel className='vendor-icons'/>
+                            <RiHotelLine  className='vendor-icons'/>
                                 View Hotels
                             </div>
                         </Link>
+                        <Link to= "/admin/viewAllBlogs" className="nav-booking">
+                            <div className="nav-item">
+                            <GoBook className='vendor-icons' />
+                                View Blogs
+
+                            </div>
+                        </Link>
+                        
                         <Link to="/booking" className="nav-booking">
                             <div className="nav-item">
                                 {/* <FaBookmark className='vendor-icons' /> */}
                                 <CiBookmarkCheck className='vendor-icons'/>
-                                Vendor Issues</div>
+                                Issues</div>
+                        </Link>
+                        <Link to="/admin/viewAllUserMessages" className="nav-booking">
+                            <div className="nav-item">
+                                {/* <FaBookmark className='vendor-icons' /> */}
+                                <FiMessageSquare  className='vendor-icons'/>
+                                Messages</div>
                         </Link>
 
                         {/* 
@@ -72,13 +90,13 @@ function AdminNavBar() {
                                 Chats</div>
                         </Link> 
                         */}
-
+{/* 
                         <Link to="/report-issue" className="nav-booking">
                             <div className="nav-item">
-                                {/* <FaBookmark className='vendor-icons' /> */}
                                 <MdOutlineReport className='vendor-icons'/>
                                 Report Issue</div>
                         </Link>
+                         */}
                         <Link className="nav-logout" onClick={handleLogout}>
                             <div className="nav-item">
                                 <IoIosLogOut  className='vendor-icons'/>

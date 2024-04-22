@@ -4,10 +4,12 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import { Toaster } from 'react-hot-toast'
+
 
 import './VendorRegistration.css';
 import { postVendorRegisterData } from '../../services/vendor/PostVendorRegister';
+import toast from 'react-hot-toast';
 
 const steps = [
     'Vendor Details',
@@ -24,7 +26,8 @@ const FirstPage = ({ onNext, onUpdateVendorDetails }) => {
         userEmail: '',
         userPhone: '',
         userAddress: '',
-        dateOfBirth: ''
+        dateOfBirth: '',
+        userImage: null,
     });
 
     const [userImage, setUserImage] = useState(null);
@@ -153,7 +156,7 @@ const SecondPage = ({ onBack, onNext, onUpdateHotelDetails }) => {
             <br />
             <div>
                 <label>Hotel Star:</label>
-                <br/>
+                <br />
                 <select name="hotelStar" value={hotelDetails.hotelStar} onChange={handleChange}>
                     <option value="">Select Star Rating</option>
                     <option value="0">No Star</option>
@@ -192,6 +195,15 @@ const ThirdPage = ({ onBack, userDetails, hotelDetails }) => {
 
         const response = await postVendorRegisterData(userDetails, finalUserImage, hotelDetails, finalHotelImage);
         console.log(response);
+        if (response.message == "User already exist") {
+            toast.error('User already exists')
+            return
+        }
+
+        if (response.message == "Hotel PAN already exist") {
+            toast.error('Hotel PAN already exist')
+            return
+        }
 
     }
 
@@ -215,10 +227,9 @@ const ThirdPage = ({ onBack, userDetails, hotelDetails }) => {
 }
 
 
+const VendorRegistration = () => {
+    const [currentStep, setCurrentStep] = useState(0);
 
-function VendorRegistration() {
-
-    const [currentStep, setCurrentStep] = useState(1);
     const [vendorDetails, setVendorDetails] = useState({
         userName: '',
         password: '',
@@ -230,6 +241,7 @@ function VendorRegistration() {
         dateOfBirth: '',
         userImage: null,
     });
+
     const [hotelDetails, setHotelDetails] = useState({
         hotelName: '',
         hotelAddress: '',
@@ -239,15 +251,36 @@ function VendorRegistration() {
         hotelImage: null,
     });
 
-    const [userImage, setUserImage] = useState(null);
-    const [hotelImage, setHotelImage] = useState(null);
-
     const handleNext = () => {
+        if (currentStep === 0 && !validateVendorDetails()) {
+            return;
+        }
+        if (currentStep === 1 && !validateHotelDetails()) {
+            return;
+        }
         setCurrentStep(prevStep => prevStep + 1);
     };
 
     const handleBack = () => {
         setCurrentStep(prevStep => prevStep - 1);
+    };
+
+    const validateVendorDetails = () => {
+        const { userName, password, userFirstName, userLastName, userEmail, userPhone, userAddress, dateOfBirth, userImage } = vendorDetails;
+        if (!userName || !password || !userFirstName || !userLastName || !userEmail || !userPhone || !userAddress || !dateOfBirth || !userImage) {
+            toast.error('All fields including User Image are required');
+            return false;
+        }
+        return true;
+    };
+
+    const validateHotelDetails = () => {
+        const { hotelName, hotelAddress, hotelContact, hotelEmail, hotelPan, hotelStar } = hotelDetails;
+        if (!hotelName || !hotelAddress || !hotelContact || !hotelEmail || !hotelPan || !hotelStar) {
+            toast.error('All hotel fields are required');
+            return false;
+        }
+        return true;
     };
 
     const onUpdateVendorDetails = (details) => {
@@ -258,40 +291,44 @@ function VendorRegistration() {
         setHotelDetails(details);
     };
 
-
     const renderStep = () => {
         switch (currentStep) {
-            case 1:
+            case 0:
                 return <FirstPage onNext={handleNext} onUpdateVendorDetails={onUpdateVendorDetails} />;
-            case 2:
+            case 1:
                 return <SecondPage onBack={handleBack} onNext={handleNext} onUpdateHotelDetails={onUpdateHotelDetails} />;
-            case 3:
+            case 2:
                 return <ThirdPage onBack={handleBack} userDetails={vendorDetails} hotelDetails={hotelDetails} />;
             default:
                 return null;
         }
     };
-
     return (
-        <div className='vendor-registration-holder'>
-            <div className=''>
-                <img src='/assets/vendor-register.avif' alt='vendor-registration' />
-            </div>
-            <Box>
-                <div className='semi-holder'>
-                    <Stepper activeStep={currentStep - 1} sx={{ mb: 1, ml: 12 }}>
-                        {steps.map((label, index) => (
-                            <Step key={label} sx={{ mr: 18 }}>
-                                <StepLabel>{label}</StepLabel>
-                            </Step>
-                        ))}
-                    </Stepper>
-                    <div className="step-content">
-                        {renderStep()}
-                    </div>
-                </div>
-            </Box>
+    <div className='vendor-registration-holder'>
+        <Toaster
+            position='top-center'
+            toastOptions={{
+                duration: 3000,
+            }}
+        />
+        <div className=''>
+            <img src='/assets/vendor-register.avif' alt='vendor-registration' />
         </div>
+        <Box>
+            <div className='semi-holder'>
+                <Stepper activeStep={currentStep - 1} sx={{ mb: 1, ml: 12 }}>
+                    {steps.map((label, index) => (
+                        <Step key={label} sx={{ mr: 18 }}>
+                            <StepLabel>{label}</StepLabel>
+                        </Step>
+                    ))}
+                </Stepper>
+                <div className="step-content">
+                    {renderStep()}
+                </div>
+            </div>
+        </Box>
+    </div>
     );
 }
 

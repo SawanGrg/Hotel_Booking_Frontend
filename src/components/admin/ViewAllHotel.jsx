@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import './ViewAllHotel.css';
 import { getAllHotelData } from '../../services/user/GetAllHotelAPI';
 import { FaEye } from "react-icons/fa";
+import { getAllHotel } from '../../services/admin/GetAllHotel';
 
 function ViewAllHotel() {
 
@@ -11,7 +12,7 @@ function ViewAllHotel() {
 
     async function fetchHotelData() {
         try {
-            const hotelData = await getAllHotelData();
+            const hotelData = await getAllHotel();
             setHotelList(hotelData.body);
             setFilteredData(hotelData.body);
             console.log("all Hotel Data:", hotelData.body);

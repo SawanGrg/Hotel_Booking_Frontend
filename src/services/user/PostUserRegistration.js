@@ -15,12 +15,8 @@ export async function postUserRegistrationData(userDetails, userImage) {
             body: formData,
         });
 
-        if (!response.ok) {
-            const errorMessage = `Server responded with status ${response.status}: ${response.statusText}`;
-            throw new Error(errorMessage);
-        }
-
         const data = await response.json();
+        console.log("User Registration Response: ", data);
         return data;
     } catch (error) {
         throw new Error(`Error posting user data: ${error}`);
