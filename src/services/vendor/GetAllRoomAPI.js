@@ -1,6 +1,6 @@
 import BaseUrl from "../BaseUrl";
 
-export async function getAllRoomData(pageNumber = 0, pageSize = 3) {
+export async function getAllRoomData(pageNumber = 0, pageSize = 20) {
 
     const vendorToken =  localStorage.getItem("token");
     console.log("asd",vendorToken)

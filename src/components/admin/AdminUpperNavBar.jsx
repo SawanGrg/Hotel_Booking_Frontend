@@ -102,11 +102,11 @@ function AdminUpperNavBar() {
                     <Link to="/contact" className={`nav ${location.pathname === "/contact" && "active"}`}>
                         Contact Us
                     </Link>
-                    {selector && (
+                    {/* {selector && (
                         <span className="nav" onClick={logoutSubmit}>
                             Logout
                         </span>
-                    )}
+                    )} */}
                 </nav>
                 {selector ? (
                     <div className="nav" onClick={toggleDropdown}>

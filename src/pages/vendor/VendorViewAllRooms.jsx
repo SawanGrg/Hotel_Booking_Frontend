@@ -24,10 +24,10 @@ export default function VendorViewAllRooms() {
         // try {
         console.log("Room Id for deletion:", roomId);
         const res = await DeleteRoomAPI(roomId);
-        if (res.status == 200) {
-            console.log("done from res 200 before")
-            toast.success('Room Deleted successfully');
-        }
+        // if (res.status == 200) {
+        //     console.log("done from res 200 before")
+        //     toast.success('Room Deleted successfully');
+        // }
         if (res) {
             console.log("done from res after");
             toast.success("Room Deleted Successfully");
@@ -41,7 +41,7 @@ export default function VendorViewAllRooms() {
 
     const fetchAllRooms = async () => {
         const pageNumber = 0;
-        const pageSize = 7;
+        const pageSize = 20;
 
         try {
             const roomData = await getAllRoomData(pageNumber, pageSize);

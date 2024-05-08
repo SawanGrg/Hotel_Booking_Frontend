@@ -62,7 +62,7 @@ export default function AdminHome() {
           <div className="vendor-welcome">Welcome to Admin Dashboard</div>
           <div className="export-data">
             {/* <div className="download-export-data">Export Data</div> */}
-            <div className="download-export-data">Download PDF</div>
+            {/* <div className="download-export-data">Download PDF</div> */}
           </div>
         </div>
 

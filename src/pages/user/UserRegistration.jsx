@@ -113,6 +113,10 @@ function UserRegistration() {
 
   const hitOtpAPI = async () => {
 
+    if (!otp.trim()) {
+      toast.error('OTP is required')
+      return;
+    }
     // hit the otp api
     const response = await postUserOTPData(otp)
     console.log("OTP Response: ", response)

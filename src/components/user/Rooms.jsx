@@ -4,7 +4,9 @@ import './Rooms.css';
 import { FaLocationDot } from "react-icons/fa6";
 import { BiSolidContact } from 'react-icons/bi';
 import { MdDescription } from 'react-icons/md';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link } from 'react-router-dom'; 
+import BaseUrl from '../../services/BaseUrl';
+
 
 export default function Rooms() {
   const [hotelData, setHotelData] = useState([]);
@@ -31,7 +33,11 @@ export default function Rooms() {
         {hotelData.map((hotel) => (
           <Link to={`/hotel/${hotel.hotelId}`} key={hotel.hotelId}> {/* Move Link here */}
             <div className="room-grid" key={hotel.hotelId}>
-              <img id="room-photo" src={`/assets/${hotel.hotelImage}`} alt={hotel.hotelName} />
+              <img
+                  id="room-photo" 
+                  src={`${BaseUrl}/images/${hotel.hotelImage}`}
+                  alt={hotel.hotelName} 
+                  />
               <div className="hotel-name">
                 <h2>{hotel.hotelName}</h2>
               </div>

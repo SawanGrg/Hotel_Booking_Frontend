@@ -55,25 +55,28 @@ export default function SpecificHotel() {
         const userPayload = localStorage.getItem("userData");
         const role = localStorage.getItem("role");
 
+        
+        //if role is null then redirect to login page
+        // Check if token exists to determine if the user is logged in
+        if (token == null || token == undefined) {
+            toast.error("Please login to book room");
+            // Redirect to login page or handle authentication
+            return;
+        }
         const removedQuotes = role.replace(/['"]+/g, '');
         const userName = userPayload.replace(/['"]+/g, '');
-
-        //if role is null then redirect to login page
-        if (!role) {
-            toast.error("Please login to book room");
-            return;
-        }
-
+        
         if (removedQuotes == "ROLE_ADMIN") {
-            toast.error("Please login as user to book room");
+            toast.error("System Admin Cannot Book Room");
             return;
         }
-
+        
         if (userName == hotelOwnerUserName) {
             toast.error("You are the owner of this hotel, you can't book room");
             return;
         }
-
+        
+        
         if (removedQuotes == "ROLE_USER" || removedQuotes == "ROLE_VENDOR") {
             console.log("userPayload:->", userPayload);
             console.log("role:->", role);

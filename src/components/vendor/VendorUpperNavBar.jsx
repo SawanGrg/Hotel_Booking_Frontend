@@ -81,11 +81,11 @@ function VendorUpperNavBar() {
                         Profile
                     </Link>
                     
-                    {selector && (
+                    {/* {selector && (
                         <span className="nav" onClick={logoutSubmit}>
                             Logout
                         </span>
-                    )}
+                    )} */}
                 </nav>
                 {selector ? (
                     <div className="nav" onClick={toggleDropdown}>

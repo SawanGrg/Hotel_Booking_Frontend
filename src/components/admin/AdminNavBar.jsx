@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import './AdminNavBarCSS.css';
 
@@ -39,46 +39,48 @@ function AdminNavBar() {
             <div className="main">
                 <div className="nav-main-container">
                     <div className="nav-left-container">
-                        <h4>Admin Panel</h4>
+                        <Link to="/vendor" className="nav-dashboard">
+                            <h2>Admin Panel</h2>
+                        </Link>
                     </div>
                     <nav className="nav-right-container">
                         <Link to="/admin/home" className="nav-dashboard">
                             <div className="nav-item">
-                                <TbDeviceAnalytics className='vendor-icons'/>
+                                <TbDeviceAnalytics className='vendor-icons' />
                                 Analytics</div>
                         </Link>
                         <Link to="/admin/viewAllUser" className="nav-add-rooms">
                             <div className="nav-item">
                                 {/* <FaCirclePlus className='vendor-icons'/> */}
-                                <FaRegUser  className='vendor-icons'/>
+                                <FaRegUser className='vendor-icons' />
 
                                 View Users
                             </div>
                         </Link>
                         <Link to="/admin/viewAllHotels" className="nav-view-rooms">
                             <div className="nav-item">
-                            <RiHotelLine  className='vendor-icons'/>
+                                <RiHotelLine className='vendor-icons' />
                                 View Hotels
                             </div>
                         </Link>
-                        <Link to= "/admin/viewAllBlogs" className="nav-booking">
+                        <Link to="/admin/viewAllBlogs" className="nav-booking">
                             <div className="nav-item">
-                            <GoBook className='vendor-icons' />
+                                <GoBook className='vendor-icons' />
                                 View Blogs
 
                             </div>
                         </Link>
-                        
+
                         <Link to="/booking" className="nav-booking">
                             <div className="nav-item">
                                 {/* <FaBookmark className='vendor-icons' /> */}
-                                <CiBookmarkCheck className='vendor-icons'/>
+                                <CiBookmarkCheck className='vendor-icons' />
                                 Issues</div>
                         </Link>
                         <Link to="/admin/viewAllUserMessages" className="nav-booking">
                             <div className="nav-item">
                                 {/* <FaBookmark className='vendor-icons' /> */}
-                                <FiMessageSquare  className='vendor-icons'/>
+                                <FiMessageSquare className='vendor-icons' />
                                 Messages</div>
                         </Link>
 
@@ -90,7 +92,7 @@ function AdminNavBar() {
                                 Chats</div>
                         </Link> 
                         */}
-{/* 
+                        {/* 
                         <Link to="/report-issue" className="nav-booking">
                             <div className="nav-item">
                                 <MdOutlineReport className='vendor-icons'/>
@@ -99,7 +101,7 @@ function AdminNavBar() {
                          */}
                         <Link className="nav-logout" onClick={handleLogout}>
                             <div className="nav-item">
-                                <IoIosLogOut  className='vendor-icons'/>
+                                <IoIosLogOut className='vendor-icons' />
                                 Log out
                             </div>
                         </Link>

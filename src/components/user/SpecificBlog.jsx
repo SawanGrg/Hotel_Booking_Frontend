@@ -84,6 +84,7 @@ function SpecificBlog() {
             await postBlogCommentData(blogId, postComment);
             setPostComment(''); // Reset input field after posting comment
             await getAllBlogCommentData(); // Update comment list after posting comment
+            toast.success('Comment posted successfully');
         } catch (error) {
             console.error("Error posting blog comment data:", error);
             // Handle error appropriately, e.g., display error message to user

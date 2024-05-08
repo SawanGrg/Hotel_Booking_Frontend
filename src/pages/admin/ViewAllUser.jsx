@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Toaster } from 'react-hot-toast'
 import GetAllUser from '../../services/admin/GetAllUser'
 import './ViewAllUser.css'
 import { FaEye } from "react-icons/fa";
@@ -36,10 +37,10 @@ function ViewAllUser() {
 
     const deleteSpecificUser = async (userId) => {
         const res = await DeleteUser(userId);
-        if (res == 200) {
-            console.log("done from res 200 before")
-            toast.success('User Deleted successfully');
-        }
+        // if (res == 200) {
+        //     console.log("done from res 200 before")
+        //     toast.success('User Deleted successfully');
+        // }
         if (res) {
             toast.success("User Deleted Successfully");
             await fetchUserData();
@@ -53,6 +54,12 @@ function ViewAllUser() {
 
     return (
         <div className='body'> {/* Use the same class 'body' */}
+            <Toaster
+                position='top-center'
+                toastOptions={{
+                    duration: 3000,
+                }}
+            />
             <div className='room-header'> {/* Use the same class 'room-header' */}
                 <h1>View All Users</h1>
             </div>
@@ -115,7 +122,7 @@ function ViewAllUser() {
                     <tbody>
                         {filteredData.map((user, index) => (
                             <tr key={index}>
-                                
+
                                 <td>{user.username}</td>
                                 <td>{user.userFirstName}</td>
                                 <td>{user.userLastName}</td>
@@ -124,7 +131,7 @@ function ViewAllUser() {
                                 <td>{user.userAddress}</td>
                                 <td>{user.dateOfBirth}</td>
                                 <td>{user.userStatus}</td>
-                                
+
                                 <td>
                                     <button>
                                         <Link to={`/admin/viewSpecificUser/${user.userId}`}>
@@ -133,24 +140,24 @@ function ViewAllUser() {
                                                     <FaEye className='icons' />
                                                 </div>
                                                 <div>
-                                                    
+
                                                 </div>
                                             </div>
                                         </Link>
                                     </button>
                                     <button
-                                            onClick={() => deleteSpecificUser(user.userId)}
-                                        >
-                                            <div className='making'>
-                                                <div>
-                                                    <MdDelete className='icons' />
-                                                </div>
-                                                <div>
-                                                    
-                                                </div>
+                                        onClick={() => deleteSpecificUser(user.userId)}
+                                    >
+                                        <div className='making'>
+                                            <div>
+                                                <MdDelete className='icons' />
                                             </div>
+                                            <div>
 
-                                        </button>
+                                            </div>
+                                        </div>
+
+                                    </button>
                                 </td>
                             </tr>
                         ))}
